@@ -1,5 +1,5 @@
 import { ReconcilerRoot, RenderProps, createRoot } from "@react-three/fiber";
-import { MercatorCoordinate } from "maplibre-gl";
+import { MercatorCoordinate, Map } from "maplibre-gl";
 import { PropsWithChildren, memo, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Layer, useMap } from "react-map-gl/maplibre";
 import { Euler, Matrix4, Matrix4Tuple, Quaternion, Scene, Vector3, WebGLRenderer } from "three";
@@ -32,7 +32,7 @@ export const ThreeLayerLite = memo<ThreeLayerLiteProps>(({
     store.setState({ timestamp: Date.now(), baseCamMx });
   });
 
-  const onAdd = useFunction(async (map: mapboxgl.Map) => {
+  const onAdd = useFunction(async (map: Map) => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     const canvas = map.getCanvas();
     const context = canvas.getContext("webgl");

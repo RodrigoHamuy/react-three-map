@@ -12,6 +12,8 @@ export interface ThreeLayerSyncProps {
 }
 
 export const SyncLayer = memo<ThreeLayerSyncProps>(({store, coordsMx})=>{
+  console.log('SyncLayer');
+  
   const {advance,camera, gl}= useThree();
 
   const onTick = useFunction<TickHandler>(({timestamp, baseCamMx})=>{
