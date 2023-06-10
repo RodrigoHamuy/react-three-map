@@ -1,44 +1,41 @@
-
 import { CustomLayerInterface, Map, MercatorCoordinate } from "maplibre-gl";
-import { memo, useEffect, useId } from "react";
+import { PropsWithChildren, memo, useEffect, useId } from "react";
 import { useMap } from "react-map-gl/maplibre";
-import { BoxGeometry, DirectionalLight, Matrix4, Mesh, MeshLambertMaterial, PerspectiveCamera, Scene, Vector2Tuple, Vector3, WebGLRenderer } from "three";
-import { GLTFLoader } from 'three-stdlib';
+import { Vector2Tuple, PerspectiveCamera, Scene, WebGLRenderer, DirectionalLight, Mesh, BoxGeometry, MeshLambertMaterial, Matrix4, Vector3 } from "three";
 
-// type Map = Required<ReturnType<typeof useMap>>['current'];
-
-export interface VanillaThreeLayerProps {
+export interface CanvasProps extends PropsWithChildren {
   longitude: number,
   latitude: number,
+  altitude?: number
+
 }
 
-export const VanillaThreeLayer = memo<VanillaThreeLayerProps>(({
-  latitude, longitude,
-}) => {
-  const map = useMap();
+/** react`-three-fiber` canvas inside `MapLibre` */
+export const Canvas = memo<CanvasProps>(({
+  longitude, latitude, altitude = 0
+})=>{
   const id = useId();
+  const map = useMap();
 
   useEffect(()=>{
     if(!map.current) return;
-    init({map: map.current.getMap(), latitude, longitude, id});
+    init({map: map.current.getMap(), latitude, longitude, altitude, id});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map])
-
   return <></>
 })
 
-function init({id, map, latitude, longitude}: {
-  id: string, map: Map, longitude: number, latitude: number
+function init({id, map, latitude, longitude, altitude }: {
+  id: string, map: Map, longitude: number, latitude: number, altitude: number
 }) {
 
   // parameters to ensure the model is georeferenced correctly on the map
   const modelOrigin : Vector2Tuple = [longitude, latitude];
-  const modelAltitude = 0;
   const modelRotate = [Math.PI / 2, 0, 0];
 
   const modelAsMercatorCoordinate = MercatorCoordinate.fromLngLat(
     modelOrigin,
-    modelAltitude
+    altitude
   );
 
   // transformation parameters to position, rotate and scale the 3D model onto the map
