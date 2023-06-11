@@ -28,18 +28,14 @@ export const Canvas = memo<CanvasProps>(({
     latitude, longitude, altitude
   }), [latitude, longitude, altitude])
 
-  const {onAdd, mounted} = useOnAdd(ref, renderProps);
+  const {onAdd, onRemove, mounted} = useOnAdd(ref, renderProps);
 
   const render = useRender(m4, ref);
 
   useEffect(()=>{
+    if(!mounted) return;
     if(!ref.current) return;
     ref.current.root.render(<>{children}</>);
-
-    return () => {
-      if(!ref.current) return;
-      ref.current.root.unmount()
-    }
   }, [ref, mounted, children])
 
   return <Layer
@@ -47,6 +43,7 @@ export const Canvas = memo<CanvasProps>(({
     type="custom"
     renderingMode="3d"
     onAdd={onAdd}
+    onRemove={onRemove}
     render={render}
   />
 })

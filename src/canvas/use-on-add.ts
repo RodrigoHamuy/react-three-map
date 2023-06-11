@@ -1,9 +1,9 @@
 import { RenderProps, createRoot } from "@react-three/fiber";
-import { useState } from "react";
 import { MapInstance } from "react-map-gl";
 import { createEvents } from "../create-events";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
+import { useState } from "react";
 
 export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
 
@@ -51,9 +51,17 @@ export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElem
       map,
       root,
     }
+
     setTimeout(()=>setMounted(true));
     
   })
 
-  return {onAdd, mounted};
+  const onRemove = useFunction(()=>{
+    setTimeout(()=>{
+      if(!ref.current) return;
+      ref.current.root.unmount();
+    })
+  })
+
+  return {onAdd, onRemove, mounted};
 }

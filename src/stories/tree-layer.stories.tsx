@@ -1,8 +1,8 @@
 import { ThemeState, useLadleContext } from "@ladle/react";
-import { Box } from "@react-three/drei";
 import 'maplibre-gl/dist/maplibre-gl.css';
-import Map, { Marker } from 'react-map-gl/maplibre';
+import Map from 'react-map-gl/maplibre';
 import { Canvas } from "../canvas/canvas";
+import { MyScene } from "./my-scene";
 
 export function BasicSetup() {
   const theme = useLadleContext().globalState.theme;
@@ -13,16 +13,15 @@ export function BasicSetup() {
     <Map
       antialias
       initialViewState={{
-        latitude: 37.8,
-        longitude: -122.4,
-        zoom: 14
+        latitude: 51.5073218,
+        longitude: -0.1276473,
+        zoom: 22
       }}
       mapStyle={mapStyle}
     >
-      <Canvas latitude={37.8} longitude={-122.406}>
-        <Box args={[100,500,100]} material-color="orange" />
+      <Canvas latitude={51.5073218} longitude={-0.1276473}>
+        <MyScene blend />
       </Canvas>
-      <Marker latitude={37.8} longitude={-122.4} color="red" />
     </Map>
   </div>
 }
