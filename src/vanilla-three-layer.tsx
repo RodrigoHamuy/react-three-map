@@ -3,7 +3,6 @@ import { CustomLayerInterface, Map, MercatorCoordinate } from "maplibre-gl";
 import { memo, useEffect, useId } from "react";
 import { useMap } from "react-map-gl/maplibre";
 import { BoxGeometry, DirectionalLight, Matrix4, Mesh, MeshLambertMaterial, PerspectiveCamera, Scene, Vector2Tuple, Vector3, WebGLRenderer } from "three";
-import { GLTFLoader } from 'three-stdlib';
 
 // type Map = Required<ReturnType<typeof useMap>>['current'];
 
