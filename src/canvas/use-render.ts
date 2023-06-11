@@ -1,18 +1,20 @@
-import { Camera } from "@react-three/fiber";
-import { MapRendererRef } from "./map-renderer-ref";
+import { Matrix4 } from "three";
+import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
-import { Matrix4, Scene } from "three";
 
 export function useRender(
-  camera: Camera, scene: Scene, m4: Matrix4, ref: MapRendererRef
+  m4: Matrix4, ref: StateRef
   ) {
 
   const render = useFunction((_gl: WebGL2RenderingContext, matrix: number[])=>{
-    if(!ref.current) return;
+    if(!ref.current?.state) return;
+    const camera = ref.current.state.camera;
+    const gl = ref.current.state.gl;
+    const advance = ref.current.state.advance;
     camera.projectionMatrix.fromArray(matrix).multiply(m4);
-    ref.current.renderer.resetState();
-    ref.current.renderer.render(scene, camera);
-    ref.current.map.triggerRepaint();
+    camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+    gl.resetState();
+    advance(Date.now(), true);
   })
 
   return render;

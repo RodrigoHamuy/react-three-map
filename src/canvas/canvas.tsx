@@ -1,11 +1,15 @@
-import { PropsWithChildren, memo, useId, useMemo, useRef, useState } from "react";
-import { Layer, MapInstance } from "react-map-gl/maplibre";
-import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import { RenderProps, extend } from "@react-three/fiber";
+import { PropsWithChildren, memo, useEffect, useId, useMemo, useRef } from "react";
+import { Layer } from "react-map-gl/maplibre";
+import * as THREE from "three";
 import { coordsToMatrix } from "./coords-to-matrix";
+import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
 import { useRender } from "./use-render";
 
-export interface CanvasProps extends PropsWithChildren {
+extend(THREE);
+
+export interface CanvasProps extends RenderProps<HTMLCanvasElement>, PropsWithChildren {
   longitude: number,
   latitude: number,
   altitude?: number
@@ -13,21 +17,30 @@ export interface CanvasProps extends PropsWithChildren {
 
 /** react`-three-fiber` canvas inside `MapLibre` */
 export const Canvas = memo<CanvasProps>(({
-  longitude, latitude, altitude = 0
+  longitude, latitude, altitude = 0,
+  children, ...renderProps
 })=>{
   const id = useId();
   
-  const ref = useRef<{renderer: WebGLRenderer, map: MapInstance}>()
+  const ref : StateRef = useRef();
 
-  const [{scene, camera}] = useState(()=>({
-    scene: new Scene,
-    camera: new PerspectiveCamera,
-  }))
-  const m4 = useMemo(()=>coordsToMatrix({latitude, longitude, altitude}), [latitude, longitude, altitude])
+  const m4 = useMemo(()=>coordsToMatrix({
+    latitude, longitude, altitude
+  }), [latitude, longitude, altitude])
 
-  const onAdd = useOnAdd(scene, ref);
+  const {onAdd, mounted} = useOnAdd(ref, renderProps);
 
-  const render = useRender(camera, scene, m4, ref);
+  const render = useRender(m4, ref);
+
+  useEffect(()=>{
+    if(!ref.current) return;
+    ref.current.root.render(<>{children}</>);
+
+    return () => {
+      if(!ref.current) return;
+      ref.current.root.unmount()
+    }
+  }, [ref, mounted, children])
 
   return <Layer
     id={id}

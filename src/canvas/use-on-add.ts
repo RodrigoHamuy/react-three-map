@@ -1,46 +1,59 @@
+import { RenderProps, createRoot } from "@react-three/fiber";
+import { useState } from "react";
 import { MapInstance } from "react-map-gl";
-import { BoxGeometry, DirectionalLight, Mesh, MeshLambertMaterial, Scene, WebGLRenderer } from "three";
-import { MapRendererRef } from "./map-renderer-ref";
+import { createEvents } from "../create-events";
+import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
 
-export function useOnAdd (scene: Scene, ref: MapRendererRef) {
+export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
+
+  const [mounted, setMounted] = useState(false);
 
   const onAdd = useFunction((map: MapInstance, gl: WebGLRenderingContext)=>{
-    addStuff(scene);
-    // use the MapLibre GL JS map canvas for three.js
-    const renderer = new WebGLRenderer({
-      canvas: map.getCanvas(),
-      context: gl,
-      antialias: true
+   
+    const canvas = map.getCanvas();
+    const root = createRoot(canvas);
+    root.configure({
+      frameloop: "never",
+      dpr: window.devicePixelRatio,
+      shadows: true,
+      events: createEvents(),
+      ...renderProps,
+      gl: {
+        context: gl,
+        depth: true,
+        autoClear: false,
+        antialias: true,
+        ...renderProps?.gl,
+      },
+      onCreated: (state) => {
+        debugger;
+        ref.current = {
+          state,
+          map,
+          root,
+        }
+        state.gl.forceContextLoss = () => { };
+      },
+      camera: {
+        matrixAutoUpdate: false,
+      },
+      size: {
+        width: canvas.clientWidth,
+        height: canvas.clientHeight,
+        top: 0,
+        left: 0,
+        ...renderProps?.size,
+      },
     });
 
-    renderer.autoClear = false;
-
     ref.current = {
-      renderer,
       map,
+      root,
     }
+    setTimeout(()=>setMounted(true));
+    
   })
 
-  return onAdd;
-
-}
-
-
-function addStuff(scene: Scene) {
-  // create two three.js lights to illuminate the model
-  const directionalLight = new DirectionalLight(0xffffff);
-  directionalLight.position.set(0, -70, 100).normalize();
-  scene.add(directionalLight);
-
-  const directionalLight2 = new DirectionalLight(0xffffff);
-  directionalLight2.position.set(0, 70, 100).normalize();
-  scene.add(directionalLight2);
-
-  const box = new Mesh(
-    new BoxGeometry(100,500,100),
-    new MeshLambertMaterial({color: 'orange'})
-  );
-  scene.add(box);
-
+  return {onAdd, mounted};
 }
