@@ -1,10 +1,8 @@
 import { ThemeState, useLadleContext } from "@ladle/react";
+import { Box } from "@react-three/drei";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import Map, { Marker } from 'react-map-gl/maplibre';
-import { VanillaThreeLayer } from "../vanilla-three-layer";
-import { Box } from "@react-three/drei";
-import { Canvas as VanillaCanvas } from "../vanilla/vanilla.canvas";
-import { Canvas } from "../canvas";
+import { Canvas } from "../canvas/canvas";
 
 export function BasicSetup() {
   const theme = useLadleContext().globalState.theme;
@@ -21,10 +19,6 @@ export function BasicSetup() {
       }}
       mapStyle={mapStyle}
     >
-      {/* <VanillaThreeLayer latitude={37.8} longitude={-122.4} /> */}
-      {/* <VanillaCanvas latitude={37.8} longitude={-122.403}>
-        <Box args={[100,500,100]} material-color="orange" />
-      </VanillaCanvas> */}
       <Canvas latitude={37.8} longitude={-122.406}>
         <Box args={[100,500,100]} material-color="orange" />
       </Canvas>
