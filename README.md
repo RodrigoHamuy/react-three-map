@@ -3,7 +3,8 @@
 ⚠️ **Alpha Warning: This library is currently in its alpha phase. While functional, it's still under active development and may have bugs. Please use with caution in production and feel free to report any issues you encounter. Thank you for your understanding!**
 
 
-React Three Map seamlessly integrates three.js with Mapbox, allowing you to bring the power of 3D rendering to your maps.
+React Three Map seamlessly integrates three.js with MapLibre and Mapbox using React, allowing you to bring the power of 3D rendering to your maps in a declarative manner.
+
 This package offers a Three layer that allows you to use `@react-three/fiber` within `react-map-gl` and is compatible with both Mapbox and Maplibre.
 
 ## Installation
@@ -17,13 +18,15 @@ npm install react-three-map
 
 ## Getting Started
 
-Just add `<Canvas>` inside the map and start using R3F as usual :)
+Just add `<Canvas>` inside the map and start using R3F as usual. That easy!
 
 ```jsx
-import { ReactMapGL, StaticMap } from 'react-map-gl';
+import Map from 'react-map-gl/maplibre';
 import { Canvas } from 'react-three-map';
 
-<ReactMapGL {...viewport} >
+...
+
+<Map>
   <Canvas>
     {/* Use react-three-fiber as usual in here */}
     <mesh>
@@ -31,7 +34,7 @@ import { Canvas } from 'react-three-map';
       <meshStandardMaterial attach="material" color="orange" />
     </mesh>
   </Canvas>
-</ReactMapGL>
+</Map>
 ...
 ```
 
@@ -65,3 +68,6 @@ We hope that you enjoy using React Three Map as much as we enjoyed building it. 
 - [ ] Fully decompose the projection matrix into all the Camera properties required.
 - [ ] Support post processing.
 - [ ] Support multiple coordinate transformations using only one ThreeJS renderer.
+- [ ] Support `drei` `<Html>` component.
+- [ ] Support MapBox.
+- [ ] Support on demand rendering.
