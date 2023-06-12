@@ -2,7 +2,7 @@ import { Box, Plane, useHelper } from "@react-three/drei";
 import { MeshProps, useFrame } from '@react-three/fiber';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useRef, useState } from 'react';
-import { CameraHelper, MathUtils, MultiplyBlending, OrthographicCamera } from "three";
+import { CameraHelper, MathUtils, Mesh, MultiplyBlending, OrthographicCamera } from "three";
 
 export function MyScene({ blend }: { blend?: boolean }) {
   return <>
@@ -10,7 +10,7 @@ export function MyScene({ blend }: { blend?: boolean }) {
     <Floor blend={blend} />
     <MyBox position={[-1.2, 1.5, 0]} />
     <MyBox position={[1.2, 1.5, 0]} />
-    <MyBox position={[1.2, 1.5, 1.2]} />
+    <MyBox position={[1.2, 1.5, 2.4]} />
   </>
 }
 
@@ -18,9 +18,17 @@ export function MyScene({ blend }: { blend?: boolean }) {
 function MyBox(props: MeshProps) {
   const [hovered, hover] = useState(false);
   const [clicked, click] = useState(false);
+  const mesh = useRef<Mesh>(null)
+
+  useFrame((_st, dt)=>{
+    if(!mesh.current) return;
+    mesh.current.rotateY(dt*.001);
+  })
+
   return (
     <Box
       {...props}
+      ref={mesh}
       args={[1, 1, 1]}
       receiveShadow
       castShadow
