@@ -1,7 +1,22 @@
 {
   "name": "react-three-map",
   "version": "0.0.0",
-  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/my-lib.umd.js",
+  "module": "./dist/my-lib.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.es.js",
+      "require": "./dist/my-lib.umd.js"
+    }
+  },
+  "sideEffects": false,
+  "homepage": "https://github.com/RodrigoHamuy/react-three-map",
+  "bugs": {
+    "url": "https://github.com/RodrigoHamuy/react-three-map/issues"
+  },
+  "license": "MIT",
+  "author": "RodrigoHamuy",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
