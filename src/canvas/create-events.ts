@@ -1,4 +1,4 @@
-import { Events, RenderProps, RootState, createEvents as createEventsFiber } from "@react-three/fiber";
+import { Events, RenderProps, RootState, createEvents as createFiberEvents } from "@react-three/fiber";
 import { UseBoundStore } from "zustand";
 
 type DomEvent = PointerEvent | MouseEvent | WheelEvent;
@@ -16,10 +16,10 @@ const DOM_EVENTS = {
   onLostPointerCapture: ["lostpointercapture", true],
 } as const;
 
-/** R3F event manager for Mapbox */
+/** ThreeLayer event manager for MapLibre and Mapbox */
 export function createEvents() : RenderProps<HTMLCanvasElement>["events"] {
   return (store: UseBoundStore<RootState>) => {
-    const { handlePointer } = createEventsFiber(store);
+    const { handlePointer } = createFiberEvents(store);
     return {
       priority: 1,
       enabled: true,

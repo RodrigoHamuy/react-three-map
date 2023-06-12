@@ -31,8 +31,6 @@ function MyBox(props: MeshProps) {
     >
       <meshStandardMaterial
         color={hovered ? "red" : "orange"}
-        metalness={hovered ? 1 : .8}
-        roughness={hovered ? .1 : .1}
       />
     </Box>
   );

@@ -1,6 +1,6 @@
 import { RenderProps, createRoot } from "@react-three/fiber";
 import { MapInstance } from "react-map-gl";
-import { createEvents } from "../create-events";
+import { createEvents } from "./create-events";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
 import { useState } from "react";
@@ -27,12 +27,12 @@ export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElem
         ...renderProps?.gl,
       },
       onCreated: (state) => {
-        debugger;
         ref.current = {
           state,
           map,
           root,
         }
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         state.gl.forceContextLoss = () => { };
       },
       camera: {

@@ -17,4 +17,4 @@ export function coordsToMatrix ({ longitude, latitude, altitude }: {
   scale.set(scaleUnit, -scaleUnit, scaleUnit);
   quat.setFromEuler(euler.set(-Math.PI * .5, 0, 0));  
   return mx.compose(pos, quat, scale);
-};
+}
