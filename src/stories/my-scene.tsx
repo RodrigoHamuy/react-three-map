@@ -1,5 +1,5 @@
 import { Box, Plane, useHelper } from "@react-three/drei";
-import { MeshProps } from '@react-three/fiber';
+import { MeshProps, useFrame } from '@react-three/fiber';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useRef, useState } from 'react';
 import { CameraHelper, MathUtils, MultiplyBlending, OrthographicCamera } from "three";
@@ -7,10 +7,10 @@ import { CameraHelper, MathUtils, MultiplyBlending, OrthographicCamera } from "t
 export function MyScene({ blend }: { blend?: boolean }) {
   return <>
     <Lights />
-    <axesHelper />
     <Floor blend={blend} />
     <MyBox position={[-1.2, 1.5, 0]} />
     <MyBox position={[1.2, 1.5, 0]} />
+    <MyBox position={[1.2, 1.5, 1.2]} />
   </>
 }
 
@@ -31,6 +31,8 @@ function MyBox(props: MeshProps) {
     >
       <meshStandardMaterial
         color={hovered ? "red" : "orange"}
+        metalness={.75}
+        roughness={.5}
       />
     </Box>
   );
@@ -42,11 +44,18 @@ function Lights() {
   const camSize = 5;
   return <>
     <ambientLight intensity={0.5} />
-    <directionalLight castShadow position={[2.5, 50, 5]} intensity={1.5} shadow-mapSize={1024}>
+    <directionalLight 
+      castShadow
+      position={[2.5, 50, 5]}
+      intensity={1.5}
+      shadow-mapSize={1024}
+      shadow-bias={-0.005}
+    >
       <orthographicCamera
         ref={cam}
         attach="shadow-camera"
         args={[-camSize, camSize, -camSize, camSize, 0.1, 100]}
+        rotation={[0,90*MathUtils.DEG2RAD,0]}
       />
     </directionalLight>
     <pointLight position={[-10, 0, -20]} color="white" intensity={1} />

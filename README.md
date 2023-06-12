@@ -26,8 +26,8 @@ import { Canvas } from 'react-three-map';
 
 ...
 
-<Map>
-  <Canvas>
+<Map initialViewState={{ latitude: 51, longitude: 0, zoom: 22 }}>
+  <Canvas latitude={51} longitude={0}>
     {/* Use react-three-fiber as usual in here */}
     <mesh>
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
