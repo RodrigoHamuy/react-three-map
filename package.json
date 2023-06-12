@@ -1,6 +1,5 @@
 {
-  "name": "react-three-mapbox",
-  "private": true,
+  "name": "react-three-map",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

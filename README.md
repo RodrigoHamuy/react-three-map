@@ -1,6 +1,9 @@
 # React Three Map
 
-React Three Map is an open source npm package that seamlessly integrates three.js with Mapbox, allowing you to bring the power of 3D rendering to your maps.
+⚠️ **Alpha Warning: This library is currently in its alpha phase. While functional, it's still under active development and may have bugs. Please use with caution in production and feel free to report any issues you encounter. Thank you for your understanding!**
+
+
+React Three Map seamlessly integrates three.js with Mapbox, allowing you to bring the power of 3D rendering to your maps.
 This package offers a Three layer that allows you to use `@react-three/fiber` within `react-map-gl` and is compatible with both Mapbox and Maplibre.
 
 ## Installation
@@ -11,39 +14,23 @@ You can install React Three Map via npm:
 npm install react-three-map
 ```
 
-## Features
-
-- Declarative: React Three Map provides a declarative interface, making your code more predictable and easier to debug.
-- 3D Rendering: Unlock the full potential of your maps with 3D rendering capabilities provided by three.js.
-- Integration: Seamlessly integrates with Mapbox and Maplibre, enabling advanced mapping features.
-- Uses `@react-three/fiber` to create and manage three.js objects.
-
 
 ## Getting Started
 
-In order to get started with React Three Map, you will need to import it into your project:
-
-```jsx
-import { ReactThreeMap } from 'react-three-map';
-```
-
-From there, you can start using the React Three Map components within your existing `react-map-gl` components. Here is a basic usage example:
+Just add `<Canvas>` inside the map and start using R3F as usual :)
 
 ```jsx
 import { ReactMapGL, StaticMap } from 'react-map-gl';
-import { ReactThreeMap } from 'react-three-map';
-import { Canvas } from '@react-three/fiber';
+import { Canvas } from 'react-three-map';
 
 <ReactMapGL {...viewport} >
-  <ReactThreeMap>
-    <Canvas>
-      {/* Here go your Three objects */}
-      <mesh>
-        <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-        <meshStandardMaterial attach="material" color="orange" />
-      </mesh>
-    </Canvas>
-  </ReactThreeMap>
+  <Canvas>
+    {/* Use react-three-fiber as usual in here */}
+    <mesh>
+      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+      <meshStandardMaterial attach="material" color="orange" />
+    </mesh>
+  </Canvas>
 </ReactMapGL>
 ...
 ```
@@ -76,3 +63,5 @@ We hope that you enjoy using React Three Map as much as we enjoyed building it. 
 - [ ] Use ThreeJS as a canvas overlay.
 - [ ] Add stencil buffers to occlude from the map.
 - [ ] Fully decompose the projection matrix into all the Camera properties required.
+- [ ] Support post processing.
+- [ ] Support multiple coordinate transformations using only one ThreeJS renderer.
