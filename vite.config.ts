@@ -15,10 +15,10 @@ export default defineConfig({
     : {
       build: {
         lib: {
-          entry: 'src/index.ts',
+          entry: 'src/main.ts',
           name: 'react-three-map',
           formats: isES ? ['es'] : ['cjs'],
-          fileName: 'index.js',
+          fileName: 'main.js',
         },
         outDir: isES ? 'dist/es' : 'dist/cjs',
         rollupOptions: {
