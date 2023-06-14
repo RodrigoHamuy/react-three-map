@@ -1,9 +1,9 @@
 import { RenderProps, createRoot } from "@react-three/fiber";
+import { useState } from "react";
 import { MapInstance } from "react-map-gl";
 import { createEvents } from "./create-events";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
-import { useState } from "react";
 
 export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
 
@@ -52,14 +52,25 @@ export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElem
       root,
     }
 
+    map.on('resize', onResize)
+
     setTimeout(()=>setMounted(true));
     
   })
 
-  const onRemove = useFunction(()=>{
+  const onResize = useFunction(()=>{
+    if(!ref.current?.state) return;
+    const state = ref.current.state;
+    const map = ref.current.map;
+    const canvas = map.getCanvas();
+    state.setSize(canvas.width, canvas.height);
+  })
+
+  const onRemove = useFunction((map: MapInstance)=>{
     setTimeout(()=>{
       if(!ref.current) return;
       ref.current.root.unmount();
+      map.off(onRemove);
     })
   })
 

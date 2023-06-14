@@ -22,7 +22,9 @@
     "preview": "vite preview",
     "ts": "tsc -w",
     "stories": "yarn ladle serve",
-    "build:stories": "yarn ladle build"
+    "build:stories": "yarn ladle build",
+    "release": "npm run publish",
+    "prerelease": "yarn build"
   },
   "dependencies": {},
   "devDependencies": {
