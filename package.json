@@ -1,32 +1,52 @@
 {
-  "name": "react-three-mapbox",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "react-three-map",
+  "version": "0.0.1",
+  "description": "Use react-three-fiber inside MapLibre and Mapbox",
+  "main": "build/cjs/index.js",
+  "module": "build/es/index.js",
+  "types": "src/index.ts",
+  "sideEffects": false,
+  "repository": "https://github.com/RodrigoHamuy/react-three-map",
+  "homepage": "https://github.com/RodrigoHamuy/react-three-map",
+  "bugs": {
+    "url": "https://github.com/RodrigoHamuy/react-three-map/issues"
+  },
+  "license": "MIT",
+  "author": "RodrigoHamuy",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "prebuild": "tsc",
+    "build": "cross-env LIB_MODE=1 vite build",
+    "postbuild": "cross-env LIB_MODE=2 vite build",
     "lint": "eslint src --ext ts,tsx --fix",
     "preview": "vite preview",
+    "ts": "tsc -w",
     "stories": "yarn ladle serve"
   },
   "dependencies": {
+    "@react-three/fiber": "^8.13.0",
     "maplibre-gl": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-map-gl": "^7.1.0-beta.1"
+    "react-map-gl": "^7.1.0-beta.1",
+    "three": "^0.153.0"
   },
   "devDependencies": {
     "@ladle/react": "^2.13.0",
+    "@react-three/drei": "^9.74.5",
+    "@types/node": "^20.3.1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
+    "@types/three": "^0.152.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
     "@vitejs/plugin-react": "^4.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
-    "typescript": "^5.0.2",
+    "three-stdlib": "^2.23.8",
+    "typescript": "~5.0.2",
     "vite": "^4.3.9"
   }
 }
