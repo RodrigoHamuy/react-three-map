@@ -21,7 +21,8 @@
     "lint": "eslint src --ext ts,tsx --fix",
     "preview": "vite preview",
     "ts": "tsc -w",
-    "stories": "yarn ladle serve"
+    "stories": "yarn ladle serve",
+    "stories:build": "yarn ladle build"
   },
   "dependencies": {
     "@react-three/fiber": "^8.13.0",
