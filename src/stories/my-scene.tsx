@@ -2,12 +2,12 @@ import { Box, Plane, useHelper } from "@react-three/drei";
 import { MeshProps, useFrame } from '@react-three/fiber';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useRef, useState } from 'react';
-import { CameraHelper, MathUtils, Mesh, MultiplyBlending, OrthographicCamera } from "three";
+import { CameraHelper, MathUtils, Mesh, OrthographicCamera } from "three";
 
-export function MyScene({ blend }: { blend?: boolean }) {
+export function MyScene() {
   return <>
     <Lights />
-    <Floor blend={blend} />
+    <Floor />
     <MyBox position={[-1.2, 1.5, 0]} />
     <MyBox position={[1.2, 1.5, 0]} />
     <MyBox position={[1.2, 1.5, 2.4]} />
@@ -71,16 +71,13 @@ function Lights() {
   </>
 }
 
-function Floor({ blend }: { blend?: boolean }) {
+function Floor() {
   return <Plane
     args={[50, 50]}
     position={[0, 0, 0]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, 0]}
     receiveShadow
   >
-    <meshLambertMaterial
-      color="white"
-      blending={blend ? MultiplyBlending : undefined}
-    />
+    <shadowMaterial opacity={.5} />
   </Plane>
 }

@@ -18,7 +18,7 @@ export function useRender(
     camera.projectionMatrix.fromArray(matrix).multiply(m4);
     camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
     gl.resetState();
-    advance(Date.now(), true);
+    advance(Date.now() * 0.001, true);
     map.current.triggerRepaint();
   })
 
