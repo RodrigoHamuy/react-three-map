@@ -1,16 +1,12 @@
 {
   "name": "react-three-map",
   "version": "0.0.0",
-  "files": ["dist"],
-  "main": "./dist/my-lib.umd.js",
-  "module": "./dist/my-lib.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/my-lib.es.js",
-      "require": "./dist/my-lib.umd.js"
-    }
-  },
+  "description": "Use react-three-fiber inside MapLibre and Mapbox",
+  "main": "build/cjs/index.js",
+  "module": "build/es/index.js",
+  "types": "src/index.ts",
   "sideEffects": false,
+  "repository": "https://github.com/RodrigoHamuy/react-three-map",
   "homepage": "https://github.com/RodrigoHamuy/react-three-map",
   "bugs": {
     "url": "https://github.com/RodrigoHamuy/react-three-map/issues"
@@ -19,7 +15,9 @@
   "author": "RodrigoHamuy",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "prebuild": "tsc",
+    "build": "cross-env LIB_MODE=1 vite build",
+    "postbuild": "cross-env LIB_MODE=2 vite build",
     "lint": "eslint src --ext ts,tsx --fix",
     "preview": "vite preview",
     "ts": "tsc -w",
@@ -36,12 +34,14 @@
   "devDependencies": {
     "@ladle/react": "^2.13.0",
     "@react-three/drei": "^9.74.5",
+    "@types/node": "^20.3.1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/three": "^0.152.1",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-react": "^4.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
