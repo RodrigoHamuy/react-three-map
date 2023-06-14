@@ -9,4 +9,5 @@ node_modules
 vite.config.ts
 yarn-error.log
 public
+node_modules
 build

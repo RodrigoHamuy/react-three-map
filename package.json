@@ -1,6 +1,6 @@
 {
   "name": "react-three-map",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "description": "Use react-three-fiber inside MapLibre and Mapbox",
   "main": "dist/cjs/main.js",
   "module": "dist/es/main.js",
@@ -24,17 +24,11 @@
     "stories": "yarn ladle serve",
     "build:stories": "yarn ladle build"
   },
-  "dependencies": {
-    "@react-three/fiber": "^8.13.0",
-    "maplibre-gl": "^3.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-map-gl": "^7.1.0-beta.1",
-    "three": "^0.153.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ladle/react": "^2.13.0",
     "@react-three/drei": "^9.74.5",
+    "@react-three/fiber": "^8.13.3",
     "@types/node": "^20.3.1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
@@ -46,6 +40,11 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "maplibre-gl": "^3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-map-gl": "^7.1.0-beta.2",
+    "three": "^0.153.0",
     "three-stdlib": "^2.23.8",
     "typescript": "~5.0.2",
     "vite": "^4.3.9"
