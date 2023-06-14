@@ -20,7 +20,7 @@ export function BasicSetup() {
       mapStyle={mapStyle}
     >
       <Canvas latitude={51.5073218} longitude={-0.1276473}>
-        <MyScene blend />
+        <MyScene />
       </Canvas>
     </Map>
   </div>

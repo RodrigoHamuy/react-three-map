@@ -22,7 +22,7 @@ function MyBox(props: MeshProps) {
 
   useFrame((_st, dt)=>{
     if(!mesh.current) return;
-    mesh.current.rotateY(dt*.001);
+    mesh.current.rotateY(dt);
   })
 
   return (

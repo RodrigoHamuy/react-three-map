@@ -2,8 +2,8 @@
   "name": "react-three-map",
   "version": "0.0.1",
   "description": "Use react-three-fiber inside MapLibre and Mapbox",
-  "main": "build/cjs/index.js",
-  "module": "build/es/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
   "types": "src/index.ts",
   "sideEffects": false,
   "repository": "https://github.com/RodrigoHamuy/react-three-map",
@@ -22,7 +22,7 @@
     "preview": "vite preview",
     "ts": "tsc -w",
     "stories": "yarn ladle serve",
-    "stories:build": "yarn ladle build"
+    "build:stories": "yarn ladle build"
   },
   "dependencies": {
     "@react-three/fiber": "^8.13.0",
