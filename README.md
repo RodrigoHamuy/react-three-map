@@ -66,7 +66,8 @@ We hope that you enjoy using React Three Map as much as we enjoyed building it. 
 
 ## Roadmap
 
-- [ ] Use ThreeJS as a Map Layer.
+- [x] Use ThreeJS as a Map Layer (Maplibre).
+- [x] Support on demand rendering.
 - [ ] Use ThreeJS as a canvas overlay.
 - [ ] Add stencil buffers to occlude from the map.
 - [ ] Fully decompose the projection matrix into all the Camera properties required.
@@ -74,4 +75,4 @@ We hope that you enjoy using React Three Map as much as we enjoyed building it. 
 - [ ] Support multiple coordinate transformations using only one ThreeJS renderer.
 - [ ] Support `drei` `<Html>` component.
 - [ ] Support MapBox.
-- [ ] Support on demand rendering.
+- [ ] Support Google Maps.

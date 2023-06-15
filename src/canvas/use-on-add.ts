@@ -12,9 +12,13 @@ export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElem
   const onAdd = useFunction((map: MapInstance, gl: WebGLRenderingContext)=>{
    
     const canvas = map.getCanvas();
-    const root = createRoot(canvas);
+    const invalidate = () => {
+      map.triggerRepaint();
+      return 0;
+    }
+    const root = createRoot(canvas, invalidate);
     root.configure({
-      frameloop: "never",
+      frameloop: "demand",
       dpr: window.devicePixelRatio,
       shadows: true,
       events: createEvents(),

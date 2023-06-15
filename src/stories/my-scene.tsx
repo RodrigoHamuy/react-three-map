@@ -1,41 +1,48 @@
 import { Box, Plane, useHelper } from "@react-three/drei";
-import { MeshProps, useFrame } from '@react-three/fiber';
+import { MeshProps, useFrame, useThree } from '@react-three/fiber';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { CameraHelper, MathUtils, Mesh, OrthographicCamera } from "three";
 
 export function MyScene() {
   return <>
     <Lights />
     <Floor />
-    <MyBox position={[-1.2, 1.5, 0]} />
-    <MyBox position={[1.2, 1.5, 0]} />
-    <MyBox position={[1.2, 1.5, 2.4]} />
+    <MyBox position={[-8* 3, 8*1.5, 0]} />
+    <MyBox position={[8*3, 8*1.5, 0]} />
   </>
 }
 
 
 function MyBox(props: MeshProps) {
   const [hovered, hover] = useState(false);
-  const [clicked, click] = useState(false);
   const mesh = useRef<Mesh>(null)
+  const invalidate = useThree(st=>st.invalidate);
+
+  const onOver = useCallback(()=>{
+    hover(true);
+  }, [])
+
+  const onOut = useCallback(()=>{
+    hover(false);
+  }, [])
 
   useFrame((_st, dt)=>{
     if(!mesh.current) return;
     mesh.current.rotateY(dt);
+    invalidate();
   })
 
   return (
     <Box
       {...props}
       ref={mesh}
-      args={[1, 1, 1]}
+      args={[16, 16, 16]}
       receiveShadow
       castShadow
-      scale={props.scale || clicked ? props.scale || 1.5 : 1}
-      onClick={() => click(!clicked)}
-      onPointerOver={() => hover(true)}
-      onPointerOut={() => hover(false)}
+      onClick={onOver}
+      onPointerOver={onOver}
+      onPointerOut={onOut}
     >
       <meshStandardMaterial
         color={hovered ? "red" : "orange"}
@@ -49,7 +56,7 @@ function Lights() {
   const cam = useRef<OrthographicCamera>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHelper(cam as any, CameraHelper)
-  const camSize = 5;
+  const camSize = 100;
   return <>
     <ambientLight intensity={0.5} />
     <directionalLight 
@@ -73,7 +80,7 @@ function Lights() {
 
 function Floor() {
   return <Plane
-    args={[50, 50]}
+    args={[200, 200]}
     position={[0, 0, 0]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, 0]}
     receiveShadow

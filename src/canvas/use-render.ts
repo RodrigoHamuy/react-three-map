@@ -19,7 +19,9 @@ export function useRender(
     camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
     gl.resetState();
     advance(Date.now() * 0.001, true);
-    map.current.triggerRepaint();
+    if(ref.current.state.frameloop === 'always') {
+      map.current.triggerRepaint();
+    }
   })
 
   return render;
