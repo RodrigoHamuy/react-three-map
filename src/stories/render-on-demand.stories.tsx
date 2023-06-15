@@ -39,7 +39,7 @@ export function Default() {
         <Stats />
       </Canvas>
     </Map>
-    <div style={{position: 'absolute', top: 0, right: 0}}>
+    <div style={{position: 'absolute', top: 0, right: 0, left: 80, background: '#ffffffc2', padding: 5}}>
       Hover over the box, it will only render once to change colour, or when you move the camera. Look at the stats to confirm.
     </div>
   </div>
