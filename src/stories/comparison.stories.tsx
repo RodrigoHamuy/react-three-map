@@ -22,7 +22,7 @@ export function WithMap() {
       }}
       mapStyle={mapStyle}
     >
-      <Canvas latitude={51.5073218} longitude={-0.1276473}>
+      <Canvas latitude={51.5073218} longitude={-0.1276473} shadows="basic">
         <MyScene />
       </Canvas>
     </Map>

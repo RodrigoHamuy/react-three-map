@@ -14,11 +14,10 @@ export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElem
     const canvas = map.getCanvas();
     const root = createRoot(canvas);
     root.configure({
-      frameloop: "demand",
       dpr: window.devicePixelRatio,
-      shadows: true,
       events: createEvents(),
       ...renderProps,
+      frameloop: 'never',
       gl: {
         context: gl,
         depth: true,

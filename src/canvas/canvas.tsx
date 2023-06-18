@@ -9,34 +9,35 @@ import { useRender } from "./use-render";
 
 extend(THREE);
 
-export interface CanvasProps extends RenderProps<HTMLCanvasElement>, PropsWithChildren {
+export interface CanvasProps extends Omit<RenderProps<HTMLCanvasElement>,'frameloop'>, PropsWithChildren {
   longitude: number,
   latitude: number,
-  altitude?: number
+  altitude?: number,
+  frameloop?: 'always'|'demand',
 }
 
 /** react`-three-fiber` canvas inside `MapLibre` */
 export const Canvas = memo<CanvasProps>(({
   longitude, latitude, altitude = 0,
-  children, ...renderProps
+  children, frameloop='always', ...renderProps
 })=>{
   const id = useId();
   
-  const ref : StateRef = useRef();
+  const stateRef : StateRef = useRef();
 
   const m4 = useMemo(()=>coordsToMatrix({
     latitude, longitude, altitude
   }), [latitude, longitude, altitude])
 
-  const {onAdd, onRemove, mounted} = useOnAdd(ref, renderProps);
+  const {onAdd, onRemove, mounted} = useOnAdd(stateRef, renderProps);
 
-  const render = useRender(m4, ref);
+  const render = useRender(m4, stateRef, frameloop);
 
   useEffect(()=>{
     if(!mounted) return;
-    if(!ref.current) return;
-    ref.current.root.render(<>{children}</>);
-  }, [ref, mounted, children])
+    if(!stateRef.current) return;
+    stateRef.current.root.render(<>{children}</>);
+  }, [stateRef, mounted, children])
 
   return <Layer
     id={id}
