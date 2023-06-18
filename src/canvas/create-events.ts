@@ -17,7 +17,7 @@ const DOM_EVENTS = {
 } as const;
 
 /** ThreeLayer event manager for MapLibre and Mapbox */
-export function createEvents() : RenderProps<HTMLCanvasElement>["events"] {
+export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
   return (store: UseBoundStore<RootState>) => {
     const { handlePointer } = createFiberEvents(store);
     return {

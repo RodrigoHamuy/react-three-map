@@ -1,9 +1,9 @@
 import { ReconcilerRoot, RootState } from "@react-three/fiber";
+import { Map } from "maplibre-gl";
 import { MutableRefObject } from "react";
-import { MapInstance } from "react-map-gl";
 
 export type StateRef = MutableRefObject<{
-  map: MapInstance;
+  map: Map;
   root: ReconcilerRoot<HTMLCanvasElement>;
   state?: RootState;
 } | undefined>

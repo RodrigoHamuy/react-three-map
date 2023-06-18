@@ -1,10 +1,11 @@
 import { ThemeState, useLadleContext } from "@ladle/react";
 import 'maplibre-gl/dist/maplibre-gl.css';
-import Map from 'react-map-gl/maplibre';
+import Map from 'react-map-gl';
 import { Canvas } from "../canvas/canvas";
 import { Canvas as FiberCanvas } from "@react-three/fiber"
 import { MyScene } from "./my-scene";
 import { MapControls } from "@react-three/drei"
+import MapLibre from "maplibre-gl";
 
 export function WithMap() {
   const theme = useLadleContext().globalState.theme;
@@ -13,6 +14,7 @@ export function WithMap() {
     : "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
   return <div style={{ height: '100vh' }}>
     <Map
+      mapLib={MapLibre}
       antialias
       initialViewState={{
         latitude: 51.5073218,

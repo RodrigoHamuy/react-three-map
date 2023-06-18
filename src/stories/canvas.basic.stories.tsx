@@ -1,9 +1,10 @@
 import { useFrame, Vector3 } from "@react-three/fiber";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { FC, useRef, useState } from "react";
-import Map from 'react-map-gl/maplibre';
+import Map from 'react-map-gl';
 import { Mesh } from "three";
 import { Canvas } from "../canvas/canvas";
+import MapLibre from "maplibre-gl";
 
 export default {title: 'Canvas'}
 
@@ -37,6 +38,7 @@ const Box : FC<{position: Vector3}> = (props) => {
 export function BasicExample() {
   return <div style={{ height: '100vh' }}>
     <Map
+      mapLib={MapLibre}
       antialias
       initialViewState={{
         latitude: 51,

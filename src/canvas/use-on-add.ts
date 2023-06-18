@@ -1,16 +1,16 @@
 import { RenderProps, createRoot } from "@react-three/fiber";
+import { Map } from "maplibre-gl";
 import { useState } from "react";
-import { MapInstance } from "react-map-gl";
 import { createEvents } from "./create-events";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
 
-export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
+export function useOnAdd(ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
 
   const [mounted, setMounted] = useState(false);
 
-  const onAdd = useFunction((map: MapInstance, gl: WebGLRenderingContext)=>{
-   
+  const onAdd = useFunction((map: Map, gl: WebGLRenderingContext) => {
+
     const canvas = map.getCanvas();
     const root = createRoot(canvas);
     root.configure({
@@ -53,25 +53,25 @@ export function useOnAdd (ref: StateRef, renderProps: RenderProps<HTMLCanvasElem
 
     map.on('resize', onResize)
 
-    setTimeout(()=>setMounted(true));
-    
+    setTimeout(() => setMounted(true));
+
   })
 
-  const onResize = useFunction(()=>{
-    if(!ref.current?.state) return;
+  const onResize = useFunction(() => {
+    if (!ref.current?.state) return;
     const state = ref.current.state;
     const map = ref.current.map;
     const canvas = map.getCanvas();
     state.setSize(canvas.width, canvas.height);
   })
 
-  const onRemove = useFunction((map: MapInstance)=>{
-    setTimeout(()=>{
-      if(!ref.current) return;
+  const onRemove = useFunction((map: Map) => {
+    setTimeout(() => {
+      if (!ref.current) return;
       ref.current.root.unmount();
-      map.off(onRemove);
+      map.off('resize', onResize)
     })
   })
 
-  return {onAdd, onRemove, mounted};
+  return { onAdd, onRemove, mounted };
 }
