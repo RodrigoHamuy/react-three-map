@@ -1,5 +1,7 @@
 # React Three Map
 
+[![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/@react-three/fiber)
+
 
 ⚠️ **Alpha Warning: This library is currently in its alpha phase. While functional, it's still under active development and may have bugs. Please use with caution in production and feel free to report any issues you encounter. Thank you for your understanding!**
 
@@ -18,8 +20,10 @@ Now with `react-three-map`, you can use them together :fist_right::fist_left:.
 npm install react-three-map
 ```
 
+Find use examples in our [Stories :book:](https://rodrigohamuy.github.io/react-three-map).
 
 ## What does it look like?
+
 
 <table>
   <tbody>
@@ -72,6 +76,10 @@ function BasicExample() {
 }
 ```
 
-## More examples
+# Why we build this?
 
-Check out our [stories  :book:](https://rodrigohamuy.github.io/react-three-map).
+Look [how complex](https://maplibre.org/maplibre-gl-js-docs/example/add-3d-model/) is to add just one ThreeJS object to a map.
+
+Look [how complex](https://docs.pmnd.rs/react-three-fiber/api/canvas#createroot) is to create your custom root for R3F.
+
+You can now replace all that complexity and hundreds of lines of code with the `<Canvas>` component exported by `react-three-map`, which includes a tone of extra features and seamless integration, supporting pointer events, raycasting, and much more, all out of the box.
