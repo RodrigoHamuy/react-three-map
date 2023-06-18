@@ -3,13 +3,14 @@ import { MeshProps, useFrame, useThree } from '@react-three/fiber';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useRef, useState } from 'react';
 import { CameraHelper, MathUtils, Mesh, OrthographicCamera } from "three";
+import { useControls } from "leva"
 
 export function MyScene() {
   return <>
     <Lights />
     <Floor />
-    <MyBox position={[-8* 3, 8*1.5, 0]} />
-    <MyBox position={[8*3, 8*1.5, 0]} />
+    <MyBox position={[-8 * 3, 8 * 1.5, 0]} />
+    <MyBox position={[8 * 3, 8 * 1.5, 0]} />
   </>
 }
 
@@ -17,18 +18,18 @@ export function MyScene() {
 function MyBox(props: MeshProps) {
   const [hovered, hover] = useState(false);
   const mesh = useRef<Mesh>(null)
-  const invalidate = useThree(st=>st.invalidate);
+  const invalidate = useThree(st => st.invalidate);
 
-  const onOver = useCallback(()=>{
+  const onOver = useCallback(() => {
     hover(true);
   }, [])
 
-  const onOut = useCallback(()=>{
+  const onOut = useCallback(() => {
     hover(false);
   }, [])
 
-  useFrame((_st, dt)=>{
-    if(!mesh.current) return;
+  useFrame((_st, dt) => {
+    if (!mesh.current) return;
     mesh.current.rotateY(dt);
     invalidate();
   })
@@ -54,23 +55,29 @@ function MyBox(props: MeshProps) {
 }
 function Lights() {
   const cam = useRef<OrthographicCamera>(null);
+  const noCam = useRef<OrthographicCamera>(null);
+  const { showCamHelper } = useControls({
+    showCamHelper: {
+      value: false,
+      label: 'show camera helper'
+    }
+  });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useHelper(cam as any, CameraHelper)
+  useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
   const camSize = 100;
   return <>
     <ambientLight intensity={0.5} />
-    <directionalLight 
+    <directionalLight
       castShadow
       position={[2.5, 50, 5]}
       intensity={1.5}
       shadow-mapSize={1024}
-      shadow-bias={-0.005}
     >
       <orthographicCamera
         ref={cam}
         attach="shadow-camera"
         args={[-camSize, camSize, -camSize, camSize, 0.1, 100]}
-        rotation={[0,90*MathUtils.DEG2RAD,0]}
+        rotation={[0, 90 * MathUtils.DEG2RAD, 0]}
       />
     </directionalLight>
     <pointLight position={[-10, 0, -20]} color="white" intensity={1} />

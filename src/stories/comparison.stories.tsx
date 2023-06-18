@@ -22,7 +22,7 @@ export function WithMap() {
       }}
       mapStyle={mapStyle}
     >
-      <Canvas latitude={51.5073218} longitude={-0.1276473} shadows="basic">
+      <Canvas latitude={51.5073218} longitude={-0.1276473} shadows="variance">
         <MyScene />
       </Canvas>
     </Map>
@@ -31,7 +31,7 @@ export function WithMap() {
 
 export const WithoutMap = () => {
   return <div style={{ height: '100vh' }}>
-    <FiberCanvas camera={{position: [100,100,100]}} shadows="basic">
+    <FiberCanvas camera={{position: [100,100,100]}} shadows="variance">
       <MyScene />    
       <MapControls makeDefault />
     </FiberCanvas>
