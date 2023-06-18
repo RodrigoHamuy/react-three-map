@@ -29,7 +29,7 @@ export const Canvas = memo<CanvasProps>(({
     latitude, longitude, altitude
   }), [latitude, longitude, altitude])
 
-  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, renderProps);
+  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
 
   const render = useRender(m4, stateRef, frameloop);
 

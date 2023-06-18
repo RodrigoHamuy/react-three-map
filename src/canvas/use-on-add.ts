@@ -5,19 +5,27 @@ import { createEvents } from "./create-events";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
 
-export function useOnAdd(ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
+export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>) {
 
   const [mounted, setMounted] = useState(false);
 
   const onAdd = useFunction((map: Map, gl: WebGLRenderingContext) => {
 
+    const isOnDemand = frameloop === 'demand';
+
     const canvas = map.getCanvas();
-    const root = createRoot(canvas);
+    const invalidate = !isOnDemand
+      ? undefined
+      : () => {
+        map.triggerRepaint();
+        return 0;
+      }
+    const root = createRoot(canvas, invalidate);
     root.configure({
       dpr: window.devicePixelRatio,
       events: createEvents(),
       ...renderProps,
-      frameloop: 'never',
+      frameloop: isOnDemand ? 'demand' : 'always',
       gl: {
         context: gl,
         depth: true,
