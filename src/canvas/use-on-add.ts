@@ -11,21 +11,13 @@ export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderPro
 
   const onAdd = useFunction((map: Map, gl: WebGLRenderingContext) => {
 
-    const isOnDemand = frameloop === 'demand';
-
     const canvas = map.getCanvas();
-    const invalidate = !isOnDemand
-      ? undefined
-      : () => {
-        map.triggerRepaint();
-        return 0;
-      }
-    const root = createRoot(canvas, invalidate);
+    const root = createRoot(canvas);
     root.configure({
       dpr: window.devicePixelRatio,
       events: createEvents(),
       ...renderProps,
-      frameloop: isOnDemand ? 'demand' : 'always',
+      frameloop: 'never',
       gl: {
         context: gl,
         depth: true,
@@ -34,6 +26,14 @@ export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderPro
         ...renderProps?.gl,
       },
       onCreated: (state) => {
+        if (frameloop === 'demand') {
+          state.set({
+            frameloop,
+            invalidate: () => {
+              map.triggerRepaint();
+            }
+          })
+        }
         ref.current = {
           state,
           map,

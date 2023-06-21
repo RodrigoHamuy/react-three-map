@@ -43,7 +43,9 @@ export const Canvas = memo<CanvasProps>(({
     id={id}
     type="custom"
     renderingMode="3d"
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onAdd={onAdd as any}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onRemove={onRemove as any}
     render={render}
   />
