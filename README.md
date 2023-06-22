@@ -83,3 +83,51 @@ Look [how complex](https://maplibre.org/maplibre-gl-js-docs/example/add-3d-model
 Look [how complex](https://docs.pmnd.rs/react-three-fiber/api/canvas#createroot) is to create your custom root for R3F.
 
 You can now replace all that complexity and hundreds of lines of code with the `<Canvas>` component exported by `react-three-map`, which includes a tone of extra features and seamless integration, supporting pointer events, raycasting, and much more, all out of the box.
+
+## API
+
+### Canvas
+
+Same as in `@react-three/fiber`, the `<Canvas>` object is where you start to define your React Three Fiber Scene. 
+
+```tsx
+import "maplibre-gl/dist/maplibre-gl.css"
+import Map from "react-map-gl/maplibre"
+import { Canvas } from 'react-three-map'
+
+const App = () => (
+  <Map 
+    initialViewState={{ latitude: 51, longitude: 0, zoom: 13 }} 
+    mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" >
+    <Canvas latitude={51} longitude={0}>
+      <pointLight position={[10, 10, 10]} />
+      <mesh>
+        <sphereGeometry />
+        <meshStandardMaterial color="hotpink" />
+      </mesh>
+    </Canvas>
+  </Map>
+)
+```
+
+It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://docs.pmnd.rs/react-three-fiber/api/canvas). There are a few important exceptions though, which are mentioned bellow.
+
+#### Render Props
+
+| PROP       | DESCRIPTION                                      | DEFAULT  |
+| ---------  | ------------------------------------------------ | -------- |
+| latitude   | The latitude coordinate where to add the scene.  |          |
+| longitude  | The longitude coordinate where to add the scene. |          |
+| altitude   | The altitude coordinate where to add the scene.  | `0`      |
+| frameloop  | Render mode: always, demand.                     | `always` |
+
+#### Render Props removed from `@react-three/fiber`
+
+Because the scene now lives in a map, we leave a lot of the render and camera control to the map, rather than to R3F.
+
+- gl
+- camera
+- resize
+- orthographic
+- dpr
+
