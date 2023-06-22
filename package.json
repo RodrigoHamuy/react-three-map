@@ -26,6 +26,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@ladle/react": "^2.13.0",
     "@react-three/drei": "^9.74.5",
     "@react-three/fiber": "^8.13.3",
