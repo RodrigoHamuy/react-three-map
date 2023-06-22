@@ -29,7 +29,7 @@ export const Canvas = memo<CanvasProps>(({
     latitude, longitude, altitude
   }), [latitude, longitude, altitude])
 
-  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, renderProps);
+  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
 
   const render = useRender(m4, stateRef, frameloop);
 
@@ -43,7 +43,9 @@ export const Canvas = memo<CanvasProps>(({
     id={id}
     type="custom"
     renderingMode="3d"
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onAdd={onAdd as any}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onRemove={onRemove as any}
     render={render}
   />

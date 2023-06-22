@@ -5,7 +5,7 @@ import { createEvents } from "./create-events";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
 
-export function useOnAdd(ref: StateRef, renderProps: RenderProps<HTMLCanvasElement>) {
+export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>) {
 
   const [mounted, setMounted] = useState(false);
 
@@ -26,6 +26,14 @@ export function useOnAdd(ref: StateRef, renderProps: RenderProps<HTMLCanvasEleme
         ...renderProps?.gl,
       },
       onCreated: (state) => {
+        if (frameloop === 'demand') {
+          state.set({
+            frameloop,
+            invalidate: () => {
+              map.triggerRepaint();
+            }
+          })
+        }
         ref.current = {
           state,
           map,
