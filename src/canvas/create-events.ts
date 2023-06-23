@@ -50,7 +50,7 @@ export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
       connect: (target: HTMLElement) => {
         const { set, events } = store.getState();
         events.disconnect?.();
-        set((state) => ({ events: { ...state.events, connected: target } }));
+        set((state) => ({ events: { ...state.events, connected: target.parentNode } }));
         Object.entries(events.handlers ?? []).forEach(([name, event]) => {
           const [eventName, passive] = DOM_EVENTS[name as keyof typeof DOM_EVENTS];
           target.addEventListener(eventName, event, { passive });
