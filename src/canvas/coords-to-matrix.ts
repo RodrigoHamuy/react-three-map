@@ -1,5 +1,5 @@
-import { MercatorCoordinate } from "maplibre-gl";
 import { Euler, Matrix4, Quaternion, Vector3 } from "three";
+import { FromLngLat } from "./core/generic-map";
 
 const quat = new Quaternion();
 const euler = new Euler();
@@ -7,10 +7,10 @@ const pos = new Vector3();
 const scale = new Vector3();
 
 /** calculate Matrix4 from coordinates */
-export function coordsToMatrix({ longitude, latitude, altitude }: {
-  longitude: number, latitude: number, altitude: number
+export function coordsToMatrix({ longitude, latitude, altitude, fromLngLat }: {
+  longitude: number, latitude: number, altitude: number, fromLngLat: FromLngLat
 }) {
-  const center = MercatorCoordinate.fromLngLat([longitude, latitude], altitude);
+  const center = fromLngLat([longitude, latitude], altitude);
   const scaleUnit = center.meterInMercatorCoordinateUnits();
   pos.set(center.x, center.y, center.z || 0);
   scale.set(scaleUnit, -scaleUnit, scaleUnit);

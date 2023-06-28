@@ -6,6 +6,7 @@ import { coordsToMatrix } from "./coords-to-matrix";
 import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
 import { useRender } from "./use-render";
+import { MercatorCoordinate } from "maplibre-gl";
 
 extend(THREE);
 
@@ -26,7 +27,7 @@ export const Canvas = memo<CanvasProps>(({
   const stateRef: StateRef = useRef();
 
   const m4 = useMemo(() => coordsToMatrix({
-    latitude, longitude, altitude
+    latitude, longitude, altitude, fromLngLat: MercatorCoordinate.fromLngLat,
   }), [latitude, longitude, altitude])
 
   const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
