@@ -1,12 +1,9 @@
 import { RenderProps, extend } from "@react-three/fiber";
-import { PropsWithChildren, memo, useEffect, useId, useMemo, useRef } from "react";
-import { Layer } from "react-map-gl";
-import * as THREE from "three";
-import { coordsToMatrix } from "./coords-to-matrix";
-import { StateRef } from "./state-ref";
-import { useOnAdd } from "./use-on-add";
-import { useRender } from "./use-render";
 import { MercatorCoordinate } from "maplibre-gl";
+import { PropsWithChildren, memo, useMemo } from "react";
+import * as THREE from "three";
+import { coordsToMatrix } from "./core/coords-to-matrix";
+import { InternalCanvas } from "./core/internal-canvas";
 
 extend(THREE);
 
@@ -20,34 +17,16 @@ export interface CanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frame
 /** react`-three-fiber` canvas inside `MapLibre` */
 export const Canvas = memo<CanvasProps>(({
   longitude, latitude, altitude = 0,
-  children, frameloop = 'always', ...renderProps
+  frameloop = 'always', ...renderProps
 }) => {
-  const id = useId();
-
-  const stateRef: StateRef = useRef();
 
   const m4 = useMemo(() => coordsToMatrix({
     latitude, longitude, altitude, fromLngLat: MercatorCoordinate.fromLngLat,
   }), [latitude, longitude, altitude])
 
-  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
-
-  const render = useRender(m4, stateRef, frameloop);
-
-  useEffect(() => {
-    if (!mounted) return;
-    if (!stateRef.current) return;
-    stateRef.current.root.render(<>{children}</>);
-  }, [stateRef, mounted, children])
-
-  return <Layer
-    id={id}
-    type="custom"
-    renderingMode="3d"
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onAdd={onAdd as any}
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onRemove={onRemove as any}
-    render={render}
+  return <InternalCanvas
+    frameloop={frameloop}
+    m4={m4}
+    {...renderProps}
   />
 })

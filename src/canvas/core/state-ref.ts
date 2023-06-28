@@ -1,6 +1,6 @@
 import { ReconcilerRoot, RootState } from "@react-three/fiber";
 import { MutableRefObject } from "react";
-import { Map } from "./core/generic-map";
+import { Map } from "./generic-map";
 
 export type StateRef = MutableRefObject<{
   map: Map;

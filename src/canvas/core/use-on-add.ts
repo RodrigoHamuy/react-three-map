@@ -1,5 +1,5 @@
 import { RenderProps, createRoot } from "@react-three/fiber";
-import { Map } from "./core/generic-map";
+import { Map } from "./generic-map";
 import { useState } from "react";
 import { createEvents } from "./create-events";
 import { StateRef } from "./state-ref";
