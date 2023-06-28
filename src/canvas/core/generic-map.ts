@@ -1,4 +1,4 @@
-// quick mock of functions used by Maplibre and Mapbox
+// mock of functions used by `react-three-map` from `Maplibre` or `Mapbox`
 
 /** Generic interface of Mapbox/Maplibre `LngLatLike` */
 export type LngLatLike = {
@@ -19,7 +19,7 @@ export type FromLngLat = (lngLatLike: LngLatLike, altitude?: number) => Mercator
 export interface MercatorCoordinate {
 	x: number;
 	y: number;
-	z: number;
+	z?: number;
 	meterInMercatorCoordinateUnits(): number;
 }
 

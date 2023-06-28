@@ -15,7 +15,7 @@ export default defineConfig({
     : {
       build: {
         lib: {
-          entry: 'src/main.ts',
+          entry: 'src/main-maplibre.ts',
           name: 'react-three-map',
           formats: isES ? ['es'] : ['cjs'],
           fileName: 'main.js',
