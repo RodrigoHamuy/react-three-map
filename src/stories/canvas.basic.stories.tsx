@@ -3,7 +3,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { FC, useRef, useState } from "react";
 import Map from 'react-map-gl';
 import { Mesh } from "three";
-import { Canvas } from "../canvas/canvas";
+import { Canvas } from "../canvas/canvas-maplibre";
 import MapLibre from "maplibre-gl";
 
 export default {title: 'Canvas'}

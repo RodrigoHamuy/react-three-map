@@ -1,7 +1,7 @@
 import { ThemeState, useLadleContext } from "@ladle/react";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import Map from 'react-map-gl';
-import { Canvas } from "../canvas/canvas";
+import { Canvas } from "../canvas/canvas-maplibre";
 import { Canvas as FiberCanvas } from "@react-three/fiber"
 import { MyScene } from "./my-scene";
 import { MapControls } from "@react-three/drei"

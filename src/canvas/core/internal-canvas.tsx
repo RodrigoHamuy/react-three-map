@@ -1,33 +1,22 @@
-import { RenderProps, extend } from "@react-three/fiber";
-import { PropsWithChildren, memo, useEffect, useId, useMemo, useRef } from "react";
+import { RenderProps } from "@react-three/fiber";
+import { PropsWithChildren, memo, useEffect, useId, useRef } from "react";
 import { Layer } from "react-map-gl";
-import * as THREE from "three";
-import { coordsToMatrix } from "./coords-to-matrix";
+import { Matrix4Tuple } from "three";
 import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
 import { useRender } from "./use-render";
 
-extend(THREE);
-
-export interface CanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
-  longitude: number,
-  latitude: number,
-  altitude?: number,
-  frameloop?: 'always' | 'demand',
+export interface InternalCanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
+  frameloop: 'always' | 'demand',
+  m4: Matrix4Tuple;
 }
 
-/** react`-three-fiber` canvas inside `MapLibre` */
-export const Canvas = memo<CanvasProps>(({
-  longitude, latitude, altitude = 0,
-  children, frameloop = 'always', ...renderProps
+export const InternalCanvas = memo<InternalCanvasProps>(({
+  m4, children, frameloop, ...renderProps
 }) => {
   const id = useId();
 
   const stateRef: StateRef = useRef();
-
-  const m4 = useMemo(() => coordsToMatrix({
-    latitude, longitude, altitude
-  }), [latitude, longitude, altitude])
 
   const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
 
@@ -50,3 +39,5 @@ export const Canvas = memo<CanvasProps>(({
     render={render}
   />
 })
+
+InternalCanvas.displayName = 'InternalCanvas';

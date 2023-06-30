@@ -2,7 +2,7 @@ import { Box, Html, Stats } from "@react-three/drei";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useState } from "react";
 import { MathUtils } from "three";
-import { Canvas } from "../canvas/canvas";
+import { Canvas } from "../canvas/canvas-maplibre";
 import { StoryMap } from "./story-map";
 
 export function Default() {

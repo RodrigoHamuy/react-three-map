@@ -49,7 +49,8 @@ import React, { useRef, useState } from 'react'
 import { useFrame } from "@react-three/fiber"
 import { useRef, useState } from "react"
 import Map from "react-map-gl/maplibre"
-import { Canvas } from "react-three-map"
+import { Canvas } from "react-three-map/maplibre" 
+// import { Canvas } from "react-three-map" // if you are using MapBox
 
 function BasicExample() {
   return <Map
@@ -93,7 +94,8 @@ Same as in `@react-three/fiber`, the `<Canvas>` object is where you start to def
 ```tsx
 import "maplibre-gl/dist/maplibre-gl.css"
 import Map from "react-map-gl/maplibre"
-import { Canvas } from 'react-three-map'
+import { Canvas } from 'react-three-map/maplibre'
+// import { Canvas } from "react-three-map" // if you are using MapBox
 
 const App = () => (
   <Map 
