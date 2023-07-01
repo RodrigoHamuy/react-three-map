@@ -1,40 +1,42 @@
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { FC, PropsWithChildren } from "react"
-import MapLibre from "maplibre-gl";
-import Map from 'react-map-gl';
-import { useLadleContext, ThemeState } from '@ladle/react';
+import { useControls } from 'leva';
+import { FC, PropsWithChildren } from "react";
+import { StoryMapbox } from './mapbox/story-mapbox';
+import { StoryMaplibre } from './maplibre/story-maplibre';
+import { CanvasProps } from '../maplibre/canvas';
+
+export enum MapProvider {
+  maplibre = "maplibre",
+  mapbox = "mapbox",
+}
 
 export interface StoryMapProps extends PropsWithChildren {
-  latitude?: number,
-  longitude?: number,
+  latitude: number,
+  longitude: number,
   zoom?: number,
   pitch?: number,
+  canvas?: Partial<CanvasProps>,
 }
 
 /** `<Map>` styled for stories */
 export const StoryMap: FC<StoryMapProps> = ({
-  children
+  latitude, longitude, zoom = 13, pitch = 60, children
 }) => {
 
-  const theme = useLadleContext().globalState.theme;
+  const { mapProvider } = useControls({
+    mapProvider: {
+      value: MapProvider.maplibre,
+      options: MapProvider,
+    },
+  });
 
-  const mapStyle = theme === ThemeState.Dark
-    ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
-    : "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
+  const props : StoryMapProps = { latitude, longitude, zoom, pitch, children};
 
   return <div style={{ height: '100vh', position: 'relative' }}>
-    <Map
-      mapLib={MapLibre}
-      antialias
-      initialViewState={{
-        latitude: 51,
-        longitude: 0,
-        zoom: 13,
-        pitch: 60,
-      }}
-      mapStyle={mapStyle}
-    >
+    {mapProvider === MapProvider.maplibre && <StoryMaplibre {...props}>
       {children}
-      </Map>
+    </StoryMaplibre>}
+    {mapProvider === MapProvider.mapbox && <StoryMapbox {...props}>
+      {children}
+    </StoryMapbox>}
   </div>
 }

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import {resolve} from 'path';
 
 /** 0: no lib mode, 1: ES, 2: cjs */
 const libMode = parseInt(process.env.LIB_MODE!) || 0;
@@ -11,7 +12,7 @@ const isES = libMode === 1;
 
 const isMaplibre = mapProvider === 0;
 
-const entry = `src/main-${isMaplibre ? 'maplibre' : 'mapbox' }.ts`;
+const entry = `src/${isMaplibre ? 'maplibre' : 'mapbox'}/index.ts`;
 
 let outDir = isMaplibre ? 'dist/maplibre' : 'dist';
 
@@ -23,6 +24,12 @@ export default defineConfig({
   ...(!libMode
     ? {
       base: '',
+      resolve: {
+        alias: {
+          'react-three-map/maplibre': resolve(__dirname, './src/maplibre/index.ts'),
+          'react-three-map': resolve(__dirname, './src/mapbox/index.ts'),
+        }
+      }
     }
     : {
       build: {
@@ -38,6 +45,7 @@ export default defineConfig({
           external: [
             "@react-three/fiber",
             "maplibre-gl",
+            "mapbox-gl",
             "react",
             'react/jsx-runtime',
             "react-dom",

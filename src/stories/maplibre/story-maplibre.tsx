@@ -1,18 +1,14 @@
 import { ThemeState, useLadleContext } from '@ladle/react';
+import MapLibre from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { FC, PropsWithChildren } from "react";
+import { FC } from "react";
 import Map from 'react-map-gl/maplibre';
+import { StoryMapProps } from '../story-map';
+import { Canvas } from 'react-three-map/maplibre';
 
-export interface StoryMapProps extends PropsWithChildren {
-  latitude: number,
-  longitude: number,
-  zoom?: number,
-  pitch?: number,
-}
-
-/** `<Map>` styled for stories */
-export const StoryMap: FC<StoryMapProps> = ({
-  latitude, longitude, zoom, children
+/** Maplibre `<Map>` styled for stories */
+export const StoryMaplibre: FC<StoryMapProps> = ({
+  latitude, longitude, zoom, pitch, canvas, children
 }) => {
 
   const theme = useLadleContext().globalState.theme;
@@ -23,16 +19,14 @@ export const StoryMap: FC<StoryMapProps> = ({
 
   return <div style={{ height: '100vh', position: 'relative' }}>
     <Map
+      mapLib={MapLibre}
       antialias
-      initialViewState={{
-        latitude,
-        longitude,
-        zoom,
-        pitch: 60,
-      }}
+      initialViewState={{ latitude, longitude, zoom, pitch, }}
       mapStyle={mapStyle}
     >
-      {children}
-    </Map>
+      <Canvas latitude={latitude} longitude={longitude} {...canvas}>
+        {children}
+      </Canvas>
+      </Map>
   </div>
 }

@@ -1,19 +1,18 @@
 import { RenderProps } from "@react-three/fiber";
-import { PropsWithChildren, memo, useEffect, useId, useRef } from "react";
-import { Layer } from "react-map-gl";
+import { PropsWithChildren, useEffect, useId, useRef } from "react";
 import { Matrix4Tuple } from "three";
 import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
 import { useRender } from "./use-render";
 
-export interface InternalCanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
+export interface useCanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
   frameloop: 'always' | 'demand',
   m4: Matrix4Tuple;
 }
 
-export const InternalCanvas = memo<InternalCanvasProps>(({
+export const useCanvas = (({
   m4, children, frameloop, ...renderProps
-}) => {
+}: useCanvasProps) => {
   const id = useId();
 
   const stateRef: StateRef = useRef();
@@ -28,16 +27,5 @@ export const InternalCanvas = memo<InternalCanvasProps>(({
     stateRef.current.root.render(<>{children}</>);
   }, [stateRef, mounted, children])
 
-  return <Layer
-    id={id}
-    type="custom"
-    renderingMode="3d"
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onAdd={onAdd as any}
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onRemove={onRemove as any}
-    render={render}
-  />
+  return { id, onAdd, onRemove, render }
 })
-
-InternalCanvas.displayName = 'InternalCanvas';

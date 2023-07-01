@@ -1,15 +1,23 @@
 import { useFrame, Vector3 } from "@react-three/fiber";
-import 'maplibre-gl/dist/maplibre-gl.css';
+import { useControls } from "leva";
+import Mapbox from "mapbox-gl";
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { FC, useRef, useState } from "react";
-import Map from 'react-map-gl/maplibre';
-import { Canvas } from "react-three-map/maplibre";
+import Map from 'react-map-gl';
+import { Canvas } from "react-three-map";
 import { Mesh } from "three";
 
 export default { title: 'Canvas' }
 
-export function BasicExample() {
+export function MapboxExample() {
+
+  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '' })
+
+  Mapbox.accessToken = mapboxToken;
+
   return <div style={{ height: '100vh' }}>
-    <Map
+    {!mapboxToken && <>Add a mapbox token to load this component</>}
+    {!!mapboxToken && <Map
       antialias
       initialViewState={{
         latitude: 51,
@@ -17,7 +25,7 @@ export function BasicExample() {
         zoom: 13,
         pitch: 60,
       }}
-      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+      mapStyle="mapbox://styles/mapbox/streets-v12"
     >
       <Canvas latitude={51} longitude={0}>
         <hemisphereLight
@@ -29,7 +37,7 @@ export function BasicExample() {
           <Box position={[1.2, 1, 0]} />
         </object3D>
       </Canvas>
-    </Map>
+    </Map>}
   </div>
 }
 

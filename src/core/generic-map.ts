@@ -1,5 +1,16 @@
 // mock of functions used by `react-three-map` from `Maplibre` or `Mapbox`
 
+/** Generic interface of Mapbox/Maplibre `LayerProps` */
+export interface LayerProps {
+	id: string;
+	type: 'custom';
+	renderingMode: '3d';
+	onRemove?(map: MapInstance, gl: WebGLRenderingContext): void;
+	onAdd?(map: MapInstance, gl: WebGLRenderingContext): void;
+	prerender?(gl: WebGLRenderingContext, matrix: number[]): void;
+	render(gl: WebGLRenderingContext, matrix: number[]): void;
+}
+
 /** Generic interface of Mapbox/Maplibre `LngLatLike` */
 export type LngLatLike = {
 	lng: number;
@@ -24,7 +35,7 @@ export interface MercatorCoordinate {
 }
 
 /** Generic interface of Mapbox/Maplibre `Map` */
-export interface Map {
+export interface MapInstance {
 	getCanvas(): HTMLCanvasElement;
 	triggerRepaint(): void;
 	// eslint-disable-next-line @typescript-eslint/ban-types
@@ -41,6 +52,6 @@ export type MapEventType = {
 /** Generic interface of `MapLibreEvent` or `MapBoxEvent` */
 export interface MapEvent<TOrig = unknown> {
 	type: string;
-	target: Map;
+	target: MapInstance;
 	originalEvent: TOrig;
 }

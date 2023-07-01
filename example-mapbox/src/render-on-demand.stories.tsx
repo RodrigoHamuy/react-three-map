@@ -1,5 +1,5 @@
 import { Box, Stats } from "@react-three/drei";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Canvas } from "react-three-map";
 import { MathUtils } from "three";
 import { StoryMap } from "./story-map";
@@ -8,7 +8,10 @@ export function Default() {
 
   const [hovered, hover] = useState(false);
 
+  const ref = useRef<HTMLDivElement>(null)
+
   return <div style={{ height: '100vh', position: 'relative' }}>
+    <style>{`.stats{position:absolute !important}`}</style>
     <StoryMap latitude={51} longitude={0} zoom={13}>
       <Canvas latitude={51} longitude={0} frameloop="demand">
         <Box
@@ -19,7 +22,7 @@ export function Default() {
           onPointerOut={() => hover(false)}
           material-color={hovered ? 'purple' : 'orange'}
         />
-        <Stats />
+        <Stats className="stats" parent={ref} />
       </Canvas>
     </StoryMap>
     <div style={{ position: 'absolute', top: 0, right: 0, left: 80, background: '#ffffffc2', padding: 5 }}>
