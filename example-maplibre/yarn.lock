@@ -3400,10 +3400,10 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-three-map@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-three-map/-/react-three-map-0.2.0.tgz#e51ff9da0e07ecd2706834b03e07dad2d9b6b5ee"
-  integrity sha512-izNHzZE2Yy/N71oXFUA2EMzdzPkmXMAg1VUzjWG89rhM2r/0jPeuvBclbOha6PDgU18CZPzscu9EyEl4QtJXzw==
+react-three-map@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-three-map/-/react-three-map-0.2.1.tgz#f2282730aac1d68b07ed501e59c5afe1617b0fbc"
+  integrity sha512-SaoRKlXA1VFf0mLIVlpYtvzCHzpZ7HZMmsqDVKNGwMwbk+uqn7ILEz8Nv3FLZTkWbccs2+VLMot9O1PyrGsCgg==
 
 react-use-measure@^2.1.1:
   version "2.1.1"

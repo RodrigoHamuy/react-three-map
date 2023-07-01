@@ -3,7 +3,7 @@ import { Box, Stats } from "@react-three/drei";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useState } from "react";
 import Map from 'react-map-gl';
-import { MathUtils } from "three";
+import { MathUtils } from "../node_modules/@types/three";
 import { Canvas } from "react-three-map/maplibre";
 import MapLibre from "maplibre-gl";
 

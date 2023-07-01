@@ -4,7 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { FC, useRef, useState } from "react";
 import Map from 'react-map-gl';
 import { Canvas } from "react-three-map/maplibre";
-import { Mesh } from "three";
+import { Mesh } from "../node_modules/@types/three";
 
 export default { title: 'Canvas' }
 
