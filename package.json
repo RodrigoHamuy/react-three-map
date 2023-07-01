@@ -22,7 +22,7 @@
     "build:mapbox": "cross-env LIB_MODE=1 MAP_MODE=1 vite build",
     "postbuild:mapbox": "cross-env LIB_MODE=2 MAP_MODE=1 vite build",
     "release": "yarn build && yarn changeset publish",
-    "lint": "eslint src --ext ts,tsx --fix",
+    "lint": "eslint src example-maplibre/src example-mapbox/src --ext ts,tsx --fix",
     "preview": "vite preview",
     "ts": "tsc -w",
     "stories": "yarn ladle serve",

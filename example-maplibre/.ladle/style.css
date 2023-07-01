@@ -1,0 +1,18 @@
+.ladle-main{
+  padding: 0;
+}
+.ladle-aside {
+  order: -1;
+}
+header.ladle-addons {
+  max-width: 18em
+}
+header.ladle-addons ul{
+  flex-wrap: wrap;
+}
+header.ladle-addons li{
+  margin: 0.35em;
+}
+header.ladle-addons li:nth-of-type(4) {
+  display: none;
+}

@@ -1,0 +1,4 @@
+{
+  "sandboxes": ["/example-mapbox", "/example-maplibre"],
+  "node": "16"
+}

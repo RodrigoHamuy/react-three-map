@@ -27,7 +27,9 @@ export interface MercatorCoordinate {
 export interface Map {
 	getCanvas(): HTMLCanvasElement;
 	triggerRepaint(): void;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	on<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): this;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	off<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): this;
 }
 
