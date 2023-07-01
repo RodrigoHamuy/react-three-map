@@ -4,7 +4,7 @@
   "description": "Use react-three-fiber inside MapLibre and Mapbox",
   "main": "dist/cjs/main.js",
   "module": "dist/es/main.js",
-  "types": "src/main-mapbox.ts",
+  "types": "src/mapbox/index.ts",
   "sideEffects": false,
   "repository": "https://github.com/RodrigoHamuy/react-three-map",
   "homepage": "https://github.com/RodrigoHamuy/react-three-map",
@@ -14,7 +14,6 @@
   "license": "MIT",
   "author": "RodrigoHamuy",
   "scripts": {
-    "dev": "vite",
     "prebuild": "tsc",
     "build": "yarn build:maplibre && yarn build:mapbox",
     "build:maplibre": "cross-env LIB_MODE=1 MAP_MODE=0 vite build",
@@ -33,7 +32,7 @@
     "@changesets/cli": "^2.26.1",
     "@ladle/react": "^2.13.0",
     "@react-three/drei": "^9.74.5",
-    "@react-three/fiber": "^8.13.3",
+    "@react-three/fiber": "^8.13.4",
     "@types/node": "^20.3.1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
@@ -50,10 +49,14 @@
     "maplibre-gl": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-map-gl": "^7.0.25",
+    "react-map-gl": "^7.1.0",
     "three": "^0.153.0",
     "three-stdlib": "^2.23.8",
     "typescript": "~5.0.2",
     "vite": "^4.3.9"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": "^8.13.4",
+    "react-map-gl": "^7.1.0"
   }
 }

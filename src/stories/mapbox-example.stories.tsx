@@ -9,6 +9,38 @@ import { Mesh } from "three";
 
 export default { title: 'Canvas' }
 
+export function MapboxExample() {
+
+  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '' })
+
+  Mapbox.accessToken = mapboxToken;
+
+  return <div style={{ height: '100vh' }}>
+    {!mapboxToken && <>Add a mapbox token to load this component</>}
+    {!!mapboxToken && <Map
+      antialias
+      initialViewState={{
+        latitude: 51,
+        longitude: 0,
+        zoom: 13,
+        pitch: 60,
+      }}
+      mapStyle="mapbox://styles/mapbox/streets-v12"
+    >
+      <Canvas latitude={51} longitude={0}>
+        <hemisphereLight
+          args={["#ffffff", "#60666C"]}
+          position={[1, 4.5, 3]}
+        />
+        <object3D scale={500}>
+          <Box position={[-1.2, 1, 0]} />
+          <Box position={[1.2, 1, 0]} />
+        </object3D>
+      </Canvas>
+    </Map>}
+  </div>
+}
+
 const Box: FC<{ position: Vector3 }> = (props) => {
   // This reference gives us direct access to the THREE.Mesh object
   const ref = useRef<Mesh>(null)
@@ -34,36 +66,4 @@ const Box: FC<{ position: Vector3 }> = (props) => {
       <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
   )
-}
-
-export function BasicExample() {
-
-  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '' })
-
-  Mapbox.accessToken = mapboxToken;
-
-  return <div style={{ height: '100vh' }}>
-    {!mapboxToken && <>Add a mapbox token to load this component</>}
-    {mapboxToken && <Map
-      antialias
-      initialViewState={{
-        latitude: 51,
-        longitude: 0,
-        zoom: 13,
-        pitch: 60,
-      }}
-      mapStyle="mapbox://styles/mapbox/streets-v12"
-    >
-      <Canvas latitude={51} longitude={0}>
-        <hemisphereLight
-          args={["#ffffff", "#60666C"]}
-          position={[1, 4.5, 3]}
-        />
-        <object3D scale={500}>
-          <Box position={[-1.2, 1, 0]} />
-          <Box position={[1.2, 1, 0]} />
-        </object3D>
-      </Canvas>
-    </Map>}
-  </div>
 }

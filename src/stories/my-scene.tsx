@@ -1,7 +1,6 @@
 import { Box, Plane, useHelper } from "@react-three/drei";
 import { MeshProps, useFrame, useThree } from '@react-three/fiber';
 import { useControls } from "leva";
-import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useRef, useState } from 'react';
 import { CameraHelper, MathUtils, Mesh, OrthographicCamera } from "three";
 
