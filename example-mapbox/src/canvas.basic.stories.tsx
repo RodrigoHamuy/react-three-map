@@ -38,7 +38,7 @@ const Box: FC<{ position: Vector3 }> = (props) => {
 
 export function BasicExample() {
 
-  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_KEY })
+  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_KEY || '' })
 
   Mapbox.accessToken = mapboxToken;
 

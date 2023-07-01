@@ -17,7 +17,7 @@ export const StoryMap: FC<StoryMapProps> = ({
   latitude, longitude, zoom = 18, pitch = 60, children
 }) => {
 
-  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_KEY })
+  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_KEY || '' })
 
   const theme = useLadleContext().globalState.theme;
 
