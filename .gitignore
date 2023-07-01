@@ -25,3 +25,4 @@ dist-ssr
 .npmrc
 *.tgz
 build
+.env
