@@ -45,6 +45,7 @@ export default defineConfig({
           external: [
             "@react-three/fiber",
             "maplibre-gl",
+            "mapbox-gl",
             "react",
             'react/jsx-runtime',
             "react-dom",

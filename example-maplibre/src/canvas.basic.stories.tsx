@@ -1,12 +1,37 @@
 import { useFrame, Vector3 } from "@react-three/fiber";
-import MapLibre from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { FC, useRef, useState } from "react";
-import Map from 'react-map-gl';
+import Map from 'react-map-gl/maplibre';
 import { Canvas } from "react-three-map/maplibre";
 import { Mesh } from "three";
 
 export default { title: 'Canvas' }
+
+export function BasicExample() {
+  return <div style={{ height: '100vh' }}>
+    <Map
+      antialias
+      initialViewState={{
+        latitude: 51,
+        longitude: 0,
+        zoom: 13,
+        pitch: 60,
+      }}
+      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+    >
+      <Canvas latitude={51} longitude={0}>
+        <hemisphereLight
+          args={["#ffffff", "#60666C"]}
+          position={[1, 4.5, 3]}
+        />
+        <object3D scale={500}>
+          <Box position={[-1.2, 1, 0]} />
+          <Box position={[1.2, 1, 0]} />
+        </object3D>
+      </Canvas>
+    </Map>
+  </div>
+}
 
 const Box: FC<{ position: Vector3 }> = (props) => {
   // This reference gives us direct access to the THREE.Mesh object
@@ -33,31 +58,4 @@ const Box: FC<{ position: Vector3 }> = (props) => {
       <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
   )
-}
-
-export function BasicExample() {
-  return <div style={{ height: '100vh' }}>
-    <Map
-      mapLib={MapLibre}
-      antialias
-      initialViewState={{
-        latitude: 51,
-        longitude: 0,
-        zoom: 13,
-        pitch: 60,
-      }}
-      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
-    >
-      <Canvas latitude={51} longitude={0}>
-        <hemisphereLight
-          args={["#ffffff", "#60666C"]}
-          position={[1, 4.5, 3]}
-        />
-        <object3D scale={500}>
-          <Box position={[-1.2, 1, 0]} />
-          <Box position={[1.2, 1, 0]} />
-        </object3D>
-      </Canvas>
-    </Map>
-  </div>
 }

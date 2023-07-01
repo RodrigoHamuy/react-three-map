@@ -1,15 +1,14 @@
-import { Box, Html, Stats } from "@react-three/drei";
-import 'maplibre-gl/dist/maplibre-gl.css';
+import { Box, Html } from "@react-three/drei";
 import { useState } from "react";
-import { MathUtils } from "three";
 import { Canvas } from "react-three-map/maplibre";
+import { MathUtils } from "three";
 import { StoryMap } from "./story-map";
 
 export function Default() {
 
   const [hovered, hover] = useState(false);
 
-  return <StoryMap>
+  return <StoryMap latitude={51} longitude={0} zoom={13}>
     <Canvas latitude={51} longitude={0} frameloop="demand">
       <Html>ola</Html>
       <Box
@@ -20,7 +19,6 @@ export function Default() {
         onPointerOut={() => hover(false)}
         material-color={hovered ? 'purple' : 'orange'}
       />
-      <Stats />
     </Canvas>
   </StoryMap>
 }

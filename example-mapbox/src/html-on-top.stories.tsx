@@ -1,7 +1,7 @@
-import { Box, Html, Stats } from "@react-three/drei";
+import { Box, Html } from "@react-three/drei";
 import { useState } from "react";
-import { MathUtils } from "three";
 import { Canvas } from "react-three-map";
+import { MathUtils } from "three";
 import { StoryMap } from "./story-map";
 
 export function Default() {
@@ -19,7 +19,6 @@ export function Default() {
         onPointerOut={() => hover(false)}
         material-color={hovered ? 'purple' : 'orange'}
       />
-      <Stats />
     </Canvas>
   </StoryMap>
 }
