@@ -2,9 +2,6 @@
 
 [![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/@react-three/fiber)
 
-
-⚠️ **Alpha Warning: This library is currently in its alpha phase. While functional, it's still under active development and may have bugs. Please use with caution in production and feel free to report any issues you encounter. Thank you for your understanding!**
-
 `react-three-map` is a bridge to use [`react-three-fiber`](https://github.com/pmndrs/react-three-fiber) inside [`react-map-gl`](https://github.com/visgl/react-map-gl).
 
 Until now you had:
@@ -20,9 +17,11 @@ Now with `react-three-map`, you can use them together :fist_right::fist_left:.
 npm install react-three-map
 ```
 
-Find use examples in our [Stories :book:](https://rodrigohamuy.github.io/react-three-map).
+## :book: Examples
 
-## What does it look like?
+You can check our examples here [here](https://rodrigohamuy.github.io/react-three-map) (powered by [Ladle](https://ladle.dev/)).
+
+## :mag: What does it look like?
 
 
 <table>
@@ -77,7 +76,7 @@ function BasicExample() {
 }
 ```
 
-# Why we build this?
+## :thinking: Why we build this?
 
 Look [how complex](https://maplibre.org/maplibre-gl-js-docs/example/add-3d-model/) is to add just one ThreeJS object to a map.
 
@@ -85,7 +84,7 @@ Look [how complex](https://docs.pmnd.rs/react-three-fiber/api/canvas#createroot)
 
 You can now replace all that complexity and hundreds of lines of code with the `<Canvas>` component exported by `react-three-map`, which includes a tone of extra features and seamless integration, supporting pointer events, raycasting, and much more, all out of the box.
 
-## API
+## :gear: API
 
 ### Canvas
 
@@ -116,16 +115,18 @@ It shares most of the props from R3F `<Canvas>`, so you can check them directly 
 
 #### Render Props
 
-| PROP       | DESCRIPTION                                      | DEFAULT  |
-| ---------  | ------------------------------------------------ | -------- |
-| latitude   | The latitude coordinate where to add the scene.  |          |
-| longitude  | The longitude coordinate where to add the scene. |          |
-| altitude   | The altitude coordinate where to add the scene.  | `0`      |
-| frameloop  | Render mode: always, demand.                     | `always` |
+| PROP       | DESCRIPTION                                      | DEFAULT    |
+| ---------  | ------------------------------------------------ | ---------- |
+| latitude   | The latitude coordinate where to add the scene.  |            |
+| longitude  | The longitude coordinate where to add the scene. |            |
+| altitude   | The altitude coordinate where to add the scene.  | `0`        |
+| frameloop  | Render mode: `"always"`, `"demand"`.             | `"always"` |
 
 #### Render Props removed from `@react-three/fiber`
 
 Because the scene now lives in a map, we leave a lot of the render and camera control to the map, rather than to R3F.
+
+Therefore, the following `<Canvas>` props are ignored:
 
 - gl
 - camera

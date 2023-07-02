@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.3.0
+
+### Minor Changes
+
+- f3155c6: Upgrade to `react-map-gl@7.1.0`, which changes how to use Maplibre. Find more in their [changelog](https://github.com/visgl/react-map-gl/releases/tag/v7.1.0).
+
 ## 0.2.1
 
 ### Patch Changes
