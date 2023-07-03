@@ -37,7 +37,7 @@ export default defineConfig({
           entry,
           name: 'react-three-map',
           formats: isES ? ['es'] : ['cjs'],
-          fileName: 'main.js',
+          fileName: 'main',
         },
         outDir,
         rollupOptions: {
