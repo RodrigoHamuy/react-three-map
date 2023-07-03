@@ -18,9 +18,7 @@ export interface StoryMapProps extends PropsWithChildren {
 }
 
 /** `<Map>` styled for stories */
-export const StoryMap: FC<StoryMapProps> = ({
-  latitude, longitude, zoom = 13, pitch = 60, children
-}) => {
+export const StoryMap: FC<StoryMapProps> = (props) => {
 
   const { mapProvider } = useControls({
     mapProvider: {
@@ -30,14 +28,8 @@ export const StoryMap: FC<StoryMapProps> = ({
     },
   });
 
-  const props : StoryMapProps = { latitude, longitude, zoom, pitch, children};
-
   return <div style={{ height: '100vh', position: 'relative' }}>
-    {mapProvider === MapProvider.maplibre && <StoryMaplibre {...props}>
-      {children}
-    </StoryMaplibre>}
-    {mapProvider === MapProvider.mapbox && <StoryMapbox {...props}>
-      {children}
-    </StoryMapbox>}
+    {mapProvider === MapProvider.maplibre && <StoryMaplibre {...props} />}
+    {mapProvider === MapProvider.mapbox && <StoryMapbox {...props} />}
   </div>
 }

@@ -1,12 +1,11 @@
 import { Box, Plane, useHelper } from "@react-three/drei";
 import { MeshProps, useFrame, useThree } from '@react-three/fiber';
-import { useControls } from "leva";
 import { useCallback, useRef, useState } from 'react';
 import { CameraHelper, MathUtils, Mesh, OrthographicCamera } from "three";
 
-export function MyScene() {
+export function MyScene({ showCamHelper }: { showCamHelper?: boolean }) {
   return <>
-    <Lights />
+    <Lights showCamHelper={showCamHelper} />
     <Floor />
     <MyBox position={[-8 * 3, 8 * 1.5, 0]} />
     <MyBox position={[8 * 3, 8 * 1.5, 0]} />
@@ -52,15 +51,9 @@ function MyBox(props: MeshProps) {
     </Box>
   );
 }
-function Lights() {
+function Lights({ showCamHelper }: { showCamHelper?: boolean }) {
   const cam = useRef<OrthographicCamera>(null);
   const noCam = useRef<OrthographicCamera>(null);
-  const { showCamHelper } = useControls({
-    showCamHelper: {
-      value: false,
-      label: 'show camera helper'
-    }
-  });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
   const camSize = 100;

@@ -6,12 +6,17 @@ import { StoryMap } from "./story-map";
 export function Default() {
 
   const [hovered, hover] = useState(false);
-  
+
   const ref = useRef<HTMLDivElement>(null)
 
   return <div ref={ref} style={{ height: '100vh', position: 'relative' }}>
     <style>{`.stats{position:absolute !important}`}</style>
-    <StoryMap latitude={51} longitude={0} canvas={{ frameloop: 'demand' }}>
+    <StoryMap
+      latitude={51}
+      longitude={0}
+      zoom={13}
+      pitch={60}
+      canvas={{ frameloop: 'demand' }}>
       <Box
         args={[500, 500, 500]}
         position={[0, 250, 0]}
