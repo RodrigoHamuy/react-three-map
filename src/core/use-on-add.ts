@@ -1,9 +1,9 @@
 import { RenderProps, createRoot } from "@react-three/fiber";
 import { useState } from "react";
 import { createEvents } from "./create-events";
+import { MapInstance } from "./generic-map";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
-import { MapInstance } from "./generic-map";
 
 export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>) {
 

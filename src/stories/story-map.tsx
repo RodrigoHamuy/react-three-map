@@ -26,6 +26,7 @@ export const StoryMap: FC<StoryMapProps> = ({
     mapProvider: {
       value: MapProvider.maplibre,
       options: MapProvider,
+      label: 'map provider'
     },
   });
 

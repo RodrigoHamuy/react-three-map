@@ -10,7 +10,7 @@ export function Default() {
 
   return <StoryMap latitude={51} longitude={0} zoom={13}>
     <Canvas latitude={51} longitude={0} frameloop="demand">
-      <Html>ola</Html>
+      <Html center position={[0, 250, 0]} style={{ textAlign: 'center', fontSize: '2em', width: '10em', lineHeight: '1.5em' }}><i>Some</i> <b>HTML</b><br />content!</Html>
       <Box
         args={[500, 500, 500]}
         position={[0, 250, 0]}

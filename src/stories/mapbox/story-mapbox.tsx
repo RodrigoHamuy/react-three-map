@@ -2,17 +2,22 @@ import { ThemeState, useLadleContext } from '@ladle/react';
 import { useControls } from 'leva';
 import Mapbox from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import Map from 'react-map-gl';
-import { StoryMapProps } from '../story-map';
 import { Canvas } from 'react-three-map';
+import { StoryMapProps } from '../story-map';
 
 /** `<Map>` styled for stories */
 export const StoryMapbox: FC<StoryMapProps> = ({
   latitude, longitude, zoom = 18, pitch = 60, canvas, children
 }) => {
 
-  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '' })
+  const { mapboxToken } = useControls({
+    mapboxToken: {
+      value: import.meta.env.VITE_MAPBOX_TOKEN || '',
+      label: 'mapbox token',
+    }
+  })
 
   const theme = useLadleContext().globalState.theme;
 
@@ -23,7 +28,7 @@ export const StoryMapbox: FC<StoryMapProps> = ({
   Mapbox.accessToken = mapboxToken;
 
   return <div style={{ height: '100vh', position: 'relative' }}>
-    {!mapboxToken && <>Add a mapbox token to load this component</>}
+    {!mapboxToken && <Center>Add a mapbox token to load this component</Center>}
     {!!mapboxToken && <Map
       antialias
       initialViewState={{
@@ -41,3 +46,13 @@ export const StoryMapbox: FC<StoryMapProps> = ({
     </Map>}
   </div>
 }
+
+const Center = ({ children }: PropsWithChildren) => (
+  <div style={{
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>{children}</div>
+)

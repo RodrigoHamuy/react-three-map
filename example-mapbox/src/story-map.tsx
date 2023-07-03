@@ -17,7 +17,12 @@ export const StoryMap: FC<StoryMapProps> = ({
   latitude, longitude, zoom = 18, pitch = 60, children
 }) => {
 
-  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '' })
+  const { mapboxToken } = useControls({
+    mapboxToken: {
+      value: import.meta.env.VITE_MAPBOX_TOKEN || '',
+      label: 'mapbox token',
+    }
+  })
 
   const theme = useLadleContext().globalState.theme;
 
@@ -28,7 +33,7 @@ export const StoryMap: FC<StoryMapProps> = ({
   Mapbox.accessToken = mapboxToken;
 
   return <div style={{ height: '100vh', position: 'relative' }}>
-    {!mapboxToken && <>Add a mapbox token to load this component</>}
+    {!mapboxToken && <Center>Add a mapbox token to load this component</Center>}
     {mapboxToken && <Map
       antialias
       initialViewState={{
@@ -44,3 +49,13 @@ export const StoryMap: FC<StoryMapProps> = ({
     </Map>}
   </div>
 }
+
+const Center = ({ children }: PropsWithChildren) => (
+  <div style={{
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>{children}</div>
+)

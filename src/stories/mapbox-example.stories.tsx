@@ -2,7 +2,7 @@ import { useFrame, Vector3 } from "@react-three/fiber";
 import { useControls } from "leva";
 import Mapbox from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { FC, useRef, useState } from "react";
+import { FC, PropsWithChildren, useRef, useState } from "react";
 import Map from 'react-map-gl';
 import { Canvas } from "react-three-map";
 import { Mesh } from "three";
@@ -11,12 +11,17 @@ export default { title: 'Canvas' }
 
 export function MapboxExample() {
 
-  const { mapboxToken } = useControls({ mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '' })
+  const { mapboxToken } = useControls({
+    mapboxToken: {
+      value: import.meta.env.VITE_MAPBOX_TOKEN || '',
+      label: 'mapbox token',
+    }
+  })
 
   Mapbox.accessToken = mapboxToken;
 
   return <div style={{ height: '100vh' }}>
-    {!mapboxToken && <>Add a mapbox token to load this component</>}
+    {!mapboxToken && <Center>Add a mapbox token to load this component</Center>}
     {!!mapboxToken && <Map
       antialias
       initialViewState={{
@@ -40,6 +45,16 @@ export function MapboxExample() {
     </Map>}
   </div>
 }
+
+const Center = ({ children }: PropsWithChildren) => (
+  <div style={{
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>{children}</div>
+)
 
 const Box: FC<{ position: Vector3 }> = (props) => {
   // This reference gives us direct access to the THREE.Mesh object

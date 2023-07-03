@@ -25,7 +25,7 @@ export function Default() {
         <Stats className="stats" parent={ref} />
       </Canvas>
     </StoryMap>
-    <div style={{ position: 'absolute', top: 0, right: 0, left: 80, background: '#ffffffc2', padding: 5 }}>
+    <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, background: '#ffffffc2', padding: '15px 20px 40px' }}>
       Hover over the box, it will only render once to change colour, or when you move the camera. Look at the stats to confirm.
     </div>
   </div>
