@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.3.1
+
+### Patch Changes
+
+- 39acb3b: Fix build typo and add more detailed peer dependencies.
+
 ## 0.3.0
 
 ### Minor Changes
