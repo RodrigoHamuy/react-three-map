@@ -1,6 +1,8 @@
 # React Three Map
 
-[![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/@react-three/fiber)
+[![Version](https://img.shields.io/npm/v/react-three-map)](https://npmjs.com/package/@react-three/fiber)
+[![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size)](https://bundlephobia.com/result?p=react-three-map)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/RodrigoHamuy/react-three-map/release.yml?branch=main)](https://github.com/RodrigoHamuy/react-three-map/actions?query=workflow%3Arelease)
 
 `react-three-map` is a bridge to use [`react-three-fiber`](https://github.com/pmndrs/react-three-fiber) inside [`react-map-gl`](https://github.com/visgl/react-map-gl).
 
@@ -11,7 +13,7 @@ Until now you had:
 | Mapbox GL JS | react-map-gl |
 | THREE.js | react-three-fiber |
 
-Now with `react-three-map`, you can use them together :fist_right::fist_left:.
+Now with `react-three-map`, you can use them together :fist_right::star::fist_left:.
 
 ```sh
 npm install react-three-map
@@ -19,7 +21,7 @@ npm install react-three-map
 
 ## :book: Examples
 
-You can check our examples here [here](https://rodrigohamuy.github.io/react-three-map) (powered by [Ladle](https://ladle.dev/)).
+Check out our examples [here](https://rodrigohamuy.github.io/react-three-map) (powered by [Ladle](https://ladle.dev/)).
 
 ## :mag: What does it look like?
 
@@ -115,7 +117,7 @@ It shares most of the props from R3F `<Canvas>`, so you can check them directly 
 
 #### Render Props
 
-| PROP       | DESCRIPTION                                      | DEFAULT    |
+| Prop       | Description                                      | Default    |
 | ---------  | ------------------------------------------------ | ---------- |
 | latitude   | The latitude coordinate where to add the scene.  |            |
 | longitude  | The longitude coordinate where to add the scene. |            |
