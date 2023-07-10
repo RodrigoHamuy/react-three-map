@@ -1,4 +1,4 @@
-# React Three Map
+# ![logo](public/favicon.svg)React Three Map
 
 [![Repository](https://img.shields.io/static/v1?&message=github&style=flat&colorA=000000&colorB=000000&label=&logo=github&logoColor=ffffff)](https://github.com/RodrigoHamuy/react-three-map)
 [![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-three-map)
