@@ -12,15 +12,22 @@ export const Provider: GlobalProvider = ({ children }) => {
     header.parentElement.classList.toggle('hide')
   }, [])
 
+  const hide = useCallback((e: any)=>{
+    if (!header.parentElement) return;
+    if(e.target.nodeName !== 'A') return;
+    header.parentElement.classList.add('hide')
+  }, [])
+
   useEffect(() => {
     const container = document.querySelector('.ladle-aside');
     if (!container) return;
     container.prepend(header);
     container.classList.add('hide');
+    container.addEventListener('click', hide)
     return () => {
       header.remove();
+      container.removeEventListener('click', hide)
     }
-
   }, [])
   return <>
     {createPortal(<Header toggle={toggle} />, header)}
