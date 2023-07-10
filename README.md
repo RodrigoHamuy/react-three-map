@@ -1,8 +1,10 @@
-# React Three Map
+# ![logo](public/favicon.svg)React Three Map
 
-[![Version](https://img.shields.io/npm/v/react-three-map)](https://npmjs.com/package/@react-three/fiber)
-[![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size)](https://bundlephobia.com/result?p=react-three-map)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/RodrigoHamuy/react-three-map/release.yml?branch=main)](https://github.com/RodrigoHamuy/react-three-map/actions?query=workflow%3Arelease)
+[![Repository](https://img.shields.io/static/v1?&message=github&style=flat&colorA=000000&colorB=000000&label=&logo=github&logoColor=ffffff)](https://github.com/RodrigoHamuy/react-three-map)
+[![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-three-map)
+[![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size&?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=react-three-map)
+[![Stories](https://img.shields.io/badge/stories-stories?colorA=000&colorB=000000&logo=maplibre)](https://rodrigohamuy.github.io/react-three-map/?story=canvas--a-maplibre-example)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/RodrigoHamuy/react-three-map/release.yml?branch=main&style=flat&colorA=000000)](https://github.com/RodrigoHamuy/react-three-map/actions?query=workflow%3Arelease)
 
 `react-three-map` is a bridge to use [`react-three-fiber`](https://github.com/pmndrs/react-three-fiber) inside [`react-map-gl`](https://github.com/visgl/react-map-gl).
 
