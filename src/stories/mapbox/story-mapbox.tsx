@@ -9,7 +9,7 @@ import { StoryMapProps } from '../story-map';
 
 /** `<Map>` styled for stories */
 export const StoryMapbox: FC<StoryMapProps> = ({
-  latitude, longitude, zoom = 18, pitch = 60, canvas, children
+  latitude, longitude, canvas, children, ...rest
 }) => {
 
   const { mapboxToken } = useControls({
@@ -31,12 +31,8 @@ export const StoryMapbox: FC<StoryMapProps> = ({
     {!mapboxToken && <Center>Add a mapbox token to load this component</Center>}
     {!!mapboxToken && <Map
       antialias
-      initialViewState={{
-        latitude,
-        longitude,
-        zoom,
-        pitch,
-      }}
+      initialViewState={{ latitude, longitude, ...rest}}
+      maxPitch={rest.pitch ? Math.min(rest.pitch, 85) : undefined}
       mapStyle={mapStyle}
       mapboxAccessToken={mapboxToken}
     >

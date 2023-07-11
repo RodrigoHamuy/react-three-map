@@ -8,7 +8,7 @@ import { Canvas } from 'react-three-map/maplibre';
 
 /** Maplibre `<Map>` styled for stories */
 export const StoryMaplibre: FC<StoryMapProps> = ({
-  latitude, longitude, zoom, pitch, canvas, children
+  latitude, longitude, canvas, children, ...rest
 }) => {
 
   const theme = useLadleContext().globalState.theme;
@@ -21,7 +21,8 @@ export const StoryMaplibre: FC<StoryMapProps> = ({
     <Map
       mapLib={MapLibre}
       antialias
-      initialViewState={{ latitude, longitude, zoom, pitch, }}
+      initialViewState={{ latitude, longitude, ...rest}}
+      maxPitch={rest.pitch ? Math.min(rest.pitch, 85) : undefined}
       mapStyle={mapStyle}
     >
       <Canvas latitude={latitude} longitude={longitude} {...canvas}>
