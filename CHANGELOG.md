@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.3.2
+
+### Patch Changes
+
+- b169844: Bug fix related to DPR devices and pointer events.
+
 ## 0.3.1
 
 ### Patch Changes
