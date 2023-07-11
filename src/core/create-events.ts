@@ -24,10 +24,10 @@ export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
       priority: 1,
       enabled: true,
       compute(event: DomEvent, state: RootState) {
-        state.size.width = state.gl.domElement.width;
-        state.size.height = state.gl.domElement.height;
-        state.pointer.x = (event.offsetX / (state.size.width / window.devicePixelRatio)) * 2 - 1;
-        state.pointer.y = 1 - (event.offsetY / (state.size.height / window.devicePixelRatio)) * 2;
+        state.size.width = state.gl.domElement.width / window.devicePixelRatio;
+        state.size.height = state.gl.domElement.height / window.devicePixelRatio;
+        state.pointer.x = (event.offsetX / state.size.width) * 2 - 1;
+        state.pointer.y = 1 - (event.offsetY / state.size.height) * 2;
         state.raycaster.camera = state.camera;
         state.raycaster.ray.origin.setScalar(0).applyMatrix4(state.camera.projectionMatrixInverse);
         state.raycaster.ray.direction
