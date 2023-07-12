@@ -2,6 +2,6 @@
   "internal": true,
   "main": "../dist/maplibre/cjs/main.js",
   "module": "../dist/maplibre/es/main.mjs",
-  "types": "../src/maplibre/index.ts",
+  "types": "../dist/maplibre/index.d.ts",
   "sideEffects": false
 }

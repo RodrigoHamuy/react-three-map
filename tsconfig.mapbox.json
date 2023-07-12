@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.types.json",
+  "compilerOptions": {
+    "outFile": "dist/index.d.ts"
+  },
+  "include": ["src/maplibre", "src/core"],
+}

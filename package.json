@@ -4,7 +4,7 @@
   "description": "Use react-three-fiber inside MapLibre and Mapbox",
   "main": "dist/cjs/main.js",
   "module": "dist/es/main.mjs",
-  "types": "src/mapbox/index.ts",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "repository": "https://github.com/RodrigoHamuy/react-three-map",
   "homepage": "https://github.com/RodrigoHamuy/react-three-map",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "author": "RodrigoHamuy",
   "scripts": {
-    "prebuild": "tsc",
+    "prebuild": "tsc --project tsconfig.mapbox.json && tsc --project tsconfig.maplibre.json",
     "build": "yarn build:maplibre && yarn build:mapbox",
     "build:maplibre": "cross-env LIB_MODE=1 MAP_MODE=0 vite build",
     "postbuild:maplibre": "cross-env LIB_MODE=2 MAP_MODE=0 vite build",
@@ -24,6 +24,7 @@
     "lint": "eslint src example-maplibre/src example-mapbox/src --ext ts,tsx --fix",
     "preview": "vite preview",
     "ts": "tsc -w",
+    "ts:check": "tsc",
     "stories": "yarn ladle serve",
     "build:stories": "yarn ladle build"
   },

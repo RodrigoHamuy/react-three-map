@@ -23,5 +23,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
+      - name: TS Check
+        run: yarn ts:check
+
       - name: Build
         run: yarn build
