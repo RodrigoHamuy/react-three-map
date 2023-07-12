@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.types.json",
+  "compilerOptions": {
+    "outDir": "dist/maplibre/types",
+  },
+  "include": ["src/maplibre.index.ts"],
+}
