@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.3.3
+
+### Patch Changes
+
+- 7e94458: Generate types declarations.
+
 ## 0.3.2
 
 ### Patch Changes
