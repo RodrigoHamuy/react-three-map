@@ -14,6 +14,7 @@ export interface StoryMapProps extends PropsWithChildren {
   longitude: number,
   zoom?: number,
   pitch?: number,
+  bearing?: number,
   canvas?: Partial<CanvasProps>,
 }
 
