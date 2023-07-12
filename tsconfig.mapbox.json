@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.types.json",
+  "compilerOptions": {
+    "outDir": "dist/types"
+  },
+  "include": ["src/mapbox.index.ts"],
+}

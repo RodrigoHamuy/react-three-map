@@ -11,3 +11,9 @@ yarn-error.log
 public
 node_modules
 build
+src
+docs
+example-mapbox
+example-maplibre
+tsconfig.json
+tsconfig.*.json
