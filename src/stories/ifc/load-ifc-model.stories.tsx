@@ -1,5 +1,5 @@
 import { Plane } from "@react-three/drei";
-import { button, useControls } from "leva";
+import { button, folder, useControls } from "leva";
 import { Suspense, useState } from "react";
 import { suspend } from 'suspend-react';
 import { MathUtils } from "three";
@@ -21,21 +21,68 @@ export function Default() {
     }
   })
 
-  useControls({ 'load IFC file': button(() => loadIfcClick()) })
+  useControls({
+    'load IFC file': button(() => loadIfcClick())
+  })
 
-  return <StoryMap latitude={51.508775} longitude={-0.1261} zoom={20} pitch={75} bearing={-45}>
-    <hemisphereLight
-      args={["#ffffff", "#60666C"]}
-      position={[1, 4.5, 3]}
-    />
-    <Suspense fallback={<Plane
-      args={[7, 16]}
+  const { latitude, longitude, position } = useControls({
+    coords: folder({
+      latitude: {
+        value: 51.508775,
+        pad: 6,
+      },
+      longitude: {
+        value: -0.1261,
+        pad: 6,
+      },
+    }),
+    position: {
+      value: {x: 0, y: .32, z: 0},
+      step: 1,
+      pad: 2,
+    },
+  })
+
+  return <StoryMap latitude={latitude} longitude={longitude} zoom={20} pitch={75} bearing={-45} canvas={{shadows: true}}>
+    <Lights />
+    <Plane
+      args={[200, 200]}
+      position={[0, 0, 0]}
       rotation={[-90 * MathUtils.DEG2RAD, 0, 0]}
-      material-color="#cccccc"
-    />}>
-      <IfcModel path={path} />
-    </Suspense>
+      receiveShadow
+    >      
+      <shadowMaterial opacity={.5} />
+    </Plane>
+    <object3D position={[position.x, position.y, position.z]}>
+      <Suspense fallback={<Plane
+        args={[7, 16]}
+        rotation={[-90 * MathUtils.DEG2RAD, 0, 0]}
+        material-color="#cccccc"
+      />}>
+        <IfcModel path={path} />
+      </Suspense>
+    </object3D>
   </StoryMap>
+}
+
+function Lights() {
+  const camSize = 50;
+  return <>
+    <ambientLight intensity={0.5} />
+    <directionalLight
+      castShadow
+      position={[2.5, 50, 5]}
+      intensity={1.5}
+      shadow-mapSize={1024}
+    >
+      <orthographicCamera
+        attach="shadow-camera"
+        args={[-camSize, camSize, -camSize, camSize, 0.1, 100]}
+      />
+    </directionalLight>
+    <pointLight position={[-10, 0, -20]} color="white" intensity={1} />
+    <pointLight position={[0, -10, 0]} intensity={1} />
+  </>
 }
 
 interface IfcModelProps {
@@ -58,10 +105,9 @@ function loadIFC(path: string) {
   return new Promise<IFCModel>((resolve, reject) => {
     const loader = new IFCLoader();
     loader.load(path, e => {
+      e.castShadow = true;
       resolve(e)
-    }, undefined, e => {
-      reject(e)
-    });
+    }, undefined, reject);
   })
 }
 
