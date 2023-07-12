@@ -12,7 +12,7 @@ const isES = libMode === 1;
 
 const isMaplibre = mapProvider === 0;
 
-const entry = `src/${isMaplibre ? 'maplibre' : 'mapbox'}/index.ts`;
+const entry = `src/${isMaplibre ? 'maplibre' : 'mapbox'}.index.ts`;
 
 let outDir = isMaplibre ? 'dist/maplibre' : 'dist';
 
@@ -26,8 +26,8 @@ export default defineConfig({
       base: '',
       resolve: {
         alias: {
-          'react-three-map/maplibre': resolve(__dirname, './src/maplibre/index.ts'),
-          'react-three-map': resolve(__dirname, './src/mapbox/index.ts'),
+          'react-three-map/maplibre': resolve(__dirname, './src/maplibre.index.ts'),
+          'react-three-map': resolve(__dirname, './src/mapbox.index.ts'),
         }
       }
     }

@@ -15,8 +15,8 @@
     "jsx": "react-jsx",
 
     "paths": {
-      "react-three-map": ["./src/mapbox/index.ts"],
-      "react-three-map/maplibre": ["./src/maplibre/index.ts"],
+      "react-three-map": ["./src/mapbox.index.ts"],
+      "react-three-map/maplibre": ["./src/maplibre.index.ts"],
     },
 
     /* Linting */
