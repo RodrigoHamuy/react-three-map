@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.3.4
+
+### Patch Changes
+
+- 4dd8a72: Fix types declaration path.
+
 ## 0.3.3
 
 ### Patch Changes
