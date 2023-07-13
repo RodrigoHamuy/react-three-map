@@ -10,10 +10,10 @@
 
 Until now you had:
 
-| imperative | declarative (react) |
-| --- | --- |
-| Mapbox GL JS | react-map-gl |
-| THREE.js | react-three-fiber |
+| imperative | declarative (react)    |
+| --------------- | ----------------- |
+| Maplibre/Mapbox | react-map-gl      |
+| THREE.js        | react-three-fiber |
 
 Now with `react-three-map`, you can use them together :fist_right::star::fist_left:.
 
