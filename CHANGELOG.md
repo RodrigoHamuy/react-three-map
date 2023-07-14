@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.3.5
+
+### Patch Changes
+
+- 9b1c068: Fix camera matrix calculations.
+
 ## 0.3.4
 
 ### Patch Changes
