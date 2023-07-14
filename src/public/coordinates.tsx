@@ -1,10 +1,11 @@
-import { PropsWithChildren, memo, useContext, useState } from "react";
-import { canvasContext } from "../core/context";
-import { useCoords } from "../core/use-coords";
-import { Matrix4Tuple, PerspectiveCamera, Scene } from "three";
+import { PerspectiveCamera as DreiPerspectiveCamera } from "@react-three/drei";
 import { createPortal, useFrame, useThree } from "@react-three/fiber";
+import { PropsWithChildren, memo, useContext, useLayoutEffect, useState } from "react";
+import { Matrix4Tuple, PerspectiveCamera, Scene } from "three";
+import { canvasContext } from "../core/context";
 import { StateRef } from "../core/state-ref";
 import { syncCamera } from "../core/sync-camera";
+import { useCoords } from "../core/use-coords";
 
 export interface CoordinatesProps extends PropsWithChildren {
   longitude: number,
@@ -27,6 +28,7 @@ export const Coordinates = memo<CoordinatesProps>(({
 
   return <>{createPortal(<>
     <RenderAtCoords stateRef={stateRef} origin={origin} />
+    <DreiPerspectiveCamera makeDefault matrixAutoUpdate={false} />
     {children}
   </>, scene, { events: { priority: 2 } })}</>
 })
@@ -40,20 +42,23 @@ interface RenderAtCoordsProps {
 
 function RenderAtCoords({ stateRef, origin }: RenderAtCoordsProps) {
 
-  const { gl, scene } = useThree()
-
-  const [camera] = useState(() => {
-    const cam = new PerspectiveCamera();
-    cam.matrixAutoUpdate = false;
-    return cam;
-  });
+  const { gl, scene, camera, set } = useThree()
 
   useFrame(() => {
     if (!stateRef.current?.mapCamMx) return;
-    syncCamera(camera, origin, stateRef.current.mapCamMx);
+    syncCamera(camera as PerspectiveCamera, origin, stateRef.current.mapCamMx);
     gl.clearDepth();
     gl.render(scene, camera);
   })
+
+  useLayoutEffect(() => {
+    set({
+      invalidate: () => {
+        if (!stateRef.current) return;
+        stateRef.current.map.triggerRepaint();
+      }
+    })
+  }, [])
 
   return <></>
 }
