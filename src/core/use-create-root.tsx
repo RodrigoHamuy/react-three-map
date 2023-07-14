@@ -1,16 +1,18 @@
 import { RenderProps } from "@react-three/fiber";
-import { PropsWithChildren, useEffect, useId, useRef } from "react";
+import { Context, PropsWithChildren, useEffect, useId, useRef } from "react";
 import { Matrix4Tuple } from "three";
 import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
 import { useRender } from "./use-render";
+import { CanvasContext } from "./context";
 
 export interface useCanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
   frameloop: 'always' | 'demand',
   m4: Matrix4Tuple;
+  context: Context<CanvasContext>
 }
 
-export const useCanvas = (({
+export const useCreateRoot = (({
   m4, children, frameloop, ...renderProps
 }: useCanvasProps) => {
   const id = useId();
