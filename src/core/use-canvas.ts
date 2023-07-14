@@ -1,9 +1,8 @@
-import { createContext, useMemo, useState } from "react";
-import { CanvasProps } from "./canvas-props";
-import { CanvasContext } from "./context";
-import { coordsToMatrix } from "./coords-to-matrix";
+import { CanvasProps } from "../public/canvas-props";
 import { FromLngLat } from "./generic-map";
+import { useCoords } from "./use-coords";
 import { useCreateRoot } from "./use-create-root";
+import { useRender } from "./use-render";
 
 export interface useCanvasProps extends CanvasProps {
   fromLngLat: FromLngLat,
@@ -16,13 +15,13 @@ export function useCanvas({
   ...renderProps
 }: useCanvasProps) {
 
-  const [context] = useState(() => createContext<CanvasContext>({ fromLngLat }));
-
-  const m4 = useMemo(() => coordsToMatrix({
+  const m4 = useCoords({
     latitude, longitude, altitude, fromLngLat,
-  }), [latitude, longitude, altitude]);
-
-  const { id, onAdd, onRemove, render } = useCreateRoot({ m4, frameloop, context, ...renderProps });
+  });
+    
+  const { id, onAdd, onRemove, stateRef } = useCreateRoot({ frameloop, fromLngLat, ...renderProps });
+  
+  const render = useRender(m4, stateRef, frameloop);
 
   return { id, onAdd, onRemove, render }
 }

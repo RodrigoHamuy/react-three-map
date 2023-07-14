@@ -2,7 +2,7 @@ import { useControls } from 'leva';
 import { FC, PropsWithChildren } from "react";
 import { StoryMapbox } from './mapbox/story-mapbox';
 import { StoryMaplibre } from './maplibre/story-maplibre';
-import { CanvasProps } from '../maplibre/canvas';
+import { CanvasProps } from '../public/canvas-props';
 
 export enum MapProvider {
   maplibre = "maplibre",

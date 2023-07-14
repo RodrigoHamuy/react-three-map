@@ -1,33 +1,34 @@
 import { RenderProps } from "@react-three/fiber";
-import { Context, PropsWithChildren, useEffect, useId, useRef } from "react";
-import { Matrix4Tuple } from "three";
+import { PropsWithChildren, useEffect, useId, useRef, useState } from "react";
+import { canvasContext } from "./context";
+import { FromLngLat } from "./generic-map";
 import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
-import { useRender } from "./use-render";
-import { CanvasContext } from "./context";
 
 export interface useCanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
   frameloop: 'always' | 'demand',
-  m4: Matrix4Tuple;
-  context: Context<CanvasContext>
+  fromLngLat: FromLngLat
 }
 
 export const useCreateRoot = (({
-  m4, children, frameloop, ...renderProps
+  children, frameloop, fromLngLat, ...renderProps
 }: useCanvasProps) => {
+  
   const id = useId();
 
   const stateRef: StateRef = useRef();
 
-  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
+  const [contextValue] = useState(()=>({stateRef, fromLngLat}))
 
-  const render = useRender(m4, stateRef, frameloop);
+  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
 
   useEffect(() => {
     if (!mounted) return;
     if (!stateRef.current) return;
-    stateRef.current.root.render(<>{children}</>);
+    stateRef.current.root.render(<canvasContext.Provider value={contextValue}>
+      {children}
+    </canvasContext.Provider>);
   }, [stateRef, mounted, children])
 
-  return { id, onAdd, onRemove, render }
+  return { id, onAdd, onRemove, stateRef }
 })

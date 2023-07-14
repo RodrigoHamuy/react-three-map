@@ -5,7 +5,10 @@ import { MapInstance } from "./generic-map";
 import { StateRef } from "./state-ref";
 import { useFunction } from "./use-function";
 
-export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>) {
+export function useOnAdd(
+  ref: StateRef,
+  { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>
+  ) {
 
   const [mounted, setMounted] = useState(false);
 
