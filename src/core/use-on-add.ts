@@ -44,11 +44,10 @@ export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderPro
 
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         state.gl.forceContextLoss = () => { };
-
-        // we update the camera on create rather than on config
-        // because otherwise some components may use it too early
-        // and get NaN values they can't recover from (drei HTML)
-        state.camera.matrixAutoUpdate = false;
+        
+      },
+      camera: {
+        matrixAutoUpdate: false,
       },
       size: {
         width: canvas.clientWidth,
