@@ -1,36 +1,49 @@
 import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
+import { useControls } from "leva";
 import { useState } from "react";
+import { ColorRepresentation } from "three";
 import { Coordinates } from "../public/coordinates";
 import { StoryMap } from "./story-map";
-import { ColorRepresentation } from "three";
-import { useControls } from "leva";
 
 export function Default() {
 
-  const { green, blue } = useControls({
+  const { blue, green, purple } = useControls({
+    blue: {
+      value: [-0.1261, 51.508775],
+      pad: 6,
+      step: 0.000001,
+    },
     green: {
       value: [-0.1261, 51.508775],
       pad: 6,
-      step: 0.00001,
+      step: 0.000001,
     },
-    blue: {
-      value: [-0.1261, 51.5087],
+    purple: {
+      value: [-0.1261, 51.508756],
       pad: 6,
-      step: 0.00001,
-    }
+      step: 0.000001,
+    },
+    gPrio: -1,
+    pPrio: -2,
   })
 
   return <StoryMap
-    longitude={green[0]}
-    latitude={green[1]}
+    longitude={blue[0]}
+    latitude={blue[1]}
     zoom={20}
     pitch={60}
     canvas={{ frameloop: 'demand' }}>
-    <MyBox position={[0, 1, 0]} color="green" />
+    <MyBox position={[2, 1, 0]} color="blue" />
     <Coordinates
-      longitude={blue[0]}
-      latitude={blue[1]}
+      longitude={green[0]}
+      latitude={green[1]}
+    >
+      <MyBox position={[0, 1, 0]} color="green" />
+    </Coordinates>
+    <Coordinates
+      longitude={purple[0]}
+      latitude={purple[1]}
     >
       <MyBox position={[0, 1, 0]} color="purple" />
     </Coordinates>
@@ -44,8 +57,7 @@ const MyBox = ({ position, color }: { position: Vector3, color: ColorRepresentat
     position={position}
     onPointerOver={() => hover(true)}
     onPointerOut={() => hover(false)}
-    material-transparent
+    scale={hovered ? 1.5 : 1}
     material-color={color}
-    material-opacity={hovered ? 1 : 0.5}
   />
 }

@@ -37,7 +37,7 @@ Coordinates.displayName = 'Coordinates';
 
 interface RenderAtCoordsProps {
   stateRef: StateRef,
-  origin: Matrix4Tuple,
+  origin: Matrix4Tuple
 }
 
 function RenderAtCoords({ stateRef, origin }: RenderAtCoordsProps) {
@@ -47,7 +47,6 @@ function RenderAtCoords({ stateRef, origin }: RenderAtCoordsProps) {
   useFrame(() => {
     if (!stateRef.current?.mapCamMx) return;
     syncCamera(camera as PerspectiveCamera, origin, stateRef.current.mapCamMx);
-    gl.clearDepth();
     gl.render(scene, camera);
   })
 
