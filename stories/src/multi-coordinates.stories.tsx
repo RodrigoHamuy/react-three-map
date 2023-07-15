@@ -24,8 +24,6 @@ export function Default() {
       pad: 6,
       step: 0.000001,
     },
-    gPrio: -1,
-    pPrio: -2,
   })
 
   return <StoryMap

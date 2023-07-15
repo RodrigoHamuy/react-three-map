@@ -46,10 +46,10 @@ const Header = memo<HeaderProps>(({ toggle }) => {
     <div style={{ paddingBottom: 15 }} className="story-header">
       <p>R3F inside Mapbox & Maplibre</p>
       <div style={{ display: 'inline-grid', gap: 10, gridTemplateColumns: 'repeat(2,auto' }}>
-        <a href="https://github.com/RodrigoHamuy/react-three-map" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/RodrigoHamuy/react-three-map">
           <img src="https://img.shields.io/static/v1?&message=github&style=flat&colorA=000000&colorB=000000&label=&logo=github&logoColor=ffffff" alt="react-three-map repository" />
         </a>
-        <a href="https://www.npmjs.com/package/react-three-map" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.npmjs.com/package/react-three-map">
           <img src={`https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000&logo=npm`} alt="react-three-map NPM package" />
         </a>
       </div>

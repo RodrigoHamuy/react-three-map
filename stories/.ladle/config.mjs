@@ -13,7 +13,7 @@ export default {
       enabled: false,
     },
     mode: {
-      enabled: false,
+      enabled: true,
     },
     rtl: {
       enabled: false,
