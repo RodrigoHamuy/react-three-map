@@ -3,7 +3,7 @@ import { Vector3 } from "@react-three/fiber";
 import { useControls } from "leva";
 import { useState } from "react";
 import { ColorRepresentation } from "three";
-import { Coordinates } from "../public/coordinates";
+import { Coordinates } from "react-three-map";
 import { StoryMap } from "./story-map";
 
 export function Default() {
