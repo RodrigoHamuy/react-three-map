@@ -57,7 +57,7 @@ function RenderAtCoords({ stateRef, origin }: RenderAtCoordsProps) {
         stateRef.current.map.triggerRepaint();
       }
     })
-  }, [])
+  }, [set, stateRef])
 
   return <></>
 }

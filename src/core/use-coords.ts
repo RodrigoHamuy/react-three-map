@@ -7,7 +7,7 @@ type Props = Parameters<typeof coordsToMatrix>[0];
 export function useCoords({latitude, longitude, altitude, fromLngLat}: Props) {
   const m4 = useMemo(() => coordsToMatrix({
     latitude, longitude, altitude, fromLngLat,
-  }), [latitude, longitude, altitude]);
+  }), [latitude, longitude, altitude, fromLngLat]);
 
   return m4;
 }

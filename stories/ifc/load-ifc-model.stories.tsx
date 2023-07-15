@@ -1,11 +1,10 @@
 import { Plane } from "@react-three/drei";
 import { button, folder, useControls } from "leva";
-import { Suspense, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import { suspend } from 'suspend-react';
 import { MathUtils } from "three";
 import { IFCModel } from "web-ifc-three/IFC/components/IFCModel";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import { useFunction } from "../../core/use-function";
 import { StoryMap } from "../story-map";
 import modelUrl from './model.ifc?url';
 
@@ -13,13 +12,13 @@ export function Default() {
 
   const [path, setPath] = useState(modelUrl);
 
-  const loadIfcClick = useFunction(async () => {
+  const loadIfcClick = useCallback(async () => {
     try {
       setPath(await getLocalFileUrl());
     } catch (error) {
       console.warn(error);
     }
-  })
+  }, [])
 
   useControls({
     'load IFC file': button(() => loadIfcClick())

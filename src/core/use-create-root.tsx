@@ -28,7 +28,7 @@ export const useCreateRoot = (({
     stateRef.current.root.render(<canvasContext.Provider value={contextValue}>
       {children}
     </canvasContext.Provider>);
-  }, [stateRef, mounted, children])
+  }, [stateRef, mounted, children, contextValue])
 
   return { id, onAdd, onRemove, stateRef }
 })
