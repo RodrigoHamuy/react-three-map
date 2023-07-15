@@ -1,6 +1,8 @@
 import { createContext } from "react";
-import { StateRef } from "./state-ref";
 import { FromLngLat } from "./generic-map";
+import { StateRef } from "./state-ref";
+
+export type CanvasContextType = { stateRef: StateRef, fromLngLat: FromLngLat };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const canvasContext = createContext<{stateRef: StateRef, fromLngLat: FromLngLat}>(undefined as any);
+export const CanvasContext = createContext<CanvasContextType>(undefined as any);

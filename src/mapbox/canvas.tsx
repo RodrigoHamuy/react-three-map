@@ -3,7 +3,7 @@ import { MercatorCoordinate } from "mapbox-gl";
 import { memo } from "react";
 import { Layer } from "react-map-gl";
 import * as THREE from "three";
-import { CanvasProps } from "../public/canvas-props";
+import { CanvasProps } from "../api/canvas-props";
 import { useCanvas } from "../core/use-canvas";
 
 extend(THREE);

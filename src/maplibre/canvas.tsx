@@ -4,7 +4,7 @@ import { memo } from "react";
 import { Layer } from "react-map-gl/maplibre";
 import * as THREE from "three";
 import { useCanvas } from "../core/use-canvas";
-import { CanvasProps } from "../public/canvas-props";
+import { CanvasProps } from "../api/canvas-props";
 
 extend(THREE);
 

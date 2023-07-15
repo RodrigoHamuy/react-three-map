@@ -1,4 +1,4 @@
-import { CanvasProps } from "../public/canvas-props";
+import { CanvasProps } from "../api/canvas-props";
 import { FromLngLat } from "./generic-map";
 import { useCoords } from "./use-coords";
 import { useCreateRoot } from "./use-create-root";
