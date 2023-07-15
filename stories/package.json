@@ -10,13 +10,15 @@
     "@react-three/drei": "^9.78.2",
     "@react-three/fiber": "^8.13.5",
     "leva": "^0.9.35",
+    "mapbox-gl": "^2.15.0",
     "maplibre-gl": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.1.2",
     "react-three-map": "^0.3.5",
     "three": "^0.154.0",
-    "three-stdlib": "^2.23.13"
+    "three-stdlib": "^2.23.13",
+    "web-ifc-three": "^0.0.125"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
