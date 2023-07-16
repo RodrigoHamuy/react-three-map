@@ -1,13 +1,18 @@
-import { RenderProps, createRoot } from "@react-three/fiber";
-import { useState } from "react";
+import { RenderProps, _roots, createRoot } from "@react-three/fiber";
+import { useRef, useState } from "react";
 import { createEvents } from "./create-events";
-import { MapInstance } from "./generic-map";
-import { StateRef } from "./state-ref";
+import { FromLngLat, MapInstance } from "./generic-map";
+import { R3mStore } from "./store";
 import { useFunction } from "./use-function";
 
-export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>) {
+export function useOnAdd(
+  fromLngLat: FromLngLat,
+  { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>
+) {
 
   const [mounted, setMounted] = useState(false);
+
+  const r3mRef = useRef<R3mStore>({ fromLngLat });
 
   const onAdd = useFunction((map: MapInstance, gl: WebGLRenderingContext) => {
 
@@ -26,25 +31,8 @@ export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderPro
         ...renderProps?.gl,
       },
       onCreated: (state) => {
-
-        if (frameloop === 'demand') {
-          state.set({
-            frameloop,
-            invalidate: () => {
-              map.triggerRepaint();
-            }
-          })
-        }
-
-        ref.current = {
-          state,
-          map,
-          root,
-        }
-
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         state.gl.forceContextLoss = () => { };
-        
       },
       camera: {
         matrixAutoUpdate: false,
@@ -58,32 +46,35 @@ export function useOnAdd(ref: StateRef, { frameloop, ...renderProps }: RenderPro
       },
     });
 
-    ref.current = {
-      map,
-      root,
-    }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const store = _roots.get(canvas)!.store;
 
-    map.on('resize', onResize)
+    r3mRef.current.map = map;
+    r3mRef.current.root = root;
+    r3mRef.current.state = store.getState();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    store.setState({ r3m: r3mRef.current } as any);
+
+    if (frameloop === 'demand') {
+      store.setState({
+        frameloop,
+        invalidate: () => {
+          map.triggerRepaint();
+        },
+      })
+    }
 
     setTimeout(() => setMounted(true));
 
   })
 
-  const onResize = useFunction(() => {
-    if (!ref.current?.state) return;
-    const state = ref.current.state;
-    const map = ref.current.map;
-    const canvas = map.getCanvas();
-    state.setSize(canvas.width, canvas.height);
-  })
-
-  const onRemove = useFunction((map: MapInstance) => {
+  const onRemove = useFunction(() => {
     setTimeout(() => {
-      if (!ref.current) return;
-      ref.current.root.unmount();
-      map.off('resize', onResize)
+      if (!r3mRef.current.root) return;
+      r3mRef.current.root.unmount();
     })
   })
 
-  return { onAdd, onRemove, mounted };
+  return { onAdd, onRemove, mounted, r3mRef };
 }

@@ -1,0 +1,63 @@
+.ladle-main {
+  padding: 0;
+}
+
+.ladle-aside {
+  order: -1;
+  padding: 1em 1.5em;
+}
+
+header.ladle-addons {
+  max-width: 18em
+}
+
+header.ladle-addons ul {
+  flex-wrap: wrap;
+}
+
+header.ladle-addons li {
+  margin: 0.35em;
+}
+
+header.ladle-addons li:nth-of-type(4) {
+  display: none;
+}
+
+.story-menu-btn {
+  border: none;
+  background: none;
+  position: fixed;
+  right: 1rem;
+}
+
+.story-menu-btn img {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media (max-width: 767px) {
+  .ladle-aside h1 {
+    margin: 0;
+  }
+
+  .ladle-aside {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+
+  .hide.ladle-aside>*:not(:first-child) {
+    display: none;
+  }
+
+  .hide .story-header {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .story-menu-btn {
+    display: none;
+  }
+}

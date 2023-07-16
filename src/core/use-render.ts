@@ -1,23 +1,24 @@
-import { Matrix4, Matrix4Tuple } from "three";
-import { StateRef } from "./state-ref";
+import { MutableRefObject } from "react";
+import { Matrix4Tuple, PerspectiveCamera } from "three";
+import { R3mStore } from "./store";
+import { syncCamera } from "./sync-camera";
 import { useFunction } from "./use-function";
 
-const mx = new Matrix4();
-
 export function useRender(
-  m4: Matrix4Tuple, stateRef: StateRef, frameloop: 'always' | 'demand'
+  origin: Matrix4Tuple, r3mRef: MutableRefObject<R3mStore>, frameloop: 'always' | 'demand'
 ) {
 
-  const render = useFunction((_gl: WebGL2RenderingContext, matrix: number[]) => {
-    if (!stateRef.current?.state) return;
-    const camera = stateRef.current.state.camera;
-    const gl = stateRef.current.state.gl;
-    const advance = stateRef.current.state.advance;
-    camera.projectionMatrix.fromArray(matrix).multiply(mx.fromArray(m4));
-    camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+  const render = useFunction((_gl: WebGL2RenderingContext, mapCamMx: number[]) => {
+    const r3m = r3mRef.current;
+    if (!r3m.state || !r3m.map) return;
+    const camera = r3m.state.camera;
+    const gl = r3m.state.gl;
+    const advance = r3m.state.advance;
+    r3m.mapCamMx = mapCamMx as Matrix4Tuple;
+    syncCamera(camera as PerspectiveCamera, origin, mapCamMx as Matrix4Tuple);
     gl.resetState();
     advance(Date.now() * 0.001, true);
-    if (frameloop === 'always') stateRef.current.map.triggerRepaint();
+    if (frameloop === 'always') r3m.map.triggerRepaint();
   })
 
   return render;

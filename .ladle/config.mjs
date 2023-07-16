@@ -1,4 +1,5 @@
 export default {
+  stories: ["stories/src/**/*.stories.{js,jsx,ts,tsx,mdx}"],
   addons: {
     a11y: {
       enabled: false,
@@ -13,7 +14,7 @@ export default {
       enabled: false,
     },
     mode: {
-      enabled: false,
+      enabled: true,
     },
     rtl: {
       enabled: false,

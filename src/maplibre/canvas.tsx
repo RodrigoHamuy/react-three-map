@@ -1,31 +1,19 @@
-import { RenderProps, extend } from "@react-three/fiber";
+import { extend } from "@react-three/fiber";
 import { MercatorCoordinate } from "maplibre-gl";
-import { PropsWithChildren, memo, useMemo } from "react";
+import { memo } from "react";
 import { Layer } from "react-map-gl/maplibre";
 import * as THREE from "three";
-import { coordsToMatrix } from "../core/coords-to-matrix";
 import { useCanvas } from "../core/use-canvas";
+import { CanvasProps } from "../api/canvas-props";
 
 extend(THREE);
 
-export interface CanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
-  longitude: number,
-  latitude: number,
-  altitude?: number,
-  frameloop?: 'always' | 'demand',
-}
+const fromLngLat = MercatorCoordinate.fromLngLat
 
 /** react`-three-fiber` canvas inside `MapLibre` */
-export const Canvas = memo<CanvasProps>(({
-  longitude, latitude, altitude = 0,
-  frameloop = 'always', ...renderProps
-}) => {
+export const Canvas = memo<CanvasProps>((props) => {
 
-  const m4 = useMemo(() => coordsToMatrix({
-    latitude, longitude, altitude, fromLngLat: MercatorCoordinate.fromLngLat,
-  }), [latitude, longitude, altitude]);
-
-  const { id, onAdd, onRemove, render } = useCanvas({ m4, frameloop, ...renderProps });
+  const { id, onAdd, onRemove, render } = useCanvas({ ...props, fromLngLat });
 
   return <Layer
     id={id}

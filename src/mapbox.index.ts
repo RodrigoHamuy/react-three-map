@@ -1,1 +1,3 @@
 export * from './mapbox/canvas';
+export * from './api/canvas-props';
+export * from './api/coordinates';
