@@ -140,7 +140,7 @@ Therefore, the following `<Canvas>` props are ignored:
 
 ### Coordinates
 
-[![Coordinates example](docs/coordinates.png)](https://rodrigohamuy.github.io/react-three-map/?story=multi-coordinates--default--default)
+[![Coordinates example](docs/coordinates.png)](https://rodrigohamuy.github.io/react-three-map/?story=multi-coordinates--default)
 
 This component allows you to have 3D objects at different coordinates.
 
