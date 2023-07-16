@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.4.0
+
+### Minor Changes
+
+- bad8670: Add `<Coordinates>` component to render multiple 3D objects at different coordiantes.
+
 ## 0.3.5
 
 ### Patch Changes
