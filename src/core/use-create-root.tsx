@@ -1,6 +1,5 @@
 import { RenderProps } from "@react-three/fiber";
-import { PropsWithChildren, useEffect, useId, useRef, useState } from "react";
-import { CanvasContext, CanvasContextType } from "./context";
+import { PropsWithChildren, useEffect, useId, useRef } from "react";
 import { FromLngLat } from "./generic-map";
 import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
@@ -18,17 +17,15 @@ export const useCreateRoot = (({
 
   const stateRef: StateRef = useRef();
 
-  const [contextValue] = useState<CanvasContextType>(() => ({ stateRef, fromLngLat }))
-
-  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, { frameloop, ...renderProps });
+  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, fromLngLat, { frameloop, ...renderProps });
 
   useEffect(() => {
     if (!mounted) return;
     if (!stateRef.current) return;
-    stateRef.current.root.render(<CanvasContext.Provider value={contextValue}>
+    stateRef.current.root.render(<>
       {children}
-    </CanvasContext.Provider>);
-  }, [stateRef, mounted, children, contextValue])
+    </>);
+  }, [stateRef, mounted, children])
 
   return { id, onAdd, onRemove, stateRef }
 })

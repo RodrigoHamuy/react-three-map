@@ -1,14 +1,16 @@
-import { RenderProps, createRoot } from "@react-three/fiber";
+import { RenderProps, _roots, createRoot } from "@react-three/fiber";
 import { useState } from "react";
 import { createEvents } from "./create-events";
-import { MapInstance } from "./generic-map";
+import { FromLngLat, MapInstance } from "./generic-map";
 import { StateRef } from "./state-ref";
+import { R3mStore } from "./store";
 import { useFunction } from "./use-function";
 
 export function useOnAdd(
   ref: StateRef,
+  fromLngLat: FromLngLat,
   { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>
-  ) {
+) {
 
   const [mounted, setMounted] = useState(false);
 
@@ -35,7 +37,7 @@ export function useOnAdd(
             frameloop,
             invalidate: () => {
               map.triggerRepaint();
-            }
+            },
           })
         }
 
@@ -47,7 +49,7 @@ export function useOnAdd(
 
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         state.gl.forceContextLoss = () => { };
-        
+
       },
       camera: {
         matrixAutoUpdate: false,
@@ -60,6 +62,18 @@ export function useOnAdd(
         ...renderProps?.size,
       },
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const store = _roots.get(canvas)!.store;
+
+    const r3m: R3mStore = {
+      state: ref,
+      fromLngLat,
+      map,
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    store.setState({ r3m } as any);
 
     ref.current = {
       map,

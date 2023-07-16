@@ -1,8 +1,7 @@
 import { createPortal, useFrame, useThree } from "@react-three/fiber";
-import { PropsWithChildren, memo, useContext, useLayoutEffect, useRef, useState } from "react";
+import { PropsWithChildren, memo, useLayoutEffect, useRef, useState } from "react";
 import { Matrix4Tuple, PerspectiveCamera, Scene } from "three";
-import { CanvasContext } from "../core/context";
-import { StateRef } from "../core/state-ref";
+import { R3mStore, useR3M } from "../core/store";
 import { syncCamera } from "../core/sync-camera";
 import { useCoords } from "../core/use-coords";
 
@@ -18,15 +17,15 @@ export const Coordinates = memo<CoordinatesProps>(({
 
   const [scene] = useState(() => new Scene())
 
-  const { stateRef, fromLngLat } = useContext(CanvasContext);
+  const r3m = useR3M();
 
   const origin = useCoords({
-    latitude, longitude, altitude, fromLngLat,
+    latitude, longitude, altitude, fromLngLat: r3m.fromLngLat,
   });
 
 
   return <>{createPortal(<>
-    <RenderAtCoords stateRef={stateRef} origin={origin} />
+    <RenderAtCoords r3m={r3m} origin={origin} />
     {children}
   </>, scene, { events: { priority: 2 } })}</>
 })
@@ -34,20 +33,20 @@ export const Coordinates = memo<CoordinatesProps>(({
 Coordinates.displayName = 'Coordinates';
 
 interface RenderAtCoordsProps {
-  stateRef: StateRef,
+  r3m: R3mStore,
   origin: Matrix4Tuple
 }
 
-function RenderAtCoords({ stateRef, origin }: RenderAtCoordsProps) {
+function RenderAtCoords({ r3m, origin }: RenderAtCoordsProps) {
 
   const { gl, scene, set } = useThree()
 
   const cameraRef = useRef<PerspectiveCamera>(null)
 
   useFrame(() => {
-    if (!stateRef.current?.mapCamMx) return;
+    if (!r3m.state.current?.mapCamMx) return;
     if (!cameraRef.current) return;
-    syncCamera(cameraRef.current, origin, stateRef.current.mapCamMx);
+    syncCamera(cameraRef.current, origin, r3m.state.current?.mapCamMx);
     gl.render(scene, cameraRef.current);
   })
 
@@ -55,12 +54,11 @@ function RenderAtCoords({ stateRef, origin }: RenderAtCoordsProps) {
     if (!cameraRef.current) return;
     set({
       invalidate: () => {
-        if (!stateRef.current) return;
-        stateRef.current.map.triggerRepaint();
+        r3m.map.triggerRepaint();
       },
       camera: cameraRef.current,
     });
-  }, [set, stateRef])
+  }, [set, r3m])
 
   return <perspectiveCamera ref={cameraRef} />
 }
