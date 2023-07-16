@@ -1,7 +1,6 @@
 import { RenderProps } from "@react-three/fiber";
-import { PropsWithChildren, useEffect, useId, useRef } from "react";
+import { PropsWithChildren, useEffect, useId } from "react";
 import { FromLngLat } from "./generic-map";
-import { StateRef } from "./state-ref";
 import { useOnAdd } from "./use-on-add";
 
 export interface useCanvasProps extends Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
@@ -15,17 +14,15 @@ export const useCreateRoot = (({
 
   const id = useId();
 
-  const stateRef: StateRef = useRef();
-
-  const { onAdd, onRemove, mounted } = useOnAdd(stateRef, fromLngLat, { frameloop, ...renderProps });
+  const { onAdd, onRemove, mounted, r3mRef } = useOnAdd(fromLngLat, { frameloop, ...renderProps });
 
   useEffect(() => {
     if (!mounted) return;
-    if (!stateRef.current) return;
-    stateRef.current.root.render(<>
+    if (!r3mRef.current.root) return;
+    r3mRef.current.root.render(<>
       {children}
     </>);
-  }, [stateRef, mounted, children])
+  }, [r3mRef, mounted, children])
 
-  return { id, onAdd, onRemove, stateRef }
+  return { id, onAdd, onRemove, r3mRef }
 })

@@ -44,9 +44,9 @@ function RenderAtCoords({ r3m, origin }: RenderAtCoordsProps) {
   const cameraRef = useRef<PerspectiveCamera>(null)
 
   useFrame(() => {
-    if (!r3m.state.current?.mapCamMx) return;
+    if (!r3m.mapCamMx) return;
     if (!cameraRef.current) return;
-    syncCamera(cameraRef.current, origin, r3m.state.current?.mapCamMx);
+    syncCamera(cameraRef.current, origin, r3m.mapCamMx);
     gl.render(scene, cameraRef.current);
   })
 
@@ -54,6 +54,7 @@ function RenderAtCoords({ r3m, origin }: RenderAtCoordsProps) {
     if (!cameraRef.current) return;
     set({
       invalidate: () => {
+        if (!r3m.map) return;
         r3m.map.triggerRepaint();
       },
       camera: cameraRef.current,

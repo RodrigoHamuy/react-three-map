@@ -1,13 +1,15 @@
-import { useThree } from "@react-three/fiber";
+import { ReconcilerRoot, RootState, useThree } from "@react-three/fiber";
+import { Matrix4Tuple } from "three";
 import { FromLngLat, MapInstance } from "./generic-map";
-import { StateRef } from "./state-ref";
 
 /** react-three-map store */
 export interface R3mStore {
   fromLngLat: FromLngLat,
-  map: MapInstance;
-  state: StateRef;
+  map?: MapInstance;
+  mapCamMx?: Matrix4Tuple;
+  state?: RootState
+  root?: ReconcilerRoot<HTMLCanvasElement>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useR3M = () : R3mStore => useThree((s: any)=>s.r3m);
+export const useR3M = (): R3mStore => useThree((s: any) => s.r3m);

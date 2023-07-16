@@ -18,10 +18,10 @@ export function useCanvas({
   const m4 = useCoords({
     latitude, longitude, altitude, fromLngLat,
   });
-    
-  const { id, onAdd, onRemove, stateRef } = useCreateRoot({ frameloop, fromLngLat, ...renderProps });
-  
-  const render = useRender(m4, stateRef, frameloop);
+
+  const { id, onAdd, onRemove, r3mRef } = useCreateRoot({ frameloop, fromLngLat, ...renderProps });
+
+  const render = useRender(m4, r3mRef, frameloop);
 
   return { id, onAdd, onRemove, render }
 }
