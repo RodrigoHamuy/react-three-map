@@ -47,12 +47,12 @@ function Sun() {
   const camSize = 10_000;
   return <>
     <Line points={dayPath} color="orange" />
-    <ambientLight intensity={0.5} />
+    {/* <ambientLight intensity={0.5} /> */}
     <directionalLight
       ref={lightRef}
       castShadow
       position={position}
-      intensity={1.5}
+      intensity={position[1] >= 0 ? 1.5 : 0}
       shadow-mapSize={1024}
     >
       <Sphere args={[100]} material-color="orange" />
