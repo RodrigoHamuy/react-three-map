@@ -1,15 +1,20 @@
-import { Box, Plane, useHelper } from "@react-three/drei";
+import { Box, Line, Plane, useHelper } from "@react-three/drei";
 import { useControls } from "leva";
-import { useRef } from "react";
-import { CameraHelper, MathUtils, OrthographicCamera } from "three";
+import { useMemo, useRef } from "react";
+import { CameraHelper, MathUtils, OrthographicCamera, Vector3Tuple } from "three";
 import { StoryMap } from "../story-map";
+import { GetSunPositionResult, getPosition } from "suncalc";
+
+const coords = {
+  latitude: 51,
+  longitude: 0,
+}
 
 export function Default() {
 
   return <div style={{ height: '100vh', position: 'relative' }}>
     <StoryMap
-      latitude={51}
-      longitude={0}
+      {...coords}
       zoom={13}
       pitch={60}
       canvas={{ shadows: true }}>
@@ -28,15 +33,18 @@ export function Default() {
 }
 
 function Sun() {
-  const { showCamHelper } = useControls({
-    showCamHelper: true,
-  })
+
+  const {position, dayPath} = useSun();
+
+  const { showCamHelper } = useControls({ showCamHelper: false })
   const cam = useRef<OrthographicCamera>(null);
   const noCam = useRef<OrthographicCamera>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
   const camSize = 10_000;
   return <>
+    <Line points={dayPath} color="orange" />
+    <axesHelper args={[10000]} position={position} />
     <ambientLight intensity={0.5} />
     <directionalLight
       castShadow
@@ -52,6 +60,7 @@ function Sun() {
     </directionalLight>
   </>
 }
+
 function Floor() {
   return <Plane
     args={[10000, 10000]}
@@ -61,4 +70,43 @@ function Floor() {
   >
     <shadowMaterial opacity={.5} />
   </Plane>
+}
+
+function useSun() {
+  const { dateString, hour } = useControls({
+    dateString: {
+      value: new Date().toLocaleDateString(),
+      label: 'date'
+    },
+    hour: { value: 12, min: 0, max: 23, step: 1 },
+  });
+
+  const date = useMemo(()=>{
+    const [day, month, year] = dateString.split('/');
+    return new Date(`${year}-${month}-${day}T${hour < 10 ? `0${hour}` : hour}:00:00`);
+  }, [dateString, hour])
+
+  const {position, dayPath} = useMemo(() => {
+    const position = getSunPosition({date, ...coords });
+
+    const tempDate = new Date(date);
+    const dayPath : Vector3Tuple[] = [];
+    for (let hour = 0; hour <= 24; hour++) {
+      tempDate.setHours(hour);
+      dayPath.push(getSunPosition({date: tempDate, ...coords}))      
+    }
+    return {position, dayPath}
+  }, [date])
+
+  return {position, dayPath};
+}
+
+function getSunPosition({ date, latitude, longitude, radius = 1500 }: {
+  date: Date; latitude: number; longitude: number; radius?: number;
+}) : Vector3Tuple {
+  const sun = getPosition(date, latitude, longitude);
+  const x = radius * Math.cos(sun.altitude) * Math.cos(sun.azimuth);
+  const z = radius * Math.cos(sun.altitude) * Math.sin(sun.azimuth);
+  const y = radius * Math.sin(sun.altitude);
+  return [x, y, z];
 }
