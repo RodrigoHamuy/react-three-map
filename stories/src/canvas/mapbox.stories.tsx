@@ -1,6 +1,6 @@
 import { useFrame, Vector3 } from "@react-three/fiber";
 import { useControls } from "leva";
-import Mapbox from "mapbox-gl";
+import MapboxGl from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { FC, PropsWithChildren, useRef, useState } from "react";
 import Map from 'react-map-gl';
@@ -9,7 +9,7 @@ import { Mesh } from "three";
 
 export default { title: 'Canvas' }
 
-export function MapboxExample() {
+export function Mapbox() {
 
   const { mapboxToken } = useControls({
     mapboxToken: {
@@ -18,7 +18,7 @@ export function MapboxExample() {
     }
   })
 
-  Mapbox.accessToken = mapboxToken;
+  MapboxGl.accessToken = mapboxToken;
 
   return <div style={{ height: '100vh' }}>
     {!mapboxToken && <Center>Add a mapbox token to load this component</Center>}

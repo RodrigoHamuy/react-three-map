@@ -7,7 +7,7 @@ import { Canvas } from "react-three-map/maplibre";
 
 export default {title: 'Canvas'}
 
-export function AMaplibreExample() {
+export function Maplibre() {
   return <div style={{ height: '100vh' }}>
     <Map
       antialias
