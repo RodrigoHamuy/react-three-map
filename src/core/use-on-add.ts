@@ -1,5 +1,5 @@
 import { RenderProps, _roots, createRoot } from "@react-three/fiber";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createEvents } from "./create-events";
 import { FromLngLat, MapInstance } from "./generic-map";
 import { R3mStore } from "./store";
@@ -70,11 +70,13 @@ export function useOnAdd(
   })
 
   const onRemove = useFunction(() => {
-    setTimeout(() => {
-      if (!r3mRef.current.root) return;
-      r3mRef.current.root.unmount();
-    })
+    if (!r3mRef.current.root) return;
+    r3mRef.current.root.unmount();
+    r3mRef.current.root = undefined;
   })
+
+  // on unmount
+  useEffect(() => () => onRemove(), [])
 
   return { onAdd, onRemove, mounted, r3mRef };
 }

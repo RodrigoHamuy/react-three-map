@@ -33,6 +33,7 @@ export default defineConfig({
     }
     : {
       build: {
+        minify: false,
         lib: {
           entry,
           name: 'react-three-map',
