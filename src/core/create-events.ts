@@ -23,11 +23,11 @@ const identity = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
   return (store: UseBoundStore<RootState>) => {
     const { handlePointer } = createFiberEvents(store);
-    const camera = new PerspectiveCamera(75, 0, 0.1, 1000);
-    camera.position.z = 5
-    camera.matrixAutoUpdate = false;
-    camera.matrixWorldAutoUpdate = false;
-    camera.lookAt(0, 0, 0)
+    const rayCamera = new PerspectiveCamera();
+    rayCamera.position.z = 5
+    rayCamera.matrixAutoUpdate = false;
+    rayCamera.matrixWorldAutoUpdate = false;
+    rayCamera.lookAt(0, 0, 0)
 
     return {
       priority: 1,
@@ -38,21 +38,21 @@ export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
         state.pointer.x = (event.offsetX / state.size.width) * 2 - 1;
         state.pointer.y = 1 - (event.offsetY / state.size.height) * 2;
 
-        camera.copy(state.camera as PerspectiveCamera);
+        rayCamera.copy(state.camera as PerspectiveCamera);
 
-        const projByViewInv = camera.userData.projByViewInv || identity;
+        const projByViewInv = rayCamera.userData.projByViewInv || identity;
 
-        camera.matrix.identity();
-        camera.matrixWorld.identity();
-        camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-        camera.projectionMatrixInverse.fromArray(projByViewInv)
-        camera.projectionMatrix.fromArray(camera.userData.projByView)
+        rayCamera.matrix.identity();
+        rayCamera.matrixWorld.identity();
+        rayCamera.matrixWorldInverse.copy(rayCamera.matrixWorld).invert();
+        rayCamera.projectionMatrixInverse.fromArray(projByViewInv)
+        rayCamera.projectionMatrix.fromArray(rayCamera.userData.projByView)
 
         state.raycaster.camera = state.camera;
-        state.raycaster.ray.origin.setScalar(0).applyMatrix4(camera.projectionMatrixInverse);
+        state.raycaster.ray.origin.setScalar(0).applyMatrix4(rayCamera.projectionMatrixInverse);
         state.raycaster.ray.direction
           .set(state.pointer.x, state.pointer.y, 1)
-          .applyMatrix4(camera.projectionMatrixInverse)
+          .applyMatrix4(rayCamera.projectionMatrixInverse)
           .sub(state.raycaster.ray.origin)
           .normalize();
       },

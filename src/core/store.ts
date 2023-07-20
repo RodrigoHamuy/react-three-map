@@ -9,8 +9,6 @@ export interface R3mStore {
   mapCamMx?: Matrix4Tuple;
   state?: RootState
   root?: ReconcilerRoot<HTMLCanvasElement>;
-  projByView?: Matrix4Tuple;
-  projByViewInv?: Matrix4Tuple;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
