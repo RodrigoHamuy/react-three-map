@@ -17,7 +17,7 @@ const DOM_EVENTS = {
   onLostPointerCapture: ["lostpointercapture", true],
 } as const;
 
-// const mx = new Matrix4
+const identity = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 
 /** ThreeLayer event manager for MapLibre and Mapbox */
 export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
@@ -40,10 +40,12 @@ export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
 
         camera.copy(state.camera as PerspectiveCamera);
 
+        const projByViewInv = camera.userData.projByViewInv || identity;
+
         camera.matrix.identity();
         camera.matrixWorld.identity();
         camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-        camera.projectionMatrixInverse.fromArray(camera.userData.projByViewInv)
+        camera.projectionMatrixInverse.fromArray(projByViewInv)
         camera.projectionMatrix.fromArray(camera.userData.projByView)
 
         state.raycaster.camera = state.camera;
