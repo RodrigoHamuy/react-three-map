@@ -2,4 +2,4 @@
 "react-three-map": patch
 ---
 
-asdsd
+Improve camera decomposition so the camera matrix and world matrix have more usefull values.
