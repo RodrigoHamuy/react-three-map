@@ -1,6 +1,6 @@
-import { Billboard, Box, Plane, Text } from "@react-three/drei";
+import { Billboard, Box, Line, Plane, Text } from "@react-three/drei";
 import { useRef, useState } from "react";
-import { AxesHelper, DoubleSide, MathUtils, Mesh, Object3D, Vector3 } from "three";
+import { AxesHelper, DoubleSide, MathUtils, Matrix4, Mesh, Object3D, Vector3 } from "three";
 import { StoryMap } from "./story-map";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useControls } from "leva";
@@ -12,8 +12,9 @@ export function Default() {
   return <StoryMap latitude={51} longitude={0} zoom={13} pitch={0}>
     {/* <Text fontSize={17} color="#2592a8" scale={10} rotation={[-90*MathUtils.DEG2RAD,0,0]}>0</Text>
     <Text fontSize={17} color="#2592a8" scale={10} rotation={[-90*MathUtils.DEG2RAD,0,0]} position={[0,3000,0]}>3000</Text> */}
-    <MyBox />
-    <axesHelper args={[300]} position={[300,0,0]}/>
+    {/* <MyBox /> */}
+    {/* <axesHelper args={[300]} position={[300,0,0]}/> */}
+    <CamPos />
     {/* <Billboard>
       <Plane
         args={[500, 500, 500]}
@@ -33,6 +34,40 @@ export function Default() {
       />
     </Billboard> */}
   </StoryMap>
+}
+
+const rotObj = new Object3D();
+
+const CamPos = () => {
+  const cam = useThree(s=>s.camera);
+  const ref = useRef<AxesHelper>(null);
+  const {camPos} = useControls({camPos: true});
+  useFrame(()=>{
+    if(!camPos) return;
+    if(!ref.current) return;
+
+    // get camera pos
+    ref.current.position
+      .setScalar(0)
+      .applyMatrix4(cam.projectionMatrixInverse);
+    
+    // get camera up vector
+    const center = new Vector3().applyMatrix4(cam.projectionMatrixInverse);
+    const top = new Vector3(0,1,0).applyMatrix4(cam.projectionMatrixInverse);
+    rotObj.up.copy(center).sub(top).normalize();
+
+    // get camera rotation
+    const forward = new Vector3(0,0,-1).applyMatrix4(cam.projectionMatrixInverse);
+    rotObj.position.set(0,0,1).applyMatrix4(cam.projectionMatrixInverse);
+    rotObj.lookAt(forward);
+    ref.current.quaternion.copy(rotObj.quaternion);
+
+
+  })
+  return <>
+    <axesHelper ref={ref} args={[300]} />
+    {!camPos && <Line points={[[0,0,0], ref.current!.position.toArray()]} />}
+  </>
 }
 
 const MyBox = () => {

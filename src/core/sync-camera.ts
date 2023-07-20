@@ -4,8 +4,11 @@ const mx = new Matrix4();
 
 const q = new Quaternion().setFromEuler(new Euler(180*MathUtils.DEG2RAD,0,0))
 
+const finalMx = new Matrix4();
+
 
 export function syncCamera(camera: PerspectiveCamera, origin: Matrix4Tuple, mapCamMx: Matrix4Tuple) {
+  // finalMx.fromArray(mapCamMx).multiply(mx.fromArray(origin));
   camera.projectionMatrix.fromArray(mapCamMx).multiply(mx.fromArray(origin));
   camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
   // const dir = projInvMxToDirection(camera.projectionMatrixInverse);
