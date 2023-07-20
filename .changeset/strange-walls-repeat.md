@@ -2,4 +2,4 @@
 "react-three-map": patch
 ---
 
-asdsd
+Simplify raycaster calculations.
