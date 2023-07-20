@@ -15,7 +15,7 @@ export function useRender(
     const gl = r3m.state.gl;
     const advance = r3m.state.advance;
     r3m.mapCamMx = mapCamMx as Matrix4Tuple;
-    syncCamera(camera as PerspectiveCamera, origin, mapCamMx as Matrix4Tuple);
+    const matrices = syncCamera(camera as PerspectiveCamera, origin, mapCamMx as Matrix4Tuple);
     gl.resetState();
     advance(Date.now() * 0.001, true);
     if (frameloop === 'always') r3m.map.triggerRepaint();

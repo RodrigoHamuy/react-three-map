@@ -1,4 +1,5 @@
 import { Events, RenderProps, RootState, createEvents as createFiberEvents } from "@react-three/fiber";
+import { PerspectiveCamera } from "three";
 import { UseBoundStore } from "zustand";
 
 type DomEvent = PointerEvent | MouseEvent | WheelEvent;
@@ -16,10 +17,18 @@ const DOM_EVENTS = {
   onLostPointerCapture: ["lostpointercapture", true],
 } as const;
 
+// const mx = new Matrix4
+
 /** ThreeLayer event manager for MapLibre and Mapbox */
 export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
   return (store: UseBoundStore<RootState>) => {
     const { handlePointer } = createFiberEvents(store);
+    const camera = new PerspectiveCamera(75, 0, 0.1, 1000);
+    camera.position.z = 5
+    camera.matrixAutoUpdate = false;
+    camera.matrixWorldAutoUpdate = false;
+    camera.lookAt(0, 0, 0)
+
     return {
       priority: 1,
       enabled: true,
@@ -28,13 +37,22 @@ export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
         state.size.height = state.gl.domElement.height / window.devicePixelRatio;
         state.pointer.x = (event.offsetX / state.size.width) * 2 - 1;
         state.pointer.y = 1 - (event.offsetY / state.size.height) * 2;
-        // state.raycaster.camera = state.camera;
-        // state.raycaster.ray.origin.setScalar(0).applyMatrix4(state.camera.projectionMatrixInverse);
-        // state.raycaster.ray.direction
-        //   .set(state.pointer.x, state.pointer.y, 1)
-        //   .applyMatrix4(state.camera.projectionMatrixInverse)
-        //   .sub(state.raycaster.ray.origin)
-        //   .normalize();
+
+        camera.copy(state.camera as PerspectiveCamera);
+
+        camera.matrix.identity();
+        camera.matrixWorld.identity();
+        camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+        camera.projectionMatrixInverse.fromArray(camera.userData.projByViewInv)
+        camera.projectionMatrix.fromArray(camera.userData.projByView)
+
+        state.raycaster.camera = state.camera;
+        state.raycaster.ray.origin.setScalar(0).applyMatrix4(camera.projectionMatrixInverse);
+        state.raycaster.ray.direction
+          .set(state.pointer.x, state.pointer.y, 1)
+          .applyMatrix4(camera.projectionMatrixInverse)
+          .sub(state.raycaster.ray.origin)
+          .normalize();
       },
       connected: undefined,
       handlers: Object.keys(DOM_EVENTS).reduce(

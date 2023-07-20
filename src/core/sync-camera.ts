@@ -31,9 +31,12 @@ export function syncCamera(camera: PerspectiveCamera, origin: Matrix4Tuple, mapC
     camera.matrix.elements[10], camera.matrix.elements[14], camera.near
   )
 
+  camera.userData.projByView = projByView.toArray();
+  camera.userData.projByViewInv = projByViewInv.toArray();
+
 }
 
-export const updateCamera = (target: Object3D, projByViewInv: Matrix4) => {
+const updateCamera = (target: Object3D, projByViewInv: Matrix4) => {
 
   target.position
     .setScalar(0)
