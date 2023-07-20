@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.4.1
+
+### Patch Changes
+
+- 41dd225: Improve camera decomposition so the camera matrix and world matrix have more useful values.
+
 ## 0.4.0
 
 ### Minor Changes
