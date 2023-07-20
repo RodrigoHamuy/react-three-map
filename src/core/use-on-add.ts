@@ -77,7 +77,7 @@ export function useOnAdd(
   })
 
   // on unmount
-  useEffect(() => () => onRemove(), [])
+  useEffect(() => () => onRemove(), [onRemove])
 
   return { onAdd, onRemove, mounted, r3mRef };
 }

@@ -1,12 +1,19 @@
-import { Billboard, Text } from "@react-three/drei";
+import { Billboard, Cylinder, Text } from "@react-three/drei";
 import { StoryMap } from "./story-map";
 
 export function Default() {
 
-  return <StoryMap latitude={51} longitude={0} zoom={20} pitch={0} >
-    <Billboard position={[0,50,0]}>
+  return <StoryMap latitude={51} longitude={0} zoom={18} pitch={60} >
+    <hemisphereLight
+      args={["#ffffff", "#60666C"]}
+      position={[1, 4.5, 3]}
+    />
+    <Cylinder args={[10, 1, 40]} position={[0, 20, 0]}>
+      <meshPhongMaterial color="yellow" />
+    </Cylinder>
+    <Billboard position={[0, 50, 0]}>
       <Text fontSize={17} color="#2592a8">
-        Hello!
+        Hi!
       </Text>
     </Billboard>
   </StoryMap>
