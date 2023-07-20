@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.4.2
+
+### Patch Changes
+
+- bd62ef9: Simplify raycaster calculations.
+
 ## 0.4.1
 
 ### Patch Changes
