@@ -1,43 +1,79 @@
-import { Euler, MathUtils, Matrix4, Matrix4Tuple, PerspectiveCamera, Quaternion, Vector3 } from "three";
+import { Matrix4, Matrix4Tuple, Object3D, PerspectiveCamera, Quaternion, Vector3 } from "three";
 
 const mx = new Matrix4();
 
-const q = new Quaternion().setFromEuler(new Euler(180*MathUtils.DEG2RAD,0,0))
+/** projection * view matrix  */
+const projByView = new Matrix4();
+/** projection * view matrix inverted */
+const projByViewInv = new Matrix4();
 
-const finalMx = new Matrix4();
+/** forward */
+const fwd = new Vector3();
+
+const obj = new Object3D();
 
 
 export function syncCamera(camera: PerspectiveCamera, origin: Matrix4Tuple, mapCamMx: Matrix4Tuple) {
-  // finalMx.fromArray(mapCamMx).multiply(mx.fromArray(origin));
-  camera.projectionMatrix.fromArray(mapCamMx).multiply(mx.fromArray(origin));
+  // camera.projectionMatrix.fromArray(mapCamMx).multiply(mx.fromArray(origin));
+  // camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+
+  projByView
+    .fromArray(mapCamMx)
+    .multiply(mx.fromArray(origin));
+  projByViewInv
+    .copy(projByView)
+    .invert();
+
+  // camera.projectionMatrix.copy(projByView);
+  // camera.projectionMatrixInverse.copy(projByViewInv);
+
+  updateCamera(camera, projByViewInv);
+  camera.updateMatrix();
+  camera.updateMatrixWorld(true);
+
+  // camera.projectionMatrix.copy(camera.matrixWorldInverse).premultiply(projByView)
+  // camera.projectionMatrix.copy(camera.matrixWorldInverse).multiply(projByView)
+  // camera.projectionMatrix.copy(projByView).premultiply(camera.matrixWorldInverse)
+  // camera.projectionMatrix.copy(projByView).multiply(camera.matrixWorldInverse)
+  // camera.projectionMatrix.copy(projByViewInv).premultiply(camera.matrixWorld);
+  // camera.projectionMatrix.copy(projByViewInv).multiply(camera.matrixWorld);
+  
+
+  camera.projectionMatrix.copy(camera.matrix).premultiply(projByView);
   camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-  // const dir = projInvMxToDirection(camera.projectionMatrixInverse);
-  // camera.quaternion.matr4
-  // dirToQuaternion(dir,camera.quaternion);
-  // camera.projectionMatrixInverse.decompose(camera.position, camera.quaternion, camera.scale);
-  // camera.quaternion.multiply(q)
+  
+  // camera.projectionMatrix.copy(camera.matrixWorld).premultiply(projByViewInv)
+  // camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
 
-  // console.log(camera.position.toArray())
+  // console.log(camera.projectionMatrix.clone().multiply(camera.matrix).equals(projByView))
+  // console.log(camera.projectionMatrixInverse.clone().premultiply(camera.matrix).equals(projByView))
+  // matrix * projectionMatrix = projByView
+  // projectionMatrix = 
+
+  // camera.matrix.compose(camera.position, camera.quaternion, camera.scale);
+  // camera.matrixWorld.copy(camera.matrix);
+  // camera.matrixWorldInverse.copy(camera.matrix)
+
+
 }
 
-const origin = new Vector3();
-const dir = new Vector3();
+export const updateCamera = (target: Object3D, projByViewInv: Matrix4) => {
 
-/** from a projection matrix, return a direction vector in world coords */
-function projInvMxToDirection(invProj: Matrix4) {
-  origin.setScalar(0).applyMatrix4(invProj);
-  dir.set(0,0,1)
-  .applyMatrix4(invProj)
-  .sub(origin)
-  .normalize();
-  return dir;
-}
+  target.position
+    .setScalar(0)
+    .applyMatrix4(projByViewInv)
 
-const up = new Vector3(0,1,0);
+  target.up
+    .set(0, -1, 0)
+    .applyMatrix4(projByViewInv)
+    .negate()
+    .add(target.position)
+    .normalize()
 
-/** receive a direction vector and use it to create a Quaternion that will make an object look at that direction */
-function dirToQuaternion(dir: Vector3, quat: Quaternion) {
-  quat.identity();
-  quat.setFromUnitVectors(up, dir);
-  return quat;
+  fwd
+    .set(0, 0, 1)
+    .applyMatrix4(projByViewInv)
+
+  target.lookAt(fwd);
+
 }

@@ -1,10 +1,10 @@
+import { MapControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { FC, PropsWithChildren } from "react";
+import { CanvasProps } from 'react-three-map';
 import { StoryMapbox } from './mapbox/story-mapbox';
 import { StoryMaplibre } from './maplibre/story-maplibre';
-import { CanvasProps } from 'react-three-map';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
 
 export enum MapProvider {
   maplibre = "maplibre",
@@ -39,7 +39,7 @@ export const StoryMap: FC<StoryMapProps> = (props) => {
     {...props.canvas} 
     camera={{position: [0,500,0]}}
     >
-      <OrbitControls makeDefault />
+      <MapControls makeDefault />
       {props.children}
     </Canvas>}
   </div>
