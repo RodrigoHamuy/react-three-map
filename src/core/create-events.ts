@@ -1,5 +1,5 @@
 import { Events, RenderProps, RootState, createEvents as createFiberEvents } from "@react-three/fiber";
-import { Matrix4, PerspectiveCamera } from "three";
+import { Matrix4 } from "three";
 import { UseBoundStore } from "zustand";
 
 type DomEvent = PointerEvent | MouseEvent | WheelEvent;
