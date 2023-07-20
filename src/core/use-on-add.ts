@@ -36,6 +36,7 @@ export function useOnAdd(
       },
       camera: {
         matrixAutoUpdate: false,
+        near: 0,
       },
       size: {
         width: canvas.clientWidth,

@@ -9,7 +9,7 @@ export function Default() {
 
   const [hovered, hover] = useState(false);
 
-  return <StoryMap latitude={51} longitude={0} zoom={20} pitch={0}>
+  return <StoryMap latitude={51} longitude={0} zoom={20} pitch={0} >
     {/* <Text fontSize={17} color="#2592a8" scale={10} rotation={[-90*MathUtils.DEG2RAD,0,0]}>0</Text>
     <Text fontSize={17} color="#2592a8" scale={10} rotation={[-90*MathUtils.DEG2RAD,0,0]} position={[0,3000,0]}>3000</Text> */}
     {/* <MyBox /> */}
@@ -18,14 +18,17 @@ export function Default() {
     {/* <CamPos /> */}
     {/* <axesHelper args={[500]} /> */}
     <Billboard>
-      <Plane
+      {/* <Plane
         args={[10, 10, 10]}
         position={[0, 10, 0]}
         rotation={[0, 0, 0]}
         onPointerOver={() => hover(true)}
         onPointerOut={() => hover(false)}
         material-color={hovered ? 'purple' : 'orange'}
-      />
+      /> */}
+      <Text fontSize={17} color="#2592a8" scale={1}>
+        ola
+      </Text>
       {/* <Box
         args={[10, 10, 10]}
         position={[0, 10, 0]}

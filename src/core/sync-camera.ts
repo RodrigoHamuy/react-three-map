@@ -1,6 +1,6 @@
-import { Matrix4, Matrix4Tuple, Object3D, PerspectiveCamera, Quaternion, Vector3 } from "three";
+import { Matrix4, Matrix4Tuple, Object3D, PerspectiveCamera, Vector3 } from "three";
 
-const mx = new Matrix4();
+const originMx = new Matrix4();
 
 /** projection * view matrix  */
 const projByView = new Matrix4();
@@ -10,50 +10,26 @@ const projByViewInv = new Matrix4();
 /** forward */
 const fwd = new Vector3();
 
-const obj = new Object3D();
-
 
 export function syncCamera(camera: PerspectiveCamera, origin: Matrix4Tuple, mapCamMx: Matrix4Tuple) {
-  // camera.projectionMatrix.fromArray(mapCamMx).multiply(mx.fromArray(origin));
-  // camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
 
   projByView
     .fromArray(mapCamMx)
-    .multiply(mx.fromArray(origin));
+    .multiply(originMx.fromArray(origin));
   projByViewInv
     .copy(projByView)
     .invert();
 
-  // camera.projectionMatrix.copy(projByView);
-  // camera.projectionMatrixInverse.copy(projByViewInv);
-
   updateCamera(camera, projByViewInv);
   camera.updateMatrix();
-  camera.updateMatrixWorld(true);
-
-  // camera.projectionMatrix.copy(camera.matrixWorldInverse).premultiply(projByView)
-  // camera.projectionMatrix.copy(camera.matrixWorldInverse).multiply(projByView)
-  // camera.projectionMatrix.copy(projByView).premultiply(camera.matrixWorldInverse)
-  // camera.projectionMatrix.copy(projByView).multiply(camera.matrixWorldInverse)
-  // camera.projectionMatrix.copy(projByViewInv).premultiply(camera.matrixWorld);
-  // camera.projectionMatrix.copy(projByViewInv).multiply(camera.matrixWorld);
-  
+  camera.updateMatrixWorld(true);  
 
   camera.projectionMatrix.copy(camera.matrix).premultiply(projByView);
   camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-  
-  // camera.projectionMatrix.copy(camera.matrixWorld).premultiply(projByViewInv)
-  // camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
 
-  // console.log(camera.projectionMatrix.clone().multiply(camera.matrix).equals(projByView))
-  // console.log(camera.projectionMatrixInverse.clone().premultiply(camera.matrix).equals(projByView))
-  // matrix * projectionMatrix = projByView
-  // projectionMatrix = 
-
-  // camera.matrix.compose(camera.position, camera.quaternion, camera.scale);
-  // camera.matrixWorld.copy(camera.matrix);
-  // camera.matrixWorldInverse.copy(camera.matrix)
-
+  camera.far = calculateFar(
+    camera.matrix.elements[10], camera.matrix.elements[14], camera.near
+  )
 
 }
 
@@ -76,4 +52,11 @@ export const updateCamera = (target: Object3D, projByViewInv: Matrix4) => {
 
   target.lookAt(fwd);
 
+}
+
+function calculateFar(c: number, d: number, near: number): number {
+  const numerator = d * (c - 1);
+  const denominator = c * near + near;
+  const far = numerator / denominator;
+  return far;
 }
