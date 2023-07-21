@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.4.3
+
+### Patch Changes
+
+- 0e37c1c: Fix canvas on resize.
+
 ## 0.4.2
 
 ### Patch Changes
