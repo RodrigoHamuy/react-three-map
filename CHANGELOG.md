@@ -1,5 +1,15 @@
 # react-three-map
 
+## 0.6.0
+
+### Minor Changes
+
+- 3a9a852: Add `useMap` hook to access the map from react-three-map.
+
+### Patch Changes
+
+- 3a9a852: Better type for `useMap`.
+
 ## 0.5.0
 
 ### Minor Changes
