@@ -163,3 +163,17 @@ import { Canvas, Coordinates } from 'react-three-map'
 | latitude   | The latitude coordinate where to add the scene.  |            |
 | longitude  | The longitude coordinate where to add the scene. |            |
 | altitude   | The altitude coordinate where to add the scene.  | `0`        |
+
+### useMap
+
+Access the map from inside `react-three-map`.
+
+```tsx
+import { useMap } from "react-three-map";
+// import { useMap } from "react-three-map/maplibre"; if you use maplibre
+const Component = () => {
+  const map = useMap();
+  return <>...</>
+}
+
+```
