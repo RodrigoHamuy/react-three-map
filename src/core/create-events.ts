@@ -28,11 +28,11 @@ export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
       priority: 1,
       enabled: true,
       compute(event: DomEvent, state: RootState) {
-        
+
         state.pointer.x = (event.offsetX / state.size.width) * 2 - 1;
         state.pointer.y = 1 - (event.offsetY / state.size.height) * 2;
 
-        if(state.camera.userData.projByViewInv) projByViewInv.fromArray(state.camera.userData.projByViewInv);
+        if (state.camera.userData.projByViewInv) projByViewInv.fromArray(state.camera.userData.projByViewInv);
 
         state.raycaster.camera = state.camera;
         state.raycaster.ray.origin.setScalar(0).applyMatrix4(projByViewInv);

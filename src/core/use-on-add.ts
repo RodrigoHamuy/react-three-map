@@ -12,10 +12,10 @@ export function useOnAdd(
 
   const [mounted, setMounted] = useState(false);
 
-  const r3mRef = useRef<R3mStore>({ fromLngLat }); 
+  const r3mRef = useRef<R3mStore>({ fromLngLat });
 
   const onAdd = useFunction((map: MapInstance, gl: WebGLRenderingContext) => {
-    
+
     const canvas = map.getCanvas();
     const root = createRoot(canvas);
     root.configure({
