@@ -22,6 +22,7 @@ outDir = `${outDir}/${isES ? 'es' : 'cjs'}`;
 export default defineConfig({
   plugins: [react()],
   ...(!libMode
+    // story mode
     ? {
       base: '',
       resolve: {
@@ -31,7 +32,9 @@ export default defineConfig({
         }
       }
     }
+    // lib mode
     : {
+      publicDir: false,
       build: {
         minify: false,
         lib: {

@@ -66,14 +66,25 @@ export function useOnAdd(
       })
     }
 
+    map.on('resize', onResize)
+
     setTimeout(() => setMounted(true));
 
+  })
+
+  const onResize = useFunction(() => {
+    if (!r3mRef.current.map) return;
+    if (!r3mRef.current.state) return;
+    const canvas = r3mRef.current.map.getCanvas();
+    r3mRef.current.state.setSize(canvas.width, canvas.height);
   })
 
   const onRemove = useFunction(() => {
     if (!r3mRef.current.root) return;
     r3mRef.current.root.unmount();
     r3mRef.current.root = undefined;
+    if (!r3mRef.current.map) return;
+    r3mRef.current.map.off('resize', onResize)
   })
 
   // on unmount
