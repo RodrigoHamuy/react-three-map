@@ -1,5 +1,6 @@
 export default {
   stories: ["stories/src/**/*.stories.{js,jsx,ts,tsx,mdx}"],
+  storyOrder: () => ['canvas--maplibre', 'canvas--mapbox', 'comparison--*','*'],
   addons: {
     a11y: {
       enabled: false,

@@ -3,17 +3,20 @@ import { MeshProps, useFrame, useThree } from '@react-three/fiber';
 import { useCallback, useRef, useState } from 'react';
 import { CameraHelper, MathUtils, Mesh, OrthographicCamera } from "three";
 
-export function MyScene({ showCamHelper }: { showCamHelper?: boolean }) {
+export function MyScene({ showCamHelper, animate }: {
+  showCamHelper?: boolean,
+  animate?: boolean,
+}) {
   return <>
     <Lights showCamHelper={showCamHelper} />
     <Floor />
-    <MyBox position={[-8 * 3, 8 * 1.5, 0]} />
-    <MyBox position={[8 * 3, 8 * 1.5, 0]} />
+    <MyBox animate={animate} position={[-8 * 3, 8 * 1.5, 0]} />
+    <MyBox animate={animate} position={[8 * 3, 8 * 1.5, 0]} />
   </>
 }
 
 
-function MyBox(props: MeshProps) {
+function MyBox({animate, ...props}: MeshProps & {animate?: boolean}) {
   const [hovered, hover] = useState(false);
   const mesh = useRef<Mesh>(null)
   const invalidate = useThree(st => st.invalidate);
@@ -27,6 +30,7 @@ function MyBox(props: MeshProps) {
   }, [])
 
   useFrame((_st, dt) => {
+    if(!animate) return
     if (!mesh.current) return;
     mesh.current.rotateY(dt);
     invalidate();

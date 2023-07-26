@@ -1,4 +1,5 @@
 import { Events, RenderProps, RootState, createEvents as createFiberEvents } from "@react-three/fiber";
+import { Matrix4 } from "three";
 import { UseBoundStore } from "zustand";
 
 type DomEvent = PointerEvent | MouseEvent | WheelEvent;
@@ -16,23 +17,28 @@ const DOM_EVENTS = {
   onLostPointerCapture: ["lostpointercapture", true],
 } as const;
 
+const projByViewInv = new Matrix4()
+
 /** ThreeLayer event manager for MapLibre and Mapbox */
 export function createEvents(): RenderProps<HTMLCanvasElement>["events"] {
   return (store: UseBoundStore<RootState>) => {
     const { handlePointer } = createFiberEvents(store);
+
     return {
       priority: 1,
       enabled: true,
       compute(event: DomEvent, state: RootState) {
-        state.size.width = state.gl.domElement.width / window.devicePixelRatio;
-        state.size.height = state.gl.domElement.height / window.devicePixelRatio;
+
         state.pointer.x = (event.offsetX / state.size.width) * 2 - 1;
         state.pointer.y = 1 - (event.offsetY / state.size.height) * 2;
+
+        if (state.camera.userData.projByViewInv) projByViewInv.fromArray(state.camera.userData.projByViewInv);
+
         state.raycaster.camera = state.camera;
-        state.raycaster.ray.origin.setScalar(0).applyMatrix4(state.camera.projectionMatrixInverse);
+        state.raycaster.ray.origin.setScalar(0).applyMatrix4(projByViewInv);
         state.raycaster.ray.direction
           .set(state.pointer.x, state.pointer.y, 1)
-          .applyMatrix4(state.camera.projectionMatrixInverse)
+          .applyMatrix4(projByViewInv)
           .sub(state.raycaster.ray.origin)
           .normalize();
       },

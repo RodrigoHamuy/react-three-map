@@ -37,7 +37,7 @@ export function Default() {
       longitude={green[0]}
       latitude={green[1]}
     >
-      <MyBox position={[0, 1, 0]} color="green" />
+      <MyBox position={[-2, 1, 0]} color="green" />
     </Coordinates>
     <Coordinates
       longitude={purple[0]}
@@ -53,6 +53,7 @@ const MyBox = ({ position, color }: { position: Vector3, color: ColorRepresentat
 
   return <Box
     position={position}
+    onClick={() => hover(!hovered)}
     onPointerOver={() => hover(true)}
     onPointerOut={() => hover(false)}
     scale={hovered ? 1.5 : 1}

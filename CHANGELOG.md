@@ -1,5 +1,39 @@
 # react-three-map
 
+## 0.6.0
+
+### Minor Changes
+
+- 3a9a852: Add `useMap` hook to access the map from react-three-map.
+
+### Patch Changes
+
+- 3a9a852: Better type for `useMap`.
+
+## 0.5.0
+
+### Minor Changes
+
+- 7921f43: Add `useMap` hook to access the map from react-three-map.
+
+## 0.4.3
+
+### Patch Changes
+
+- 0e37c1c: Fix canvas on resize.
+
+## 0.4.2
+
+### Patch Changes
+
+- bd62ef9: Simplify raycaster calculations.
+
+## 0.4.1
+
+### Patch Changes
+
+- 41dd225: Improve camera decomposition so the camera matrix and world matrix have more useful values.
+
 ## 0.4.0
 
 ### Minor Changes

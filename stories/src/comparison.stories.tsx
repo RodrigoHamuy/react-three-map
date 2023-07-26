@@ -6,6 +6,7 @@ import { StoryMap } from "./story-map";
 
 export function WithMap() {
   const showCamHelper = useShowCamHelper()
+  const {animate} = useControls({animate: true});
   return <StoryMap
     latitude={51.5073218}
     longitude={-0.1276473}
@@ -13,7 +14,7 @@ export function WithMap() {
     pitch={60}
     canvas={{ shadows: 'variance' }}
   >
-    <MyScene showCamHelper={showCamHelper} />
+    <MyScene showCamHelper={showCamHelper} animate={animate} />
   </StoryMap>
 }
 

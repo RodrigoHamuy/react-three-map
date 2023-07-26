@@ -1,5 +1,5 @@
 import { RenderProps, _roots, createRoot } from "@react-three/fiber";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createEvents } from "./create-events";
 import { FromLngLat, MapInstance } from "./generic-map";
 import { R3mStore } from "./store";
@@ -36,6 +36,7 @@ export function useOnAdd(
       },
       camera: {
         matrixAutoUpdate: false,
+        near: 0,
       },
       size: {
         width: canvas.clientWidth,
@@ -65,16 +66,29 @@ export function useOnAdd(
       })
     }
 
+    map.on('resize', onResize)
+
     setTimeout(() => setMounted(true));
 
   })
 
-  const onRemove = useFunction(() => {
-    setTimeout(() => {
-      if (!r3mRef.current.root) return;
-      r3mRef.current.root.unmount();
-    })
+  const onResize = useFunction(() => {
+    if (!r3mRef.current.map) return;
+    if (!r3mRef.current.state) return;
+    const canvas = r3mRef.current.map.getCanvas();
+    r3mRef.current.state.setSize(canvas.width, canvas.height);
   })
+
+  const onRemove = useFunction(() => {
+    if (!r3mRef.current.root) return;
+    r3mRef.current.root.unmount();
+    r3mRef.current.root = undefined;
+    if (!r3mRef.current.map) return;
+    r3mRef.current.map.off('resize', onResize)
+  })
+
+  // on unmount
+  useEffect(() => () => onRemove(), [onRemove])
 
   return { onAdd, onRemove, mounted, r3mRef };
 }
