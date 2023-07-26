@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.6.1
+
+### Patch Changes
+
+- be1efa7: Fix resizing bug when DPR changes.
+
 ## 0.6.0
 
 ### Minor Changes
