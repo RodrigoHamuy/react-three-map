@@ -76,7 +76,8 @@ export function useOnAdd(
     if (!r3mRef.current.map) return;
     if (!r3mRef.current.state) return;
     const canvas = r3mRef.current.map.getCanvas();
-    r3mRef.current.state.setSize(canvas.width, canvas.height);
+    r3mRef.current.state.setSize(canvas.width, canvas.height)
+    r3mRef.current.state.viewport.dpr = window.devicePixelRatio;
   })
 
   const onRemove = useFunction(() => {
