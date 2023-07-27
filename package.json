@@ -26,7 +26,8 @@
     "ts": "tsc -w",
     "ts:check": "tsc",
     "dev": "yarn ladle serve",
-    "build:stories": "yarn ladle build"
+    "build:stories": "yarn ladle build",
+    "test": "yarn vitest"
   },
   "dependencies": {},
   "devDependencies": {
@@ -41,10 +42,12 @@
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/coverage-v8": "^0.33.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "happy-dom": "^10.5.2",
     "leva": "^0.9.35",
     "mapbox-gl": "^2.15.0",
     "maplibre-gl": "^3.1.0",
@@ -56,6 +59,7 @@
     "three-stdlib": "^2.23.8",
     "typescript": "~5.0.2",
     "vite": "^4.4.4",
+    "vitest": "^0.33.0",
     "web-ifc-three": "^0.0.125"
   },
   "peerDependencies": {
