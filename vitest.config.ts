@@ -7,6 +7,7 @@ export default defineConfig({
     setupFiles: './vitest.global.setup.ts',
     coverage: {
       provider: 'v8',
+      reporter: 'clover',
     },
   },
 })

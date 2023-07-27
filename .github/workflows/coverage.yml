@@ -1,14 +1,15 @@
-name: Build
+name: Coverage
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches:
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  test:
-    name: Test
+  coverage:
+    name: Coverage
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -24,4 +25,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Test
-        run: yarn test
+        run: yarn test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
