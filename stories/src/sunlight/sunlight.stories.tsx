@@ -1,9 +1,15 @@
-import { Box, Line, Plane, Sphere, useHelper } from "@react-three/drei";
+import { Plane, Sphere, useHelper } from "@react-three/drei";
 import { useControls } from "leva";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useMap } from "react-three-map";
 import { getPosition } from "suncalc";
-import { CameraHelper, DirectionalLight, DirectionalLightHelper, MathUtils, OrthographicCamera, Vector3Tuple } from "three";
+import { BufferAttribute, BufferGeometry, CameraHelper, Color, MathUtils, OrthographicCamera, PCFSoftShadowMap, Vector3Tuple } from "three";
 import { StoryMap } from "../story-map";
+
+const RADIUS = 1500;
+
+const night = new Color('#00008B');
+const day = new Color('orange');
 
 const coords = {
   latitude: 51,
@@ -17,39 +23,39 @@ export function Default() {
       {...coords}
       zoom={13}
       pitch={60}
-      canvas={{ shadows: true }}>
+      canvas={{
+        shadows: {
+          type: PCFSoftShadowMap,
+        }
+      }}>
       <Sun />
       <Floor />
-      <Box
-        args={[500, 500, 500]}
-        position={[0, 350, 0]}
+      <Sphere
+        args={[250]}
+        position={[0, 250, 0]}
         rotation={[0, 45 * MathUtils.DEG2RAD, 0]}
         castShadow receiveShadow
       >
         <meshPhongMaterial color={'orange'} />
-      </Box>
+      </Sphere>
     </StoryMap>
   </div>
 }
 
 function Sun() {
 
-  const { position, dayPath } = useSun();
-
-  const lightRef = useRef<DirectionalLight>(null)
+  const { position, sunPath } = useSun();
+  useMapColorsBasedOnSun(position);
 
   const { showCamHelper } = useControls({ showCamHelper: false })
   const cam = useRef<OrthographicCamera>(null);
   const noCam = useRef<OrthographicCamera>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
-  useHelper(lightRef as any, DirectionalLightHelper, 1, 'yellow')
-  const camSize = 10_000;
+  const camSize = 2_000;
   return <>
-    <Line points={dayPath} color="orange" />
-    {/* <ambientLight intensity={0.5} /> */}
+    <SunPath path={sunPath} />
     <directionalLight
-      ref={lightRef}
       castShadow
       position={position}
       intensity={position[1] >= 0 ? 1.5 : 0}
@@ -65,6 +71,40 @@ function Sun() {
   </>
 }
 
+function SunPath({ path }: { path: Vector3Tuple[] }) {
+
+  const geometry = useMemo(() => {
+    // Define the geometry
+    const geometry = new BufferGeometry();
+
+    // Define the vertices (the end points of the line)
+    const vertices = new Float32Array(path.flat());
+
+    // Define the colors
+    const colors = new Float32Array(path
+      .map(p => p[1])
+      .map(getSunColor)
+      .flatMap(c => c.toArray())
+    );
+
+    // Attach the vertices and colors to the geometry
+    geometry.setAttribute('position', new BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new BufferAttribute(colors, 3));
+
+    return geometry;
+  }, [path]);
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <line geometry={geometry}>
+    <lineBasicMaterial color="white" vertexColors />
+  </line>
+}
+
+function getSunColor(y: number) {
+  return night.clone().lerp(day, (y + RADIUS * .25) / (RADIUS));
+}
+
 function Floor() {
   return <Plane
     args={[10000, 10000]}
@@ -74,6 +114,18 @@ function Floor() {
   >
     <shadowMaterial opacity={.5} />
   </Plane>
+}
+
+function useMapColorsBasedOnSun(position: Vector3Tuple) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+    const style = position[1] > 0
+      ? "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+      : "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+    map.setStyle(style)
+  }, [map, position])
 }
 
 function useSun() {
@@ -90,22 +142,22 @@ function useSun() {
     return new Date(`${year}-${month}-${day}T${hour < 10 ? `0${hour}` : hour}:00:00`);
   }, [dateString, hour])
 
-  const { position, dayPath } = useMemo(() => {
+  const { position, sunPath } = useMemo(() => {
     const position = getSunPosition({ date, ...coords });
 
     const tempDate = new Date(date);
-    const dayPath: Vector3Tuple[] = [];
+    const sunPath: Vector3Tuple[] = [];
     for (let hour = 0; hour <= 24; hour++) {
       tempDate.setHours(hour);
-      dayPath.push(getSunPosition({ date: tempDate, ...coords }))
+      sunPath.push(getSunPosition({ date: tempDate, ...coords }))
     }
-    return { position, dayPath }
+    return { position, sunPath }
   }, [date])
 
-  return { position, dayPath };
+  return { position, sunPath };
 }
 
-function getSunPosition({ date, latitude, longitude, radius = 1500 }: {
+function getSunPosition({ date, latitude, longitude, radius = RADIUS }: {
   date: Date; latitude: number; longitude: number; radius?: number;
 }): Vector3Tuple {
   const sun = getPosition(date, latitude, longitude);
