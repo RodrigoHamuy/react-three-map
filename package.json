@@ -32,7 +32,6 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
     "@ladle/react": "^2.13.0",
-    "@leva-ui/plugin-dates": "^0.9.32",
     "@react-three/drei": "^9.74.5",
     "@react-three/fiber": "^8.13.4",
     "@types/node": "^20.3.1",
