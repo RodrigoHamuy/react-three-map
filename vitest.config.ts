@@ -6,7 +6,9 @@ export default defineConfig({
     environment: 'happy-dom',
     setupFiles: './vitest.global.setup.ts',
     coverage: {
+      all: true,
       provider: 'v8',
+      include: ["src"],
       reporter: 'clover',
     },
   },
