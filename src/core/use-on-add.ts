@@ -76,13 +76,21 @@ export function useOnAdd(
   const onResize = useFunction(() => {
     if (!r3mRef.current.map) return;
     if (!r3mRef.current.state) return;
-    console.log('resize');
     const canvas = r3mRef.current.map.getCanvas();
-    r3mRef.current.state.setSize(
-      canvas.clientWidth,
-      canvas.clientHeight,
-      false
-    );    
+
+    if (canvas.classList.contains('mapboxgl-canvas')) {
+      // if mapbox
+      r3mRef.current.state.size.width = canvas.clientWidth;
+      r3mRef.current.state.size.height = canvas.clientHeight;
+    } else {
+      // if maplibre
+      r3mRef.current.state.setSize(
+        canvas.clientWidth,
+        canvas.clientHeight,
+        false
+      );
+    }
+
   })
 
   const onRemove = useFunction(() => {
