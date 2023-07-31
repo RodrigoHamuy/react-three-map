@@ -43,6 +43,7 @@ export function useOnAdd(
         height: canvas.clientHeight,
         top: 0,
         left: 0,
+        updateStyle: false,
         ...renderProps?.size,
       },
     });
@@ -76,8 +77,20 @@ export function useOnAdd(
     if (!r3mRef.current.map) return;
     if (!r3mRef.current.state) return;
     const canvas = r3mRef.current.map.getCanvas();
-    r3mRef.current.state.setSize(canvas.width, canvas.height)
-    r3mRef.current.state.viewport.dpr = window.devicePixelRatio;
+
+    if (canvas.classList.contains('mapboxgl-canvas')) {
+      // if mapbox
+      r3mRef.current.state.size.width = canvas.clientWidth;
+      r3mRef.current.state.size.height = canvas.clientHeight;
+    } else {
+      // if maplibre
+      r3mRef.current.state.setSize(
+        canvas.clientWidth,
+        canvas.clientHeight,
+        false
+      );
+    }
+
   })
 
   const onRemove = useFunction(() => {
