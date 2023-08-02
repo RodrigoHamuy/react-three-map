@@ -24,7 +24,7 @@ export function Default() {
     'load IFC file': button(() => loadIfcClick())
   })
 
-  const { latitude, longitude, position } = useControls({
+  const { latitude, longitude, position, rotation, scale } = useControls({
     coords: folder({
       latitude: {
         value: 51.508775,
@@ -40,6 +40,11 @@ export function Default() {
       step: 1,
       pad: 2,
     },
+    rotation: {
+      value: 0,
+      step: 1,
+    },
+    scale: 1,
   })
 
   return <StoryMap latitude={latitude} longitude={longitude} zoom={20} pitch={75} bearing={-45} canvas={{shadows: true}}>
@@ -52,7 +57,7 @@ export function Default() {
     >      
       <shadowMaterial opacity={.5} />
     </Plane>
-    <object3D position={[position.x, position.y, position.z]}>
+    <object3D position={[position.x, position.y, position.z]} rotation={[0,rotation*MathUtils.DEG2RAD,0]} scale={scale}>
       <Suspense fallback={<Plane
         args={[7, 16]}
         rotation={[-90 * MathUtils.DEG2RAD, 0, 0]}
