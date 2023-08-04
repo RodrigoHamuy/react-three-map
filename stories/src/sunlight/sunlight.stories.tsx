@@ -179,26 +179,26 @@ function useMapColorsBasedOnSun(position: Vector3Tuple) {
 }
 
 function useSun({ latitude, longitude }: { longitude: number, latitude: number }) {
-  const { dateString, hour } = useControls({
-    dateString: {
-      value: new Date().toLocaleDateString('en-GB'),
-      label: 'date'
+  const { month, hour } = useControls({
+    month: {
+      value: new Date().getMonth() + 1,
+      min: 1,
+      max: 12,
+      step: 0.1,
     },
     hour: { value: 12, min: 0, max: 23, step: 1 },
   });
 
   const date = useMemo(() => {
-    const [day, month, year] = dateString.split('/').map(v => parseInt(v));
     const d = new Date();
-    d.setFullYear(year);
-    d.setMonth(month - 1);
-    d.setDate(day);
+    d.setMonth(Math.floor(month - 1));
+    d.setDate(Math.floor((month % 1) * 27)+1)
     d.setHours(hour);
     d.setMinutes(0);
     d.setSeconds(0);
     d.setMilliseconds(0);
     return d;
-  }, [dateString, hour])
+  }, [month, hour])
 
   const { position, sunPath } = useMemo(() => {
     const position = getSunPosition({ date, latitude, longitude });
