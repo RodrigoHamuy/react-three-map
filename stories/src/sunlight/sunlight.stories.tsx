@@ -1,4 +1,4 @@
-import { Plane, Sphere, useHelper } from "@react-three/drei";
+import { Billboard, Plane, Ring, Sphere, useHelper } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useMemo, useRef } from "react";
 import { useMap } from "react-three-map";
@@ -61,13 +61,21 @@ function Sun() {
       intensity={position[1] >= 0 ? 1.5 : 0}
       shadow-mapSize={1024}
     >
-      <Sphere args={[100]} material-color="orange" />
+      <Sphere args={[100]} material-color="orange" visible={position[1] >= 0} />
+      <Billboard visible={position[1] < 0}>
+        <Ring args={[90, 100]} material-color="orange" />
+      </Billboard>
       <orthographicCamera
         ref={cam}
         attach="shadow-camera"
         args={[-camSize, camSize, -camSize, camSize, 0.1, 10000]}
       />
     </directionalLight>
+    <hemisphereLight
+      args={["#343838", "#005f6b"]}
+      position={position}
+      visible={position[1] < 0}
+    />
   </>
 }
 
@@ -131,15 +139,23 @@ function useMapColorsBasedOnSun(position: Vector3Tuple) {
 function useSun() {
   const { dateString, hour } = useControls({
     dateString: {
-      value: new Date().toLocaleDateString(),
+      value: new Date().toLocaleDateString('en-GB'),
       label: 'date'
     },
     hour: { value: 12, min: 0, max: 23, step: 1 },
   });
 
   const date = useMemo(() => {
-    const [day, month, year] = dateString.split('/');
-    return new Date(`${year}-${month}-${day}T${hour < 10 ? `0${hour}` : hour}:00:00`);
+    const [day, month, year] = dateString.split('/').map(v=>parseInt(v));
+    const d = new Date();
+    d.setFullYear(year);
+    d.setMonth(month - 1);
+    d.setDate(day);
+    d.setHours(hour);
+    d.setMinutes(0);
+    d.setSeconds(0);
+    d.setMilliseconds(0);
+    return d;
   }, [dateString, hour])
 
   const { position, sunPath } = useMemo(() => {
