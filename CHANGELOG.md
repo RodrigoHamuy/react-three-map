@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.6.2
+
+### Patch Changes
+
+- 6be61b6: Fix on window DPR changes (different solutions for Mapbox and Maplibre)
+
 ## 0.6.1
 
 ### Patch Changes

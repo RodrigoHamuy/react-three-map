@@ -20,9 +20,10 @@ export function WithMap() {
 
 export const WithoutMap = () => {
   const showCamHelper = useShowCamHelper()
+  const {animate} = useControls({animate: true});
   return <div style={{ height: '100vh' }}>
     <FiberCanvas camera={{ position: [100, 100, 100] }} shadows="variance">
-      <MyScene showCamHelper={showCamHelper} />
+      <MyScene showCamHelper={showCamHelper} animate={animate} />
       <MapControls makeDefault />
     </FiberCanvas>
   </div>
