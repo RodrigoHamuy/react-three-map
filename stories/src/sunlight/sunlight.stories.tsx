@@ -7,6 +7,8 @@ import { getPosition } from "suncalc";
 import { BufferAttribute, BufferGeometry, CameraHelper, Color, MathUtils, OrthographicCamera, PCFSoftShadowMap, Vector3Tuple } from "three";
 import { ScreenSizer } from "../screen-sizer";
 import { StoryMap } from "../story-map";
+import tzLookup from "tz-lookup";
+import {DateTime} from "luxon";
 
 const RADIUS = 150;
 
@@ -186,19 +188,20 @@ function useSun({ latitude, longitude }: { longitude: number, latitude: number }
       max: 12,
       step: 0.1,
     },
-    hour: { value: 12, min: 0, max: 23, step: 1 },
+    hour: { value: new Date().getHours(), min: 0, max: 23, step: 1 },
   });
 
   const date = useMemo(() => {
-    const d = new Date();
-    d.setMonth(Math.floor(month - 1));
-    d.setDate(Math.floor((month % 1) * 27)+1)
-    d.setHours(hour);
-    d.setMinutes(0);
-    d.setSeconds(0);
-    d.setMilliseconds(0);
-    return d;
-  }, [month, hour])
+    const timeZone = tzLookup(latitude, longitude);
+    return DateTime.now().setZone(timeZone).set({
+      month: Math.floor(month),
+      day: Math.floor((month % 1) * 27)+1,
+      hour,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }).toJSDate()
+  }, [latitude, longitude, month, hour])
 
   const { position, sunPath } = useMemo(() => {
     const position = getSunPosition({ date, latitude, longitude });

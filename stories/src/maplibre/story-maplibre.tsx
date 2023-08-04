@@ -48,7 +48,7 @@ const FlyTo = memo<FlyToProps>(({latitude, longitude, zoom})=>{
     if(!map.current) return;
     if(firstRun.current) return;
     map.current.easeTo({
-      center: [longitude, latitude],
+      center: {lon: longitude, lat: latitude},
       zoom: map.current.getZoom(),
       duration: 0,
     })
