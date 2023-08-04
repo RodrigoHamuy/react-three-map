@@ -25,7 +25,7 @@ export const StoryMaplibre: FC<StoryMapProps> = ({
       maxPitch={rest.pitch ? Math.min(rest.pitch, 85) : undefined}
       mapStyle={mapStyle}
     >
-      <FlyTo latitude={latitude} longitude={longitude} />
+      <FlyTo latitude={latitude} longitude={longitude} zoom={rest.zoom} />
       <Canvas latitude={latitude} longitude={longitude} {...canvas}>
         {children}
       </Canvas>
@@ -36,9 +36,10 @@ export const StoryMaplibre: FC<StoryMapProps> = ({
 interface FlyToProps {
   latitude: number,
   longitude: number,
+  zoom?: number,
 }
 
-const FlyTo = memo<FlyToProps>(({latitude, longitude})=>{
+const FlyTo = memo<FlyToProps>(({latitude, longitude, zoom})=>{
   
   const map = useMap();
   const firstRun = useRef(true);
@@ -46,11 +47,23 @@ const FlyTo = memo<FlyToProps>(({latitude, longitude})=>{
   useEffect(()=>{
     if(!map.current) return;
     if(firstRun.current) return;
-    map.current.flyTo({
+    map.current.easeTo({
       center: [longitude, latitude],
-      maxDuration: .3,
+      zoom: map.current.getZoom(),
+      duration: 0,
     })
   }, [map, latitude, longitude])
+
+  useEffect(()=>{
+    if(!map.current) return;
+    if(firstRun.current) return;
+    if(zoom === undefined) return;
+    map.current.easeTo({
+      center: map.current.getCenter(),
+      zoom,
+      essential: true,
+    })
+  }, [map, zoom])
 
   useEffect(()=>{
     firstRun.current = false;

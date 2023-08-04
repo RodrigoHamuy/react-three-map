@@ -1,74 +1,109 @@
 import { Billboard, Plane, Ring, Sphere, useHelper } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useControls } from "leva";
-import { useEffect, useMemo, useRef } from "react";
+import { RefObject, useEffect, useMemo, useRef } from "react";
 import { useMap } from "react-three-map";
 import { getPosition } from "suncalc";
 import { BufferAttribute, BufferGeometry, CameraHelper, Color, MathUtils, OrthographicCamera, PCFSoftShadowMap, Vector3Tuple } from "three";
+import { ScreenSizer } from "../screen-sizer";
 import { StoryMap } from "../story-map";
 
-const RADIUS = 1500;
+const RADIUS = 150;
 
 const night = new Color('#00008B');
 const day = new Color('orange');
 
-const coords = {
-  latitude: 51,
-  longitude: 0,
-}
-
 export function Default() {
+
+  const { longitude, latitude } = useControls({
+    longitude: {
+      value: 0,
+      min: -179,
+      max: 180,
+      pad: 6,
+    },
+    latitude: {
+      value: 51,
+      min: -80,
+      max: 80,
+      pad: 6,
+    },
+  })
 
   return <div style={{ height: '100vh', position: 'relative' }}>
     <StoryMap
-      {...coords}
-      zoom={13}
+      longitude={longitude}
+      latitude={latitude}
+      zoom={6}
       pitch={60}
       canvas={{
         shadows: {
           type: PCFSoftShadowMap,
         }
       }}>
-      <Sun />
-      <Floor />
-      <Sphere
-        args={[250]}
-        position={[0, 250, 0]}
-        rotation={[0, 45 * MathUtils.DEG2RAD, 0]}
-        castShadow receiveShadow
-      >
-        <meshPhongMaterial color={'orange'} />
-      </Sphere>
+      <ScreenSizer>
+        <Sun longitude={longitude} latitude={latitude} />
+        <Floor />
+        <Sphere
+          args={[16]}
+          position={[0, 10, 0]}
+          rotation={[0, 45 * MathUtils.DEG2RAD, 0]}
+          castShadow receiveShadow
+        >
+          <meshPhongMaterial color={'orange'} />
+        </Sphere>
+      </ScreenSizer>
     </StoryMap>
   </div>
 }
 
-function Sun() {
+function Sun({ latitude, longitude }: { longitude: number, latitude: number }) {
 
-  const { position, sunPath } = useSun();
+  const { position, sunPath } = useSun({ latitude, longitude });
+
   useMapColorsBasedOnSun(position);
 
-  const { showCamHelper } = useControls({ showCamHelper: false })
-  const cam = useRef<OrthographicCamera>(null);
-  const noCam = useRef<OrthographicCamera>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
-  const camSize = 2_000;
+  const {showCamHelper, cameraScale} = useControls({
+    showCamHelper: false,
+    cameraScale: {
+      value: 0.2,
+      min: 0.1,
+      max: 2_000_000,
+    }
+  })
+
+  const camera = useRef<OrthographicCamera>(null);
+
+  useFrame(()=>{
+    if(!camera.current) return;
+    camera.current.left= -cameraScale;
+    camera.current.right= cameraScale;
+    camera.current.top= -cameraScale;
+    camera.current.bottom= cameraScale;
+  })
+
   return <>
     <SunPath path={sunPath} />
+    {showCamHelper && <CamHelper key={cameraScale} camera={camera} />}
     <directionalLight
       castShadow
       position={position}
       intensity={position[1] >= 0 ? 1.5 : 0}
       shadow-mapSize={1024}
     >
-      <Sphere args={[100]} material-color="orange" visible={position[1] >= 0} />
+      <Sphere args={[20]} material-color="orange" visible={position[1] >= 0} />
       <Billboard visible={position[1] < 0}>
-        <Ring args={[90, 100]} material-color="orange" />
+        <Ring args={[19, 20]} material-color="orange" />
       </Billboard>
       <orthographicCamera
-        ref={cam}
+        ref={camera}
         attach="shadow-camera"
-        args={[-camSize, camSize, -camSize, camSize, 0.1, 10000]}
+        left={-cameraScale}
+        right={cameraScale}
+        top={-cameraScale}
+        bottom={cameraScale}
+        near={0.1}
+        far={100_000_000}
       />
     </directionalLight>
     <hemisphereLight
@@ -77,6 +112,13 @@ function Sun() {
       visible={position[1] < 0}
     />
   </>
+}
+
+function CamHelper({camera}: {camera: RefObject<OrthographicCamera>}) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useHelper(camera as any, CameraHelper);
+
+  return <></>
 }
 
 function SunPath({ path }: { path: Vector3Tuple[] }) {
@@ -115,7 +157,7 @@ function getSunColor(y: number) {
 
 function Floor() {
   return <Plane
-    args={[10000, 10000]}
+    args={[1000, 1000]}
     position={[0, 0, 0]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, 0]}
     receiveShadow
@@ -136,7 +178,7 @@ function useMapColorsBasedOnSun(position: Vector3Tuple) {
   }, [map, position])
 }
 
-function useSun() {
+function useSun({ latitude, longitude }: { longitude: number, latitude: number }) {
   const { dateString, hour } = useControls({
     dateString: {
       value: new Date().toLocaleDateString('en-GB'),
@@ -146,7 +188,7 @@ function useSun() {
   });
 
   const date = useMemo(() => {
-    const [day, month, year] = dateString.split('/').map(v=>parseInt(v));
+    const [day, month, year] = dateString.split('/').map(v => parseInt(v));
     const d = new Date();
     d.setFullYear(year);
     d.setMonth(month - 1);
@@ -159,16 +201,16 @@ function useSun() {
   }, [dateString, hour])
 
   const { position, sunPath } = useMemo(() => {
-    const position = getSunPosition({ date, ...coords });
+    const position = getSunPosition({ date, latitude, longitude });
 
     const tempDate = new Date(date);
     const sunPath: Vector3Tuple[] = [];
     for (let hour = 0; hour <= 24; hour++) {
       tempDate.setHours(hour);
-      sunPath.push(getSunPosition({ date: tempDate, ...coords }))
+      sunPath.push(getSunPosition({ date: tempDate, latitude, longitude }))
     }
     return { position, sunPath }
-  }, [date])
+  }, [date, latitude, longitude])
 
   return { position, sunPath };
 }
