@@ -222,8 +222,8 @@ function getSunPosition({ date, latitude, longitude, radius = RADIUS }: {
   date: Date; latitude: number; longitude: number; radius?: number;
 }): Vector3Tuple {
   const sun = getPosition(date, latitude, longitude);
-  const x = radius * Math.cos(sun.altitude) * Math.cos(sun.azimuth);
-  const z = radius * Math.cos(sun.altitude) * Math.sin(sun.azimuth);
+  const x = radius * Math.cos(sun.altitude) * - Math.sin(sun.azimuth);
+  const z = radius * Math.cos(sun.altitude) * Math.cos(sun.azimuth);
   const y = radius * Math.sin(sun.altitude);
   return [x, y, z];
 }
