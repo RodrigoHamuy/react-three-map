@@ -1,14 +1,14 @@
-import { Billboard, Plane, Ring, Sphere, useHelper } from "@react-three/drei";
+import { Billboard, Line, Plane, Ring, Sphere, useHelper } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useControls } from "leva";
-import { RefObject, useEffect, useMemo, useRef } from "react";
+import { RefObject, memo, useEffect, useMemo, useRef } from "react";
 import { useMap } from "react-three-map";
 import { getPosition } from "suncalc";
 import { BufferAttribute, BufferGeometry, CameraHelper, Color, MathUtils, OrthographicCamera, PCFSoftShadowMap, Vector3Tuple } from "three";
 import { ScreenSizer } from "../screen-sizer";
 import { StoryMap } from "../story-map";
 import tzLookup from "tz-lookup";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 
 const RADIUS = 150;
 
@@ -65,7 +65,7 @@ function Sun({ latitude, longitude }: { longitude: number, latitude: number }) {
 
   useMapColorsBasedOnSun(position);
 
-  const {showCamHelper, cameraScale} = useControls({
+  const { showCamHelper, cameraScale } = useControls({
     showCamHelper: false,
     cameraScale: {
       value: 0.2,
@@ -76,16 +76,17 @@ function Sun({ latitude, longitude }: { longitude: number, latitude: number }) {
 
   const camera = useRef<OrthographicCamera>(null);
 
-  useFrame(()=>{
-    if(!camera.current) return;
-    camera.current.left= -cameraScale;
-    camera.current.right= cameraScale;
-    camera.current.top= -cameraScale;
-    camera.current.bottom= cameraScale;
+  useFrame(() => {
+    if (!camera.current) return;
+    camera.current.left = -cameraScale;
+    camera.current.right = cameraScale;
+    camera.current.top = -cameraScale;
+    camera.current.bottom = cameraScale;
   })
 
   return <>
     <SunPath path={sunPath} />
+    <Analemma latitude={latitude} longitude={longitude} />
     {showCamHelper && <CamHelper key={cameraScale} camera={camera} />}
     <directionalLight
       castShadow
@@ -116,7 +117,7 @@ function Sun({ latitude, longitude }: { longitude: number, latitude: number }) {
   </>
 }
 
-function CamHelper({camera}: {camera: RefObject<OrthographicCamera>}) {
+function CamHelper({ camera }: { camera: RefObject<OrthographicCamera> }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHelper(camera as any, CameraHelper);
 
@@ -195,7 +196,7 @@ function useSun({ latitude, longitude }: { longitude: number, latitude: number }
     const timeZone = tzLookup(latitude, longitude);
     return DateTime.now().setZone(timeZone).set({
       month: Math.floor(month),
-      day: Math.floor((month % 1) * 27)+1,
+      day: Math.floor((month % 1) * 27) + 1,
       hour,
       minute: 0,
       second: 0,
@@ -216,6 +217,48 @@ function useSun({ latitude, longitude }: { longitude: number, latitude: number }
   }, [date, latitude, longitude])
 
   return { position, sunPath };
+}
+
+interface AnalemmaProps {
+  latitude: number;
+  longitude: number;
+}
+
+const Analemma = memo<AnalemmaProps>(({ latitude, longitude }) => {
+  const analemma = useMemo(()=>getAnalemma({latitude, longitude}), [latitude, longitude]);
+  return <>
+    {analemma.map((points, i) => <Line key={i}
+      points={points}
+      dashed
+      dashScale={0.4}
+      lineWidth={2}
+      color="orange"
+      opacity={0.5}
+      transparent
+    />)}
+
+  </>
+})
+
+function getAnalemma({ latitude, longitude }: AnalemmaProps) {
+
+  const analemma: Vector3Tuple[][] = [];
+  const timeZone = tzLookup(latitude, longitude);
+  const dateTime = DateTime.now()
+    .setZone(timeZone)
+    .set({ minute: 0, second: 0, millisecond: 0, });
+
+  for (let hour = 0; hour < 24; hour++) {
+    analemma.push([]);
+    for (let day = 0; day < 365; day++) {
+
+      const date = dateTime.set({ day, hour }).toJSDate();
+      analemma[hour].push(getSunPosition({ date, latitude, longitude }));
+
+    }
+  }
+
+  return analemma;
 }
 
 function getSunPosition({ date, latitude, longitude, radius = RADIUS }: {
