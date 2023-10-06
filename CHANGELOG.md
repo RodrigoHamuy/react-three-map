@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.6.3
+
+### Patch Changes
+
+- a5b94b6: Fix ThreeJS sync on Mapbox resize.
+
 ## 0.6.2
 
 ### Patch Changes
