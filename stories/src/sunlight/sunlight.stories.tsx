@@ -52,7 +52,7 @@ export function Default() {
           rotation={[0, 45 * MathUtils.DEG2RAD, 0]}
           castShadow receiveShadow
         >
-          <meshPhongMaterial color={'orange'} />
+          <meshPhongMaterial color={'#E28357'} />
         </Sphere>
       </ScreenSizer>
     </StoryMap>
@@ -189,7 +189,7 @@ function useSun({ latitude, longitude }: { longitude: number, latitude: number }
       max: 12,
       step: 0.1,
     },
-    hour: { value: new Date().getHours(), min: 0, max: 23, step: 1 },
+    hour: { value: new Date().getHours(), min: 0, max: 23, step: 0.1 },
   });
 
   const date = useMemo(() => {
@@ -197,8 +197,8 @@ function useSun({ latitude, longitude }: { longitude: number, latitude: number }
     return DateTime.now().setZone(timeZone).set({
       month: Math.floor(month),
       day: Math.floor((month % 1) * 27) + 1,
-      hour,
-      minute: 0,
+      hour: Math.floor(hour),
+      minute: (hour % 1) * 60,
       second: 0,
       millisecond: 0,
     }).toJSDate()
@@ -225,7 +225,7 @@ interface AnalemmaProps {
 }
 
 const Analemma = memo<AnalemmaProps>(({ latitude, longitude }) => {
-  const analemma = useMemo(()=>getAnalemma({latitude, longitude}), [latitude, longitude]);
+  const analemma = useMemo(() => getAnalemma({ latitude, longitude }), [latitude, longitude]);
   return <>
     {analemma.map((points, i) => <Line key={i}
       points={points}
