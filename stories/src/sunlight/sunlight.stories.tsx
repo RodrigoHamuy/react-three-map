@@ -136,8 +136,7 @@ function SunPath({ path }: { path: Vector3Tuple[] }) {
     // Define the colors
     const colors = new Float32Array(path
       .map(p => p[1])
-      .map(getSunColor)
-      .flatMap(c => c.toArray())
+      .flatMap(getSunColor)
     );
 
     // Attach the vertices and colors to the geometry
@@ -154,8 +153,15 @@ function SunPath({ path }: { path: Vector3Tuple[] }) {
   </line>
 }
 
+const _color = new Color()
+
 function getSunColor(y: number) {
-  return night.clone().lerp(day, (y + RADIUS * .25) / (RADIUS));
+  const nightStart = -RADIUS * .5;
+  const dayStart = RADIUS * .5;
+  if (y <= nightStart) return night.toArray();
+  if (y >= dayStart) return day.toArray();
+  const d = (y - nightStart) / (dayStart - nightStart)
+  return _color.copy(night).lerp(day, d).toArray();
 }
 
 function Floor() {
