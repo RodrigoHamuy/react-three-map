@@ -16,11 +16,12 @@ export const Canvas = memo<CanvasProps>((props) => {
   const { id, onAdd, onRemove, render } = useCanvas({ ...props, fromLngLat });
 
   return <Layer
-    id={id}
+    id={props.id ?? id}
     type="custom"
     renderingMode="3d"
     onAdd={onAdd}
     onRemove={onRemove}
     render={render}
+    beforeId={props.beforeId}
   />
 })
