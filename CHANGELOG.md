@@ -1,5 +1,15 @@
 # react-three-map
 
+## 0.7.0
+
+### Minor Changes
+
+- 1c52c0f: `<Canvas>` props accepts `id?: string` and `beforeId?: string` to set the MapLibre/Mapbox layer.
+
+### Patch Changes
+
+- 748d7a7: Fix issues on DPR or browser zoom changes.
+
 ## 0.6.3
 
 ### Patch Changes
