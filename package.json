@@ -1,6 +1,6 @@
 {
   "name": "react-three-map",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Use react-three-fiber inside MapLibre and Mapbox",
   "main": "dist/cjs/main.js",
   "module": "dist/es/main.mjs",
