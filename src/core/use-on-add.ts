@@ -74,15 +74,9 @@ export function useOnAdd(
   })
 
   const onResize = useFunction(() => {
-    if (!r3mRef.current.map) return;
     if (!r3mRef.current.state) return;
-    const canvas = r3mRef.current.map.getCanvas();
-    r3mRef.current.state.setSize(
-      canvas.clientWidth,
-      canvas.clientHeight,
-      false
-    );
-
+    // because we update size out of zustand, we just want to let it know that something changed
+    r3mRef.current.state.set({});
   })
 
   const onRemove = useFunction(() => {
