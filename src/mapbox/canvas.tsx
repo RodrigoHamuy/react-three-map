@@ -11,17 +11,17 @@ extend(THREE);
 const fromLngLat = MercatorCoordinate.fromLngLat
 
 /** react`-three-fiber` canvas inside `Mapbox` */
-export const Canvas = memo<CanvasProps>((props) => {
+export const Canvas = memo<CanvasProps>(({id, beforeId, ...props}) => {
 
-  const { id, onAdd, onRemove, render } = useCanvas({ ...props, fromLngLat });
+  const { id: reactId, onAdd, onRemove, render } = useCanvas({ ...props, fromLngLat });
 
   return <Layer
-    id={props.id ?? id}
+    id={id || reactId}
+    beforeId={beforeId}
     type="custom"
     renderingMode="3d"
     onAdd={onAdd}
     onRemove={onRemove}
     render={render}
-    beforeId={props.beforeId}
   />
 })

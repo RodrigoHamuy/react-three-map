@@ -4,7 +4,7 @@ import { useCoords } from "./use-coords";
 import { useCreateRoot } from "./use-create-root";
 import { useRender } from "./use-render";
 
-export interface useCanvasProps extends CanvasProps {
+export interface useCanvasProps extends Omit<CanvasProps, 'id'|'beforeId'> {
   fromLngLat: FromLngLat,
 }
 
