@@ -11,8 +11,6 @@ export function useRender(
   const render = useFunction((_gl: WebGL2RenderingContext, mapCamMx: number[]) => {
     const r3m = r3mRef.current;
     if (!r3m.state || !r3m.map) return;
-    r3m.state.size.width = r3m.state.gl.domElement.clientWidth;
-    r3m.state.size.height = r3m.state.gl.domElement.clientHeight;
     const camera = r3m.state.camera;
     const gl = r3m.state.gl;
     const advance = r3m.state.advance;
