@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.7.1
+
+### Patch Changes
+
+- 2115617: Revert 748d7a7: Fix issues on DPR or browser zoom changes.
+
 ## 0.7.0
 
 ### Minor Changes
