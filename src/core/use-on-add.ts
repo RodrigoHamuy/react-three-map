@@ -76,7 +76,21 @@ export function useOnAdd(
   const onResize = useFunction(() => {
     if (!r3mRef.current.map) return;
     if (!r3mRef.current.state) return;
-    const canvas = r3mRef.current.map.getCanvas();
+    const map = r3mRef.current.map;
+    const canvas = map.getCanvas();
+
+    // update DPR only on mapbox
+    let updateDPR = canvas.classList.contains('mapboxgl-canvas');
+
+    // or on newer versions of MapLibre that take this into account
+    if(!updateDPR && map.getPixelRatio && map.getPixelRatio() === window.devicePixelRatio) {
+      updateDPR = true;
+    }    
+
+    if(updateDPR) {
+      r3mRef.current.state.setDpr(window.devicePixelRatio);
+    }
+
     r3mRef.current.state.setSize(
       canvas.clientWidth,
       canvas.clientHeight,

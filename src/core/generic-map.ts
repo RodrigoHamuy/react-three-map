@@ -37,6 +37,8 @@ export interface MercatorCoordinate {
 /** Generic interface of Mapbox/Maplibre `Map` */
 export interface MapInstance {
 	getCanvas(): HTMLCanvasElement;
+	/** MapLibre only */
+	getPixelRatio?: ()=>number;
 	triggerRepaint(): void;
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	on<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): this;
