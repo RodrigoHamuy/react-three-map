@@ -1,5 +1,11 @@
 # react-three-map
 
+## 0.7.2
+
+### Patch Changes
+
+- 90a4766: Fix bug on DPR change.
+
 ## 0.7.1
 
 ### Patch Changes
