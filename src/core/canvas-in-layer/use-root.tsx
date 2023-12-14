@@ -1,6 +1,6 @@
 import { RenderProps, _roots, createRoot } from "@react-three/fiber";
 import { useEffect, useState } from "react";
-import { createEvents } from "../create-events";
+import { events } from "../events";
 import { FromLngLat, MapInstance } from "../generic-map";
 import { useFunction } from "../use-function";
 import { initR3M } from "../use-r3m";
@@ -18,7 +18,7 @@ export function useRoot(
     const root = createRoot(canvas);
     root.configure({
       dpr: window.devicePixelRatio,
-      events: createEvents(),
+      events,
       ...props,
       frameloop: 'never',
       gl: {
