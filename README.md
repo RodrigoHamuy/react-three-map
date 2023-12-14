@@ -4,7 +4,6 @@
 [![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-three-map)
 [![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size&?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=react-three-map)
 [![Stories](https://img.shields.io/badge/stories-stories?colorA=000&colorB=000000&logo=maplibre)](https://rodrigohamuy.github.io/react-three-map/?story=canvas--a-maplibre-example)
-[![codecov](https://img.shields.io/codecov/c/github/RodrigoHamuy/react-three-map?style=flat&colorA=000000&colorB=000000&logo=github&label=codecov&logo=codecov)](https://codecov.io/gh/RodrigoHamuy/react-three-map)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/RodrigoHamuy/react-three-map/release.yml?branch=main&style=flat&colorA=000000)](https://github.com/RodrigoHamuy/react-three-map/actions?query=workflow%3Arelease)
 
 

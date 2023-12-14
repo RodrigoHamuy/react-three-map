@@ -15,15 +15,8 @@ export const Canvas = memo<CanvasProps>(props => {
 
   const map = useMap().current!.getMap(); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-  const { id, onRemove, render } = useCanvasInLayer(props, fromLngLat, map);
+  const layerProps = useCanvasInLayer(props, fromLngLat, map);
 
-  return <Layer
-    id={id}
-    beforeId={props.beforeId}
-    type="custom"
-    renderingMode="3d"
-    onRemove={onRemove}
-    render={render}
-  />
+  return <Layer {...layerProps} />
 })
 Canvas.displayName = 'Canvas'

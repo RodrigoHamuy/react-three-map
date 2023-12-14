@@ -29,8 +29,11 @@ export function useCanvasInLayer({
   
     return {
       id: props.id || id,
+      beforeId: props.beforeId,
       onRemove,
-      render
-    }
+      render,
+      type: 'custom',
+      renderingMode: '3d'
+    } as const
 
 }
