@@ -2,9 +2,10 @@ import { useEffect, useId } from "react";
 import { CanvasProps } from "../../api/canvas-props";
 import { FromLngLat, MapInstance } from "../generic-map";
 import { useCoords } from "../use-coords";
-import { useRoot } from "./use-root";
 import { useRender } from "./use-render";
+import { useRoot } from "./use-root";
 
+/** get all the properties that you need to render as a map `<Layer>` */
 export function useCanvasInLayer({
   longitude, latitude, altitude = 0,
   frameloop = 'always',
@@ -22,7 +23,7 @@ export function useCanvasInLayer({
       root.render(<>
         {props.children}
       </>);
-    }, [props.children])
+    }, [props.children]) // eslint-disable-line react-hooks/exhaustive-deps
   
     const render = useRender({origin, frameloop, useThree, map, r3m});
   

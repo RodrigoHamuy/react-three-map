@@ -13,7 +13,7 @@ const fromLngLat = MercatorCoordinate.fromLngLat
 /** react`-three-fiber` canvas inside `MapLibre` */
 export const Canvas = memo<CanvasProps>(props => {
 
-  const map = useMap().current!.getMap();
+  const map = useMap().current!.getMap(); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
   const { id, onRemove, render } = useCanvasInLayer(props, fromLngLat, map);
 

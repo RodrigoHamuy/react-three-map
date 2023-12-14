@@ -8,10 +8,10 @@ import { initR3M } from "../use-r3m";
 export function useRoot(
   fromLngLat: FromLngLat,
   map: MapInstance,
-  { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>
+  { frameloop, ...props }: RenderProps<HTMLCanvasElement>
 ) {
 
-  const [{root, useThree, canvas, r3m }] = useState(()=>{
+  const [{ root, useThree, canvas, r3m }] = useState(() => {
     const canvas = map.getCanvas();
     const gl = (canvas.getContext('webgl2') || canvas.getContext('webgl')) as WebGLRenderingContext;
 
@@ -19,18 +19,17 @@ export function useRoot(
     root.configure({
       dpr: window.devicePixelRatio,
       events: createEvents(),
-      ...renderProps,
+      ...props,
       frameloop: 'never',
       gl: {
         context: gl,
         depth: true,
         autoClear: false,
         antialias: true,
-        ...renderProps?.gl,
+        ...props?.gl,
       },
       onCreated: (state) => {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        state.gl.forceContextLoss = () => { };
+        state.gl.forceContextLoss = () => { }; // eslint-disable-line @typescript-eslint/no-empty-function
       },
       camera: {
         matrixAutoUpdate: false,
@@ -42,12 +41,11 @@ export function useRoot(
         top: 0,
         left: 0,
         updateStyle: false,
-        ...renderProps?.size,
+        ...props?.size,
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const store = _roots.get(canvas)!.store;
+    const store = _roots.get(canvas)!.store; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     const r3m = initR3M(map, fromLngLat, store);
 
@@ -66,7 +64,7 @@ export function useRoot(
 
   const onResize = useFunction(() => {
 
-    const {setDpr, setSize} = useThree.getState();
+    const { setDpr, setSize } = useThree.getState();
 
     setDpr(window.devicePixelRatio);
 
@@ -84,12 +82,29 @@ export function useRoot(
     root.unmount();
   })
 
-  useEffect(()=>{
+  // on `frameloop` change
+  useEffect(() => {
+    if (frameloop !== 'demand') return;
+    const setState = useThree.setState;
+    const { invalidate } = useThree.getState();
+    setState({
+      frameloop,
+      invalidate: () => {
+        map.triggerRepaint();
+      }
+    });
+    return () => {
+      setState({ frameloop: 'never', invalidate })
+    }
+  }, [frameloop]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // on mount / unmount
+  useEffect(() => {
     map.on('resize', onResize);
     return () => {
       map.off('resize', onResize)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { root, onRemove, useThree, r3m };
 }

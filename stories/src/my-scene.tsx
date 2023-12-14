@@ -20,6 +20,7 @@ function MyBox({animate, ...props}: MeshProps & {animate?: boolean}) {
   const [hovered, hover] = useState(false);
   const mesh = useRef<Mesh>(null)
   const invalidate = useThree(st => st.invalidate);
+  const events = useThree(st => st.events);
 
   const onOver = useCallback(() => {
     hover(true);
@@ -34,6 +35,7 @@ function MyBox({animate, ...props}: MeshProps & {animate?: boolean}) {
     if (!mesh.current) return;
     mesh.current.rotateY(dt);
     invalidate();
+    if(events.update) events.update();
   })
 
   return (

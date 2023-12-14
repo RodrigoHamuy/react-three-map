@@ -54,8 +54,7 @@ function MyBox(props: MeshProps) {
 function Lights({ showCamHelper }: { showCamHelper?: boolean }) {
   const cam = useRef<OrthographicCamera>(null);
   const noCam = useRef<OrthographicCamera>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
+  useHelper((showCamHelper ? cam : noCam) as any, CameraHelper) // eslint-disable-line @typescript-eslint/no-explicit-any
   const camSize = 100;
   return <>
     <ambientLight intensity={0.5} />
