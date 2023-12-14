@@ -32,18 +32,18 @@ export function Default() {
     zoom={20}
     pitch={60}
     canvas={{ frameloop: 'demand' }}>
-    <MyBox position={[2, 1, 0]} color="blue" />
+    <MyBox position={[2, 0, 0]} color="blue" />
     <Coordinates
       longitude={green[0]}
       latitude={green[1]}
     >
-      <MyBox position={[-2, 1, 0]} color="green" />
+      <MyBox position={[-2, 0, 0]} color="green" />
     </Coordinates>
     <Coordinates
       longitude={purple[0]}
       latitude={purple[1]}
     >
-      <MyBox position={[0, 1, 0]} color="purple" />
+      <MyBox position={[0, 0, 0]} color="purple" />
     </Coordinates>
   </StoryMap>
 }
@@ -51,12 +51,15 @@ export function Default() {
 const MyBox = ({ position, color }: { position: Vector3, color: ColorRepresentation }) => {
   const [hovered, hover] = useState(false);
 
-  return <Box
-    position={position}
+  return <object3D position={position}>
+    <Box
+    args={[1,7,1]}
+    position={[0,hovered ? 3.5 * 1.5 : 3.5,0]}
     onClick={() => hover(!hovered)}
     onPointerOver={() => hover(true)}
     onPointerOut={() => hover(false)}
     scale={hovered ? 1.5 : 1}
     material-color={color}
   />
+  </object3D>
 }

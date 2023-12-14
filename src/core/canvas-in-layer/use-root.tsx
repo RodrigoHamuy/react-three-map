@@ -1,9 +1,9 @@
 import { RenderProps, _roots, createRoot } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createEvents } from "../create-events";
 import { FromLngLat, MapInstance } from "../generic-map";
-import { R3mStore } from "../store";
 import { useFunction } from "../use-function";
+import { initR3M } from "../use-r3m";
 
 export function useRoot(
   fromLngLat: FromLngLat,
@@ -11,9 +11,7 @@ export function useRoot(
   { frameloop, ...renderProps }: RenderProps<HTMLCanvasElement>
 ) {
 
-  const r3mRef = useRef<R3mStore>({ fromLngLat });
-
-  const [{root, useThree, canvas }] = useState(()=>{
+  const [{root, useThree, canvas, r3m }] = useState(()=>{
     const canvas = map.getCanvas();
     const gl = (canvas.getContext('webgl2') || canvas.getContext('webgl')) as WebGLRenderingContext;
 
@@ -51,12 +49,7 @@ export function useRoot(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const store = _roots.get(canvas)!.store;
 
-    r3mRef.current.map = map;
-    r3mRef.current.root = root;
-    r3mRef.current.state = store.getState();
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    store.setState({ r3m: r3mRef.current } as any);
+    const r3m = initR3M(map, fromLngLat, store);
 
     if (frameloop === 'demand') {
       store.setState({
@@ -67,7 +60,7 @@ export function useRoot(
       })
     }
 
-    return { root, useThree: store, map, canvas }
+    return { root, useThree: store, map, canvas, r3m }
 
   })
 
@@ -98,5 +91,5 @@ export function useRoot(
     }
   }, [])
 
-  return { root, onRemove, useThree };
+  return { root, onRemove, useThree, r3m };
 }

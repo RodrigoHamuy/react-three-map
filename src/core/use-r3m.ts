@@ -4,7 +4,7 @@ import { FromLngLat, MapInstance } from "./generic-map";
 import { useMap } from "../api/use-map";
 import { UseBoundStore } from 'zustand';
 
-export type R3M<T extends MapInstance> = {
+export type R3M<T extends MapInstance = MapInstance> = {
   /** Map provider */
   map: T,
   /** view projection matrix coming from the map provider */

@@ -1,9 +1,9 @@
 import { createPortal, useFrame, useThree } from "@react-three/fiber";
 import { PropsWithChildren, memo, useLayoutEffect, useRef, useState } from "react";
 import { Matrix4Tuple, PerspectiveCamera, Scene } from "three";
-import { R3mStore, useR3M } from "../core/store";
 import { syncCamera } from "../core/sync-camera";
 import { useCoords } from "../core/use-coords";
+import { R3M, useR3M } from "../core/use-r3m";
 
 export interface CoordinatesProps extends PropsWithChildren {
   longitude: number,
@@ -33,7 +33,7 @@ export const Coordinates = memo<CoordinatesProps>(({
 Coordinates.displayName = 'Coordinates';
 
 interface RenderAtCoordsProps {
-  r3m: R3mStore,
+  r3m: R3M,
   origin: Matrix4Tuple
 }
 
@@ -44,9 +44,8 @@ function RenderAtCoords({ r3m, origin }: RenderAtCoordsProps) {
   const cameraRef = useRef<PerspectiveCamera>(null)
 
   useFrame(() => {
-    if (!r3m.mapCamMx) return;
     if (!cameraRef.current) return;
-    syncCamera(cameraRef.current, origin, r3m.mapCamMx);
+    syncCamera(cameraRef.current, origin, r3m.viewProjMx);
     gl.render(scene, cameraRef.current);
   })
 

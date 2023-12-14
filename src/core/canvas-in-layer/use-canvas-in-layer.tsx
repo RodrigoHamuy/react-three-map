@@ -16,7 +16,7 @@ export function useCanvasInLayer({
       latitude, longitude, altitude, fromLngLat,
     });
 
-    const { onRemove, root, useThree } = useRoot(fromLngLat, map, { frameloop, ...props });
+    const { onRemove, root, useThree, r3m } = useRoot(fromLngLat, map, { frameloop, ...props });
 
     useEffect(() => {
       root.render(<>
@@ -24,7 +24,7 @@ export function useCanvasInLayer({
       </>);
     }, [props.children])
   
-    const render = useRender({origin, frameloop, useThree, map});
+    const render = useRender({origin, frameloop, useThree, map, r3m});
   
     return {
       id: props.id || id,

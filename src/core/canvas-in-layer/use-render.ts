@@ -4,16 +4,19 @@ import { UseBoundStore } from "zustand";
 import { MapInstance } from "../generic-map";
 import { syncCamera } from "../sync-camera";
 import { useFunction } from "../use-function";
+import { R3M } from "../use-r3m";
 
 export function useRender({
-  map, origin, useThree, frameloop
+  map, origin, useThree, frameloop, r3m,
 } :{
   map: MapInstance,
   origin: Matrix4Tuple,
   useThree: UseBoundStore<RootState>,
   frameloop: 'always' | 'demand',
+  r3m: R3M
 }) {
   const render = useFunction((_gl: WebGL2RenderingContext, projViewMx: number[]) => {
+    r3m.viewProjMx.splice(0, 16, ...projViewMx)
     const state = useThree.getState();
     const camera = state.camera as PerspectiveCamera;
     const {gl, advance} = state;
