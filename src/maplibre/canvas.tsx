@@ -1,23 +1,25 @@
 import { extend } from "@react-three/fiber";
 import { MercatorCoordinate } from "maplibre-gl";
 import { memo } from "react";
-import { Layer } from "react-map-gl/maplibre";
+import { Layer, useMap } from "react-map-gl/maplibre";
 import * as THREE from "three";
-import { useCanvas } from "../core/use-canvas";
 import { CanvasProps } from "../api/canvas-props";
+import { useCanvasInLayer } from "../core/canvas-in-layer/use-canvas-in-layer";
 
 extend(THREE);
 
 const fromLngLat = MercatorCoordinate.fromLngLat
 
 /** react`-three-fiber` canvas inside `MapLibre` */
-export const Canvas = memo<CanvasProps>(({id, beforeId, ...props}) => {
+export const Canvas = memo<CanvasProps>(props => {
 
-  const { id: reactId, onAdd, onRemove, render } = useCanvas({ ...props, fromLngLat });
+  const map = useMap().current!.getMap();
+
+  const { id, onAdd, onRemove, render } = useCanvasInLayer(props, fromLngLat, map);
 
   return <Layer
-    id={id || reactId}
-    beforeId={beforeId}
+    id={id}
+    beforeId={props.beforeId}
     type="custom"
     renderingMode="3d"
     onAdd={onAdd}

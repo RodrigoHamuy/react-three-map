@@ -71,7 +71,7 @@
   "peerDependencies": {
     "@react-three/fiber": ">=8.13",
     "mapbox-gl": ">=2.15",
-    "maplibre-gl": ">=3.1",
+    "maplibre-gl": ">=3.2",
     "react": ">=18.0",
     "react-map-gl": ">=7.1",
     "three": ">=0.133"
