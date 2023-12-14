@@ -13,14 +13,6 @@ export function useOnAdd(
 
   const r3mRef = useRef<R3mStore>({ fromLngLat });
 
-  const [mounted, setMounted] = useState(true);
-
-  const onAdd = useFunction(() => {
-
-    setTimeout(() => setMounted(true));
-
-  })
-
   const [{root, useThree, canvas }] = useState(()=>{
     const canvas = map.getCanvas();
     const gl = (canvas.getContext('webgl2') || canvas.getContext('webgl')) as WebGLRenderingContext;
@@ -106,5 +98,5 @@ export function useOnAdd(
     }
   }, [])
 
-  return { onAdd, onRemove, mounted, r3mRef };
+  return { root, onRemove, r3mRef };
 }

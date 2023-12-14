@@ -16,21 +16,18 @@ export function useCanvasInLayer({
       latitude, longitude, altitude, fromLngLat,
     });
 
-    const { onAdd, onRemove, mounted, r3mRef } = useOnAdd(fromLngLat, map, { frameloop, ...props });
+    const { onRemove, r3mRef, root } = useOnAdd(fromLngLat, map, { frameloop, ...props });
 
     useEffect(() => {
-      if (!mounted) return;
-      if (!r3mRef.current.root) return;
-      r3mRef.current.root.render(<>
+      root.render(<>
         {props.children}
       </>);
-    }, [r3mRef, mounted, props.children])
+    }, [props.children])
   
     const render = useRender(origin, r3mRef, frameloop);
   
     return {
       id: props.id || id,
-      onAdd,
       onRemove,
       render
     }

@@ -15,14 +15,13 @@ export const Canvas = memo<CanvasProps>(props => {
 
   const map = useMap().current!.getMap();
 
-  const { id, onAdd, onRemove, render } = useCanvasInLayer(props, fromLngLat, map);
+  const { id, onRemove, render } = useCanvasInLayer(props, fromLngLat, map);
 
   return <Layer
     id={id}
     beforeId={props.beforeId}
     type="custom"
     renderingMode="3d"
-    onAdd={onAdd}
     onRemove={onRemove}
     render={render}
   />
