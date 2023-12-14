@@ -26,3 +26,4 @@ export const Canvas = memo<CanvasProps>(props => {
     render={render}
   />
 })
+Canvas.displayName = 'Canvas'
