@@ -1,7 +1,7 @@
 import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
-import { useControls } from "leva";
-import { useState } from "react";
+import { levaStore, useControls } from "leva";
+import { useEffect, useState } from "react";
 import { ColorRepresentation } from "three";
 import { Coordinates } from "react-three-map";
 import { StoryMap } from "./story-map";
@@ -25,6 +25,12 @@ export function Default() {
       step: 0.000001,
     },
   })
+
+  useEffect(()=>{
+    // default this story to not use overlay
+    levaStore.setValueAtPath('overlay', false, true);
+    // levaStore.setValueAtPath('overlay', false, true);
+  }, [])
 
   return <StoryMap
     longitude={blue[0]}
