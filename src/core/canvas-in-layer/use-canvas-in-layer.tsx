@@ -1,4 +1,4 @@
-import { useEffect, useId } from "react";
+import { useEffect } from "react";
 import { CanvasProps } from "../../api/canvas-props";
 import { FromLngLat, MapInstance } from "../generic-map";
 import { useCoords } from "../use-coords";
@@ -10,8 +10,6 @@ export function useCanvasInLayer({
   longitude, latitude, altitude = 0,
   frameloop = 'always',
   ...props}: CanvasProps,fromLngLat: FromLngLat, map: MapInstance) {
-
-    const id = useId(); 
 
     const origin = useCoords({
       latitude, longitude, altitude, fromLngLat,
@@ -28,7 +26,7 @@ export function useCanvasInLayer({
     const render = useRender({origin, frameloop, useThree, map, r3m});
   
     return {
-      id: props.id || id,
+      id: props.id,
       beforeId: props.beforeId,
       onRemove,
       render,

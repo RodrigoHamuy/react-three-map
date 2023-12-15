@@ -23,7 +23,6 @@ export function useRoot(
       frameloop: 'never',
       gl: {
         context: gl,
-        depth: true,
         autoClear: false,
         antialias: true,
         ...props?.gl,
@@ -38,8 +37,8 @@ export function useRoot(
       size: {
         width: canvas.clientWidth,
         height: canvas.clientHeight,
-        top: 0,
-        left: 0,
+        top: canvas.offsetTop,
+        left: canvas.offsetLeft,
         updateStyle: false,
         ...props?.size,
       },
