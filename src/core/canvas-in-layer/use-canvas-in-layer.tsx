@@ -6,16 +6,15 @@ import { useRender } from "./use-render";
 import { useRoot } from "./use-root";
 
 /** get all the properties that you need to render as a map `<Layer>` */
-export function useCanvasInLayer({
-  longitude, latitude, altitude = 0,
-  frameloop = 'always',
-  ...props}: CanvasProps,fromLngLat: FromLngLat, map: MapInstance) {
+export function useCanvasInLayer(props: CanvasProps,fromLngLat: FromLngLat, map: MapInstance) {
+
+  const {latitude, longitude, altitude, frameloop } = props;
 
     const origin = useCoords({
       latitude, longitude, altitude, fromLngLat,
     });
 
-    const { onRemove, root, useThree, r3m } = useRoot(fromLngLat, map, { frameloop, ...props });
+    const { onRemove, root, useThree, r3m } = useRoot(fromLngLat, map, props);
 
     useEffect(() => {
       root.render(<>

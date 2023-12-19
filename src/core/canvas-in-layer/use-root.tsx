@@ -1,5 +1,6 @@
-import { RenderProps, _roots, createRoot } from "@react-three/fiber";
+import { _roots, createRoot } from "@react-three/fiber";
 import { useEffect, useState } from "react";
+import { CanvasProps } from "../../api/canvas-props";
 import { events } from "../events";
 import { FromLngLat, MapInstance } from "../generic-map";
 import { useFunction } from "../use-function";
@@ -8,7 +9,7 @@ import { initR3M } from "../use-r3m";
 export function useRoot(
   fromLngLat: FromLngLat,
   map: MapInstance,
-  { frameloop, ...props }: RenderProps<HTMLCanvasElement>
+  { frameloop, ...props }: CanvasProps
 ) {
 
   const [{ root, useThree, canvas, r3m }] = useState(() => {
@@ -46,7 +47,11 @@ export function useRoot(
 
     const store = _roots.get(canvas)!.store; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-    const r3m = initR3M(map, fromLngLat, store);
+    const r3m = initR3M({ 
+      map, fromLngLat, store, 
+      latitude: props.latitude,
+      longitude: props.longitude,
+    });
 
     if (frameloop === 'demand') {
       store.setState({

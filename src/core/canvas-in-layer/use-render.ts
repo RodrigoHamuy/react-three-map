@@ -12,7 +12,7 @@ export function useRender({
   map: MapInstance,
   origin: Matrix4Tuple,
   useThree: UseBoundStore<RootState>,
-  frameloop: 'always' | 'demand',
+  frameloop?: 'always' | 'demand',
   r3m: R3M
 }) {
   const render = useFunction((_gl: WebGL2RenderingContext, projViewMx: number[]) => {
@@ -23,7 +23,7 @@ export function useRender({
     syncCamera(camera as PerspectiveCamera, origin, projViewMx as Matrix4Tuple);
     gl.resetState();
     advance(Date.now() * 0.001, true);
-    if (frameloop === 'always') map.triggerRepaint();
+    if (!frameloop || frameloop === 'always') map.triggerRepaint();
   })
   return render;
 }

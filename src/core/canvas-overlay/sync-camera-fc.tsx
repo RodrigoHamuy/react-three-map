@@ -5,11 +5,9 @@ import { syncCamera } from "../sync-camera";
 import { useCoords } from "../use-coords";
 import { useFunction } from "../use-function";
 import { useR3M } from "../use-r3m";
+import { Coords } from "../coords";
 
-interface SyncCameraFCProps {
-  latitude: number,
-  longitude: number,
-  altitude?: number,
+interface SyncCameraFCProps extends Coords {
   setOnRender?: (callback: () => (mx: Matrix4Tuple) => void) => void,
   /** on `useFrame` it will manually render (used by `<Coordinates>`) */
   manualRender?: boolean,

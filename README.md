@@ -178,6 +178,14 @@ import { Canvas, Coordinates } from 'react-three-map'
 | longitude  | The longitude coordinate where to add the scene. |            |
 | altitude   | The altitude coordinate where to add the scene.  | `0`        |
 
+### NearCoordinates
+
+Same as `Coordinates`, but with an error margin that increases the further you are from the origin.
+
+Recommended to use at city level distances, but margin errors will be noticeable at country level distances.
+
+Check the story to see the difference between the two.
+
 ### useMap
 
 Access the map from inside `react-three-map`.

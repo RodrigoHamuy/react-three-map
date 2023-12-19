@@ -18,7 +18,7 @@ interface CanvasPortalProps extends PropsWithChildren {
 }
 
 export const CanvasPortal = memo<CanvasPortalProps>(({
-  children, latitude, longitude, altitude = 0,
+  children, latitude, longitude, altitude,
   setOnRender, map, frameloop, fromLngLat
 }) => {
 
@@ -43,6 +43,9 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
     <InitR3M
       map={map}
       fromLngLat={fromLngLat}
+      latitude={latitude}
+      longitude={longitude}
+      altitude={altitude}
     />
     <SyncCameraFC
       latitude={latitude}

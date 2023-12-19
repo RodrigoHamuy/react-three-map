@@ -29,7 +29,9 @@
     "build:stories": "yarn ladle build",
     "test": "yarn vitest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@turf/turf": "^7.0.0-alpha.2"
+  },
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
     "@ladle/react": "^2.13.0",
