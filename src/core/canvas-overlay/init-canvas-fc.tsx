@@ -1,22 +1,18 @@
-import { PropsWithChildren, memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { createPortal } from 'react-dom';
 import { Matrix4Tuple } from "three";
+import { CanvasProps } from "../../api/canvas-props";
 import { FromLngLat, MapInstance } from "../generic-map";
 import { CanvasPortal } from "./canvas-portal";
 
-interface InitCanvasFCProps extends PropsWithChildren {
-  latitude: number,
-  longitude: number,
-  altitude?: number,
+interface InitCanvasFCProps extends CanvasProps {
   map: MapInstance,
   setOnRender: (callback: () => (mx: Matrix4Tuple) => void) => void,
   frameloop?: 'always' | 'demand',
   fromLngLat: FromLngLat,
 }
-export const InitCanvasFC = memo<InitCanvasFCProps>(({
-  map, latitude, longitude, altitude, setOnRender, children, frameloop, fromLngLat
-}) => {
-  const canvas = map.getCanvas() // eslint-disable-line @typescript-eslint/no-non-null-assertion
+export const InitCanvasFC = memo<InitCanvasFCProps>((props) => {
+  const canvas = props.map.getCanvas() // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
   const [el] = useState(() => {
     const el = document.createElement('div');
@@ -38,17 +34,7 @@ export const InitCanvasFC = memo<InitCanvasFCProps>(({
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return <>
     {createPortal((
-      <CanvasPortal
-        latitude={latitude}
-        longitude={longitude}
-        altitude={altitude}
-        setOnRender={setOnRender}
-        frameloop={frameloop}
-        fromLngLat={fromLngLat}
-        map={map}
-      >
-        {children}
-      </CanvasPortal>
+      <CanvasPortal {...props} />
     ), el)}
   </>
 })

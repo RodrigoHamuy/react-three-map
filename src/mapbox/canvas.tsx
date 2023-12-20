@@ -16,13 +16,13 @@ extend(THREE);
 const fromLngLat = MercatorCoordinate.fromLngLat
 
 /** react`-three-fiber` canvas inside `Mapbox` */
-export const Canvas = memo<CanvasProps>(props => {
+export const Canvas = memo<CanvasProps>(({ overlay, ...props }) => {
 
   const map = useMap().current!.getMap(); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
   return <>
-    {props.overlay && <CanvasOverlay map={map} {...props} />}
-    {!props.overlay && <CanvasInLayer map={map} {...props} />}
+    {overlay && <CanvasOverlay map={map} {...props} />}
+    {!overlay && <CanvasInLayer map={map} {...props} />}
   </>
 })
 Canvas.displayName = 'Canvas'
@@ -31,13 +31,13 @@ interface CanvasPropsAndMap extends CanvasProps {
   map: MapInstance;
 }
 
-const CanvasInLayer = memo<CanvasPropsAndMap>(({map, ...props}) => {
+const CanvasInLayer = memo<CanvasPropsAndMap>(({ map, ...props }) => {
   const layerProps = useCanvasInLayer(props, fromLngLat, map);
   return <Layer {...layerProps} />
 })
 CanvasInLayer.displayName = 'CanvasInLayer';
 
-const CanvasOverlay = memo<CanvasPropsAndMap>(({map, ...props}) => {
+const CanvasOverlay = memo<CanvasPropsAndMap>(({ map, id, beforeId, ...props }) => {
   const [onRender, setOnRender] = useState<(mx: Matrix4Tuple) => void>();
 
   const render = useFunction<Render>((_gl, mx) => {
@@ -46,16 +46,12 @@ const CanvasOverlay = memo<CanvasPropsAndMap>(({map, ...props}) => {
   })
 
   return <>
-    <Layer id={props.id} beforeId={props.beforeId} type="custom" render={render} />
-    <InitCanvasFC
-      latitude={props.latitude}
-      longitude={props.longitude}
-      altitude={props.altitude}
-      frameloop={props.frameloop}
+    <Layer id={id} beforeId={beforeId} type="custom" render={render} />
+    <InitCanvasFC {...props}
       setOnRender={setOnRender}
       map={map}
       fromLngLat={fromLngLat}
-    >{props.children}</InitCanvasFC>
+    />
   </>
 })
 CanvasInLayer.displayName = 'CanvasInLayer';
