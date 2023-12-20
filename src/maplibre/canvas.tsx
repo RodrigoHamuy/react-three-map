@@ -51,6 +51,7 @@ const CanvasOverlay = memo<CanvasPropsAndMap>(({map, ...props}) => {
       latitude={props.latitude}
       longitude={props.longitude}
       altitude={props.altitude}
+      frameloop={props.frameloop}
       setOnRender={setOnRender}
       map={map}
       fromLngLat={fromLngLat}
