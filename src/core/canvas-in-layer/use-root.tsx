@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { CanvasProps } from "../../api/canvas-props";
 import { events } from "../events";
 import { FromLngLat, MapInstance } from "../generic-map";
+import { setCoords, useSetRootCoords } from "../use-coords";
 import { useFunction } from "../use-function";
 import { initR3M } from "../use-r3m";
 
 export function useRoot(
   fromLngLat: FromLngLat,
   map: MapInstance,
-  { frameloop, ...props }: CanvasProps
+  { frameloop, longitude, latitude, altitude, ...props }: CanvasProps
 ) {
 
   const [{ root, useThree, canvas, r3m }] = useState(() => {
@@ -47,11 +48,8 @@ export function useRoot(
 
     const store = _roots.get(canvas)!.store; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-    const r3m = initR3M({ 
-      map, fromLngLat, store, 
-      latitude: props.latitude,
-      longitude: props.longitude,
-    });
+    const r3m = initR3M({ map, fromLngLat, store });
+    setCoords(store, {longitude, latitude, altitude});
 
     if (frameloop === 'demand') {
       store.setState({
@@ -86,6 +84,8 @@ export function useRoot(
     root.unmount();
   })
 
+  useSetRootCoords(useThree, {longitude, latitude, altitude});
+
   // on `frameloop` change
   useEffect(() => {
     if (frameloop !== 'demand') return;
@@ -110,5 +110,12 @@ export function useRoot(
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { root, onRemove, useThree, r3m };
+  // root.render
+  useEffect(() => {
+    root.render(<>
+      {props.children}
+    </>);
+  }, [props.children]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return { onRemove, useThree, r3m };
 }

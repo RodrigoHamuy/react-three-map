@@ -1,10 +1,10 @@
 import { memo, useMemo } from "react";
-import { useR3M } from "../core/use-r3m";
-import { coordsToVector3 } from "./coords-to-vector-3";
+import { useCoords } from "../core/use-coords";
 import { CoordinatesProps } from "./coordinates";
+import { coordsToVector3 } from "./coords-to-vector-3";
 
 export const NearCoordinates = memo<CoordinatesProps>(({children, ...coords})=>{
-  const {latitude, longitude, altitude} = useR3M();
+  const {latitude, longitude, altitude} = useCoords();
   const pos = useMemo(()=>coordsToVector3(coords, {latitude, longitude, altitude}), [ // eslint-disable-line react-hooks/exhaustive-deps
     latitude, longitude, altitude, coords.latitude, coords.longitude, coords.altitude
   ]);

@@ -1,6 +1,6 @@
 import { bearing, distance } from "@turf/turf";
 import { Euler, MathUtils, Vector3, Vector3Tuple } from "three";
-import { Coords } from "../core/coords";
+import { Coords } from "../core/use-coords";
 
 const _euler = new Euler();
 const _pos = new Vector3();

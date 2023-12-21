@@ -60,7 +60,12 @@ export function Default() {
 }
 
 const CoordsControl : FC<CoordinatesProps> = (props) => {
-  const {coords} = useControls({coords: {value: CoordinatesType.Coordinates, options: CoordinatesType }})
+  const {coords} = useControls({
+    coords: {
+      value: CoordinatesType.Coordinates,
+      options: CoordinatesType
+    }
+  })
 
   return <>
     {coords === CoordinatesType.Coordinates && <Coordinates {...props} />}

@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { CanvasProps } from "../../api/canvas-props";
 import { FromLngLat, MapInstance } from "../generic-map";
-import { useCoords } from "../use-coords";
+import { useCoordsToMatrix } from "../use-coords-to-matrix";
 import { useRender } from "./use-render";
 import { useRoot } from "./use-root";
 
@@ -10,17 +9,11 @@ export function useCanvasInLayer(props: CanvasProps,fromLngLat: FromLngLat, map:
 
   const {latitude, longitude, altitude, frameloop } = props;
 
-    const origin = useCoords({
+    const origin = useCoordsToMatrix({
       latitude, longitude, altitude, fromLngLat,
     });
 
-    const { onRemove, root, useThree, r3m } = useRoot(fromLngLat, map, props);
-
-    useEffect(() => {
-      root.render(<>
-        {props.children}
-      </>);
-    }, [props.children]) // eslint-disable-line react-hooks/exhaustive-deps
+    const { onRemove, useThree, r3m } = useRoot(fromLngLat, map, props);
   
     const render = useRender({origin, frameloop, useThree, map, r3m});
   

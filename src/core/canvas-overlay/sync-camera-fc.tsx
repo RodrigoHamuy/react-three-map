@@ -2,10 +2,10 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { memo, useEffect, useLayoutEffect, useRef } from "react";
 import { Matrix4Tuple, PerspectiveCamera } from "three";
 import { syncCamera } from "../sync-camera";
-import { useCoords } from "../use-coords";
+import { useCoordsToMatrix } from "../use-coords-to-matrix";
 import { useFunction } from "../use-function";
 import { useR3M } from "../use-r3m";
-import { Coords } from "../coords";
+import { Coords } from "../use-coords";
 
 interface SyncCameraFCProps extends Coords {
   setOnRender?: (callback: () => (mx: Matrix4Tuple) => void) => void,
@@ -29,7 +29,7 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
   const advance = useThree(s => s.advance);
   const set = useThree(s => s.set);
 
-  const origin = useCoords({ latitude, longitude, altitude, fromLngLat: r3m.fromLngLat });
+  const origin = useCoordsToMatrix({ latitude, longitude, altitude, fromLngLat: r3m.fromLngLat });
 
   const ready = useRef(false);
 
