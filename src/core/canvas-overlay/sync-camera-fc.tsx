@@ -12,11 +12,12 @@ interface SyncCameraFCProps extends Coords {
   /** on `useFrame` it will manually render (used by `<Coordinates>`) */
   manualRender?: boolean,
   onReady?: () => void,
+  mapCanvas: HTMLCanvasElement,
 }
 
 /** React Component (FC) to sync the Three camera with the map provider */
 export const SyncCameraFC = memo<SyncCameraFCProps>(({
-  latitude, longitude, altitude = 0, setOnRender, manualRender, onReady
+  latitude, longitude, altitude = 0, setOnRender, manualRender, onReady, mapCanvas
 }) => {
 
   const r3m = useR3M();
@@ -25,8 +26,10 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
 
   const camera = useThree(s => s.camera) as PerspectiveCamera;
   const gl = useThree(s => s.gl);
+  const threeCanvas = useThree(s => s.gl.domElement);
   const scene = useThree(s => s.scene);
   const advance = useThree(s => s.advance);
+  const setSize = useThree(s => s.setSize);
   const set = useThree(s => s.set);
 
   const origin = useCoordsToMatrix({ latitude, longitude, altitude, fromLngLat: r3m.fromLngLat });
@@ -40,6 +43,17 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
   }, -Infinity)
 
   const onRender = useFunction((viewProjMx: Matrix4Tuple) => {
+
+    if(threeCanvas.width !== mapCanvas.width || threeCanvas.height !== mapCanvas.height) {
+      setSize(
+        mapCanvas.clientWidth,
+        mapCanvas.clientHeight,
+        true,
+        mapCanvas.offsetTop,
+        mapCanvas.offsetLeft,
+      );
+    }
+    
     r3m.viewProjMx = viewProjMx;
     if (!ready.current && onReady) {
       ready.current = true;

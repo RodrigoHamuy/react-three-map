@@ -19,7 +19,8 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
   setOnRender, map, fromLngLat, ...props
 }) => {
 
-  const eventSource = map.getCanvas().parentElement!;  // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  const mapCanvas = map.getCanvas();
+  const eventSource = mapCanvas.parentElement!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
   const [ready, setReady] = useState(false);
 
@@ -32,7 +33,6 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
       matrixAutoUpdate: false,
       matrixWorldAutoUpdate: false,
     }}
-    gl={{autoClear: false,...props.gl}}
     events={events}
     eventSource={eventSource}
     {...props}
@@ -50,6 +50,7 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
       altitude={altitude}
       setOnRender={setOnRender}
       onReady={onReady}
+      mapCanvas={mapCanvas}
     />
     {ready && children}
   </Canvas>
