@@ -43,7 +43,6 @@ function MyBox({ animate, ...props }: MeshProps & { animate?: boolean }) {
       {...props}
       ref={mesh}
       args={[16, 16, 16]}
-      receiveShadow
       castShadow
       onClick={onOver}
       onPointerOver={onOver}
