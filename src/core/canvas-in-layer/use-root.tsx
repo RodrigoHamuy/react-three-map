@@ -22,12 +22,12 @@ export function useRoot(
     const root = createRoot(threeCanvas);
     root.configure({
       dpr: window.devicePixelRatio,
-      events,
+      events: events(mapCanvas.parentElement!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
       ...props,
       frameloop: 'never',
       gl: {
         context: gl,
-        autoClear: false,
+        autoClear: !overlayCanvas,
         antialias: true,
         ...props?.gl,
       },

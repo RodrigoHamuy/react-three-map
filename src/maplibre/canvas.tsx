@@ -21,7 +21,7 @@ export const CanvasWithKey : FC<CanvasProps> = (props) => {
 
   const map = useMap().current!.getMap(); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-  const {canvas, ...layerProps} = useCanvasInLayer(props, fromLngLat, map);
+  const layerProps = useCanvasInLayer(props, fromLngLat, map);
 
   return <Layer {...layerProps} />
 

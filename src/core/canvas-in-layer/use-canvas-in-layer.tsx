@@ -12,16 +12,21 @@ export function useCanvasInLayer(
   map: MapInstance,
 ) {
 
-  const { overlayCanvas } = useMemo(() => {
+  const { overlayCanvas, div } = useMemo(() => {
     if (!overlay) return {};
+
+    const div = document.createElement('div');
+    div.style.position = 'absolute';
+    div.style.top = '0';
+    div.style.bottom = '0';
+    div.style.left = '0';
+    div.style.right = '0';
+    div.style.pointerEvents = 'none';
+
     const overlayCanvas = document.createElement('canvas');
-    overlayCanvas.style.position = 'absolute';
-    overlayCanvas.style.top = '0';
-    overlayCanvas.style.bottom = '0';
-    overlayCanvas.style.left = '0';
-    overlayCanvas.style.right = '0';
-    overlayCanvas.style.pointerEvents = 'none';
-    return { overlayCanvas }
+    div.appendChild(overlayCanvas);
+
+    return { overlayCanvas, div }
   }, [overlay])
 
   const { latitude, longitude, altitude, frameloop } = props;
@@ -35,13 +40,13 @@ export function useCanvasInLayer(
   const render = useRender({ origin, frameloop, useThree, map, r3m });
 
   useEffect(() => {
-    if (!overlayCanvas) return;
+    if (!div) return;
     const parent = map.getCanvas().parentElement!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
-    parent.appendChild(overlayCanvas);
+    parent.appendChild(div);
     return () => {
-      parent.removeChild(overlayCanvas);
+      parent.removeChild(div);
     }
-  }, [overlayCanvas]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [div]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     id: props.id,
@@ -50,7 +55,6 @@ export function useCanvasInLayer(
     render,
     type: 'custom',
     renderingMode: '3d',
-    canvas: overlayCanvas,
   } as const
 
 }

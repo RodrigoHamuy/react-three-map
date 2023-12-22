@@ -6,13 +6,14 @@ const projViewInv = new Matrix4()
 
 type Events = Parameters<typeof Canvas>[0]['events'];
 
-export const events: Events = (store) => {
+export const events = (target: HTMLElement) : Events => (store) => {
+// export const events: Events = (store) => {
   const originalEvents = fiberEvents(store);
   return {
     ...originalEvents,
-    connect: target => {
+    connect: () => {
       if (!originalEvents.connect) return;
-      originalEvents.connect(target.parentElement!);  // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      originalEvents.connect(target);
     },
     compute: (event, state) => {
 
