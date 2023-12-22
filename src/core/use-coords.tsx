@@ -1,12 +1,7 @@
 import { RootState, _roots, useThree } from "@react-three/fiber";
 import { useMemo } from "react";
 import { UseBoundStore } from 'zustand';
-
-export interface Coords {
-  longitude: number,
-  latitude: number,
-  altitude?: number
-}
+import { Coords } from "../api/coords";
 
 export function useCoords() {
   const coords = useThree(s=>(s as any).coords) as Coords; // eslint-disable-line @typescript-eslint/no-explicit-any

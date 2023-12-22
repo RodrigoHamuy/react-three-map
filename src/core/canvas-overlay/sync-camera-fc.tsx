@@ -5,7 +5,7 @@ import { syncCamera } from "../sync-camera";
 import { useCoordsToMatrix } from "../use-coords-to-matrix";
 import { useFunction } from "../use-function";
 import { useR3M } from "../use-r3m";
-import { Coords } from "../use-coords";
+import { Coords } from "../../api/coords";
 
 interface SyncCameraFCProps extends Coords {
   setOnRender?: (callback: () => (mx: Matrix4Tuple) => void) => void,

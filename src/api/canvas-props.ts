@@ -1,6 +1,6 @@
 import { RenderProps } from "@react-three/fiber";
 import { PropsWithChildren } from "react";
-import { Coords } from "../core/use-coords";
+import { Coords } from "./coords";
 
 export interface CanvasProps extends Coords, Omit<RenderProps<HTMLCanvasElement>, 'frameloop'>, PropsWithChildren {
   id?: string;

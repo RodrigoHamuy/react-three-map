@@ -180,6 +180,8 @@ import { Canvas, Coordinates } from 'react-three-map'
 
 ### NearCoordinates
 
+[![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=multi-coordinates--default)
+
 Same as `Coordinates`, but with an error margin that increases the further you are from the origin.
 
 Recommended to use at city level distances, but margin errors will be noticeable at country level distances.
@@ -199,3 +201,25 @@ const Component = () => {
 }
 
 ```
+
+### coordsToVector3
+
+[![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=extrude-coordinates--extrude-coordinates)
+
+This utility function converts geographic coordinates into a `Vector3Tuple`, which represents a 3D vector in meters.
+
+Similar to `NearCoordinates` it has a relatively good precision at city distances, but is not recommended if your distances are too big.
+
+
+| Parameter      | Description                                                       |
+| -------------- | ----------------------------------------------------------------- |
+| `point: Coords`  | The geographic coordinates of the point to convert.             |
+| `origin: Coords` | The geographic coordinates used as the origin for calculations. |
+
+Returns a `Vector3Tuple` representing the 3D position of the point relative to the origin.
+
+### coordsToShapePoints
+
+[![Extrude example](docs/extrude.png)](https://rodrigohamuy.github.io/react-three-map/?story=extrude-coordinates--extrude-coordinates)
+
+Similar to `coordsToVector3`, this function converts geographic coordinates into a format suitable for Extrusion in 3D graphics.

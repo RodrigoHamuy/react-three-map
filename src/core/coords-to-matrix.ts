@@ -1,6 +1,6 @@
 import { Euler, Matrix4, Quaternion, Vector3 } from "three";
 import { FromLngLat } from "./generic-map";
-import { Coords } from "./use-coords";
+import { Coords } from "../api/coords";
 
 const quat = new Quaternion();
 const euler = new Euler();

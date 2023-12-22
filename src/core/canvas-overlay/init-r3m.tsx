@@ -1,7 +1,8 @@
 import { memo } from "react";
 import { FromLngLat, MapInstance } from "../generic-map";
 import { useInitR3M } from "../use-r3m";
-import { Coords, useSetCoords } from "../use-coords";
+import { useSetCoords } from "../use-coords";
+import { Coords } from "../../api/coords";
 
 interface InitR3MProps extends Coords {
   map: MapInstance,
