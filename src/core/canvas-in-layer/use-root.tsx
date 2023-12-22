@@ -10,14 +10,16 @@ import { initR3M } from "../use-r3m";
 export function useRoot(
   fromLngLat: FromLngLat,
   map: MapInstance,
-  { frameloop, longitude, latitude, altitude, ...props }: CanvasProps
+  { frameloop, longitude, latitude, altitude, ...props }: CanvasProps,
+  overlayCanvas?: HTMLCanvasElement,
 ) {
 
-  const [{ root, useThree, canvas, r3m }] = useState(() => {
-    const canvas = map.getCanvas();
-    const gl = (canvas.getContext('webgl2') || canvas.getContext('webgl')) as WebGLRenderingContext;
+  const [{ root, useThree, mapCanvas, r3m }] = useState(() => {
+    const mapCanvas = map.getCanvas();
+    const threeCanvas = overlayCanvas || mapCanvas;
+    const gl = (threeCanvas.getContext('webgl2') || threeCanvas.getContext('webgl')) as WebGLRenderingContext;
 
-    const root = createRoot(canvas);
+    const root = createRoot(threeCanvas);
     root.configure({
       dpr: window.devicePixelRatio,
       events,
@@ -37,16 +39,16 @@ export function useRoot(
         near: 0,
       },
       size: {
-        width: canvas.clientWidth,
-        height: canvas.clientHeight,
-        top: canvas.offsetTop,
-        left: canvas.offsetLeft,
+        width: threeCanvas.clientWidth,
+        height: threeCanvas.clientHeight,
+        top: threeCanvas.offsetTop,
+        left: threeCanvas.offsetLeft,
         updateStyle: false,
         ...props?.size,
       },
     });
 
-    const store = _roots.get(canvas)!.store; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    const store = _roots.get(threeCanvas)!.store; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     const r3m = initR3M({ map, fromLngLat, store });
     setCoords(store, {longitude, latitude, altitude});
@@ -60,7 +62,7 @@ export function useRoot(
       })
     }
 
-    return { root, useThree: store, map, canvas, r3m }
+    return { root, useThree: store, map, threeCanvas, mapCanvas, r3m }
 
   })
 
@@ -71,11 +73,11 @@ export function useRoot(
     setDpr(window.devicePixelRatio);
 
     setSize(
-      canvas.clientWidth,
-      canvas.clientHeight,
-      false,
-      canvas.offsetTop,
-      canvas.offsetLeft,
+      mapCanvas.clientWidth,
+      mapCanvas.clientHeight,
+      !!overlayCanvas,
+      mapCanvas.offsetTop,
+      mapCanvas.offsetLeft,
     );
 
   })
@@ -105,6 +107,7 @@ export function useRoot(
   // on mount / unmount
   useEffect(() => {
     map.on('resize', onResize);
+    onResize();
     return () => {
       map.off('resize', onResize)
     }
