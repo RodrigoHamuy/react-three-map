@@ -36,6 +36,7 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
     events={events}
     eventSource={eventSource}
     {...props}
+    gl={{autoClear: false, ...props.gl}}
   >
     <InitR3M
       map={map}
