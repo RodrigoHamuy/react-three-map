@@ -217,9 +217,3 @@ Similar to `NearCoordinates` it has a relatively good precision at city distance
 | `origin: Coords` | The geographic coordinates used as the origin for calculations. |
 
 Returns a `Vector3Tuple` representing the 3D position of the point relative to the origin.
-
-### coordsToShapePoints
-
-[![Extrude example](docs/extrude.png)](https://rodrigohamuy.github.io/react-three-map/?story=extrude-coordinates--extrude-coordinates)
-
-Similar to `coordsToVector3`, this function converts geographic coordinates into a format suitable for Extrusion in 3D graphics.

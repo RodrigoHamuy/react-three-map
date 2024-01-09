@@ -6,4 +6,3 @@
 - Add `overlay?: boolean` to `<Canvas>`, so you can render on a separated canvas if preferred.
 - Add `NearCoordinates` component.
 - Add `coordsToVector3` function.
-- Add `coordsToShapePoints` function.
