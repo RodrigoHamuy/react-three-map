@@ -3,7 +3,7 @@ import { ComponentProps, useRef } from "react";
 import ReactMap from 'react-map-gl';
 import { Canvas } from "react-three-map";
 import { MapboxCanvas } from "../canvas/mapbox-canvas";
-import { GetMapData } from "./get-map-data";
+import { Buildings3D } from "./buildings-3d";
 import { SourceBuildings3D } from "./source-buildings-3d";
 
 const origin = { longitude: -0.1281, latitude: 51.508 }
@@ -37,7 +37,7 @@ export function Default() {
         position={[1, 4.5, 3]}
         intensity={Math.PI}
       />
-      <GetMapData origin={origin} />
+      <Buildings3D origin={origin} />
     </MapboxCanvas>
   </div>
 }
