@@ -16,11 +16,10 @@ export function MyScene({ showCamHelper, animate }: {
 }
 
 
-function MyBox({ animate, ...props }: MeshProps & { animate?: boolean }) {
+function MyBox({animate, ...props}: MeshProps & {animate?: boolean}) {
   const [hovered, hover] = useState(false);
   const mesh = useRef<Mesh>(null)
   const invalidate = useThree(st => st.invalidate);
-  const events = useThree(st => st.events);
 
   const onOver = useCallback(() => {
     hover(true);
@@ -31,11 +30,10 @@ function MyBox({ animate, ...props }: MeshProps & { animate?: boolean }) {
   }, [])
 
   useFrame((_st, dt) => {
-    if (!animate) return
+    if(!animate) return
     if (!mesh.current) return;
     mesh.current.rotateY(dt);
     invalidate();
-    if (events.update) events.update();
   })
 
   return (
@@ -43,6 +41,7 @@ function MyBox({ animate, ...props }: MeshProps & { animate?: boolean }) {
       {...props}
       ref={mesh}
       args={[16, 16, 16]}
+      receiveShadow
       castShadow
       onClick={onOver}
       onPointerOver={onOver}
@@ -63,11 +62,11 @@ function Lights({ showCamHelper }: { showCamHelper?: boolean }) {
   useHelper((showCamHelper ? cam : noCam) as any, CameraHelper)
   const camSize = 100;
   return <>
-    <ambientLight intensity={0.5 * Math.PI} />
+    <ambientLight intensity={0.5} />
     <directionalLight
       castShadow
       position={[2.5, 50, 5]}
-      intensity={1.5 * Math.PI}
+      intensity={1.5}
       shadow-mapSize={1024}
     >
       <orthographicCamera
@@ -76,9 +75,8 @@ function Lights({ showCamHelper }: { showCamHelper?: boolean }) {
         args={[-camSize, camSize, -camSize, camSize, 0.1, 100]}
       />
     </directionalLight>
-    <pointLight position={[50, 5, 10]} intensity={Math.PI} decay={2 / Math.PI} />
-    <pointLight position={[-50, 5, 10]} intensity={Math.PI} decay={2 / Math.PI} />
-    <pointLight position={[0, 5, 0]} intensity={Math.PI} decay={2 / Math.PI} />
+    <pointLight position={[-10, 0, -20]} color="white" intensity={1} />
+    <pointLight position={[0, -10, 0]} intensity={1} />
   </>
 }
 

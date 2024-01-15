@@ -24,22 +24,17 @@ export interface StoryMapProps extends PropsWithChildren {
 /** `<Map>` styled for stories */
 export const StoryMap: FC<StoryMapProps> = (props) => {
 
-  const { mapProvider, overlay } = useControls({
+  const { mapProvider } = useControls({
     mapProvider: {
       value: MapProvider.maplibre,
       options: MapProvider,
       label: 'map provider'
     },
-    overlay: {
-      value: false,
-    }
   });
 
-  const canvas = { overlay, ...props.canvas};
-
   return <div style={{ height: '100vh', position: 'relative' }}>
-    {mapProvider === MapProvider.maplibre && <StoryMaplibre {...props} canvas={canvas} />}
-    {mapProvider === MapProvider.mapbox && <StoryMapbox {...props} canvas={canvas} />}
+    {mapProvider === MapProvider.maplibre && <StoryMaplibre {...props} />}
+    {mapProvider === MapProvider.mapbox && <StoryMapbox {...props} />}
     {mapProvider === MapProvider.nomap && <Canvas 
     {...props.canvas} 
     camera={{position: [0,500,0]}}

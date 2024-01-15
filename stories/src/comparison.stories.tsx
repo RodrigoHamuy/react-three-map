@@ -12,7 +12,7 @@ export function WithMap() {
     longitude={-0.1276473}
     zoom={18}
     pitch={60}
-    canvas={{ shadows: true }}
+    canvas={{ shadows: 'variance' }}
   >
     <MyScene showCamHelper={showCamHelper} animate={animate} />
   </StoryMap>

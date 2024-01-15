@@ -3,9 +3,10 @@
 [![Repository](https://img.shields.io/static/v1?&message=github&style=flat&colorA=000000&colorB=000000&label=&logo=github&logoColor=ffffff)](https://github.com/RodrigoHamuy/react-three-map)
 [![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-three-map)
 [![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size&?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=react-three-map)
+[![Stories](https://img.shields.io/badge/stories-stories?colorA=000&colorB=000000&logo=maplibre)](https://rodrigohamuy.github.io/react-three-map/?story=canvas--a-maplibre-example)
+[![codecov](https://img.shields.io/codecov/c/github/RodrigoHamuy/react-three-map?style=flat&colorA=000000&colorB=000000&logo=github&label=codecov&logo=codecov)](https://codecov.io/gh/RodrigoHamuy/react-three-map)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/RodrigoHamuy/react-three-map/release.yml?branch=main&style=flat&colorA=000000)](https://github.com/RodrigoHamuy/react-three-map/actions?query=workflow%3Arelease)
-[![Examples](https://img.shields.io/badge/stories-stories?colorA=000&colorB=000000&label=📍)](https://rodrigohamuy.github.io/react-three-map/?story=canvas--a-maplibre-example)
-[![Sponsor me](https://img.shields.io/github/sponsors/RodrigoHamuy?style=flat&colorA=000000&colorB=000000&label=💛%20sponsor)](https://github.com/sponsors/RodrigoHamuy?frequency=one-time&sponsor=RodrigoHamuy)
+
 
 `react-three-map` is a bridge to use [`react-three-fiber`](https://github.com/pmndrs/react-three-fiber) inside [`react-map-gl`](https://github.com/visgl/react-map-gl).
 
@@ -126,19 +127,6 @@ It shares most of the props from R3F `<Canvas>`, so you can check them directly 
 | longitude  | The longitude coordinate where to add the scene. |            |
 | altitude   | The altitude coordinate where to add the scene.  | `0`        |
 | frameloop  | Render mode: `"always"`, `"demand"`.             | `"always"` |
-| overlay    | Render on a separated canvas.                    | `false`    |
-
-**About `overlay`**
-
-You may want to use `overlay` if:
-
-- You use `react-postprocessing` and have issues clearing the screen.
-- Want to avoid unnecesary map renders when only the Three scene changed.
-
-But it comes with some caveats:
-
-- ThreeJS will always render on top, as this is now a separated canvas and doesn't have access to the map depth buffer.
-- `react-postprocessing` will also not work if you also use `<Coordinates>` components.
 
 #### Render Props removed from `@react-three/fiber`
 
@@ -178,16 +166,6 @@ import { Canvas, Coordinates } from 'react-three-map'
 | longitude  | The longitude coordinate where to add the scene. |            |
 | altitude   | The altitude coordinate where to add the scene.  | `0`        |
 
-### NearCoordinates
-
-[![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=multi-coordinates--default)
-
-Same as `Coordinates`, but with an error margin that increases the further you are from the origin.
-
-Recommended to use at city level distances, but margin errors will be noticeable at country level distances.
-
-Check the story to see the difference between the two.
-
 ### useMap
 
 Access the map from inside `react-three-map`.
@@ -201,19 +179,3 @@ const Component = () => {
 }
 
 ```
-
-### coordsToVector3
-
-[![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=extrude-coordinates--extrude-coordinates)
-
-This utility function converts geographic coordinates into a `Vector3Tuple`, which represents a 3D vector in meters.
-
-Similar to `NearCoordinates` it has a relatively good precision at city distances, but is not recommended if your distances are too big.
-
-
-| Parameter      | Description                                                       |
-| -------------- | ----------------------------------------------------------------- |
-| `point: Coords`  | The geographic coordinates of the point to convert.             |
-| `origin: Coords` | The geographic coordinates used as the origin for calculations. |
-
-Returns a `Vector3Tuple` representing the 3D position of the point relative to the origin.

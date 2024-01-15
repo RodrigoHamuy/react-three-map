@@ -7,7 +7,6 @@ export function Default() {
     <hemisphereLight
       args={["#ffffff", "#60666C"]}
       position={[1, 4.5, 3]}
-      intensity={Math.PI}
     />
     <Cylinder args={[10, 1, 40]} position={[0, 20, 0]}>
       <meshPhongMaterial color="yellow" />

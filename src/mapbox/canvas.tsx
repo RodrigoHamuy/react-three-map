@@ -1,57 +1,27 @@
 import { extend } from "@react-three/fiber";
 import { MercatorCoordinate } from "mapbox-gl";
-import { memo, useState } from "react";
-import { Layer, useMap } from "react-map-gl";
+import { memo } from "react";
+import { Layer } from "react-map-gl";
 import * as THREE from "three";
-import { Matrix4Tuple } from "three";
 import { CanvasProps } from "../api/canvas-props";
-import { useCanvasInLayer } from "../core/canvas-in-layer/use-canvas-in-layer";
-import { InitCanvasFC } from "../core/canvas-overlay/init-canvas-fc";
-import { Render } from "../core/canvas-overlay/render";
-import { MapInstance } from "../core/generic-map";
-import { useFunction } from "../core/use-function";
+import { useCanvas } from "../core/use-canvas";
 
 extend(THREE);
 
 const fromLngLat = MercatorCoordinate.fromLngLat
 
 /** react`-three-fiber` canvas inside `Mapbox` */
-export const Canvas = memo<CanvasProps>(({ overlay, ...props }) => {
+export const Canvas = memo<CanvasProps>(({id, beforeId, ...props}) => {
 
-  const map = useMap().current!.getMap(); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  const { id: reactId, onAdd, onRemove, render } = useCanvas({ ...props, fromLngLat });
 
-  return <>
-    {overlay && <CanvasOverlay map={map} {...props} />}
-    {!overlay && <CanvasInLayer map={map} {...props} />}
-  </>
+  return <Layer
+    id={id || reactId}
+    beforeId={beforeId}
+    type="custom"
+    renderingMode="3d"
+    onAdd={onAdd}
+    onRemove={onRemove}
+    render={render}
+  />
 })
-Canvas.displayName = 'Canvas'
-
-interface CanvasPropsAndMap extends CanvasProps {
-  map: MapInstance;
-}
-
-const CanvasInLayer = memo<CanvasPropsAndMap>(({ map, ...props }) => {
-  const layerProps = useCanvasInLayer(props, fromLngLat, map);
-  return <Layer {...layerProps} />
-})
-CanvasInLayer.displayName = 'CanvasInLayer';
-
-const CanvasOverlay = memo<CanvasPropsAndMap>(({ map, id, beforeId, ...props }) => {
-  const [onRender, setOnRender] = useState<(mx: Matrix4Tuple) => void>();
-
-  const render = useFunction<Render>((_gl, mx) => {
-    if (!onRender) return;
-    onRender(mx as Matrix4Tuple);
-  })
-
-  return <>
-    <Layer id={id} beforeId={beforeId} type="custom" render={render} />
-    <InitCanvasFC {...props}
-      setOnRender={setOnRender}
-      map={map}
-      fromLngLat={fromLngLat}
-    />
-  </>
-})
-CanvasInLayer.displayName = 'CanvasInLayer';

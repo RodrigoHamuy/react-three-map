@@ -23,7 +23,6 @@ export function Maplibre() {
         <hemisphereLight
           args={["#ffffff", "#60666C"]}
           position={[1, 4.5, 3]}
-          intensity={Math.PI}
         />
         <object3D scale={500}>
           <Box position={[-1.2, 1, 0]} />

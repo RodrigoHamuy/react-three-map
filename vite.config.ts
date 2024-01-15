@@ -56,7 +56,6 @@ export default defineConfig({
             "react-map-gl",
             "react-map-gl/maplibre",
             "three",
-            "@turf/turf",
           ]
         },
       },
