@@ -20,7 +20,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+
+    /* toggle these one for development */
+    "paths": {
+      "react-three-map": ["../src/mapbox.index.ts"],
+      "react-three-map/maplibre": ["../src/maplibre.index.ts"],
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"],

@@ -91,7 +91,7 @@ function Sun({ latitude, longitude }: { longitude: number, latitude: number }) {
     <directionalLight
       castShadow
       position={position}
-      intensity={position[1] >= 0 ? 1.5 : 0}
+      intensity={position[1] >= 0 ? 1.5 * Math.PI: 0}
       shadow-mapSize={1024}
     >
       <Sphere args={[20]} material-color="orange" visible={position[1] >= 0} />
@@ -113,6 +113,7 @@ function Sun({ latitude, longitude }: { longitude: number, latitude: number }) {
       args={["#343838", "#005f6b"]}
       position={position}
       visible={position[1] < 0}
+      intensity={Math.PI}
     />
   </>
 }

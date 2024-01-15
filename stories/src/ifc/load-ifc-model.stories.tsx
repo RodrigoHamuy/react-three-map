@@ -72,11 +72,11 @@ export function Default() {
 function Lights() {
   const camSize = 50;
   return <>
-    <ambientLight intensity={0.5} />
+    <ambientLight intensity={0.5 * Math.PI} />
     <directionalLight
       castShadow
       position={[2.5, 50, 5]}
-      intensity={1.5}
+      intensity={1.5 * Math.PI}
       shadow-mapSize={1024}
     >
       <orthographicCamera
@@ -84,8 +84,8 @@ function Lights() {
         args={[-camSize, camSize, -camSize, camSize, 0.1, 100]}
       />
     </directionalLight>
-    <pointLight position={[-10, 0, -20]} color="white" intensity={1} />
-    <pointLight position={[0, -10, 0]} intensity={1} />
+    <pointLight position={[-10, 0, -20]} intensity={Math.PI} />
+    <pointLight position={[0, -10, 0]} intensity={Math.PI} />
   </>
 }
 

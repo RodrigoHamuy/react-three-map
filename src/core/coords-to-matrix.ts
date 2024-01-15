@@ -1,5 +1,6 @@
 import { Euler, Matrix4, Quaternion, Vector3 } from "three";
 import { FromLngLat } from "./generic-map";
+import { Coords } from "../api/coords";
 
 const quat = new Quaternion();
 const euler = new Euler();
@@ -8,9 +9,9 @@ const scale = new Vector3();
 const m4 = new Matrix4();
 
 /** calculate Matrix4 from coordinates */
-export function coordsToMatrix({ longitude, latitude, altitude, fromLngLat }: {
-  longitude: number, latitude: number, altitude: number, fromLngLat: FromLngLat
-}) {
+export function coordsToMatrix({
+  longitude, latitude, altitude, fromLngLat
+}: Coords & { fromLngLat: FromLngLat }) {
   const center = fromLngLat([longitude, latitude], altitude);
   const scaleUnit = center.meterInMercatorCoordinateUnits();
   pos.set(center.x, center.y, center.z || 0);
