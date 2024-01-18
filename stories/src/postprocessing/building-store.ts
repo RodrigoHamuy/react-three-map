@@ -1,10 +1,9 @@
 import { dequal } from 'dequal';
-import { Map as MapboxMap, MapboxGeoJSONFeature } from "mapbox-gl";
-import { Coords, coordsToVector3 } from "react-three-map";
-import { BatchedMesh, ExtrudeGeometry, Matrix4, Shape, Vector2Tuple, Vector3Tuple } from "three";
+import { MapboxGeoJSONFeature, Map as MapboxMap } from "mapbox-gl";
+import { Coords } from "react-three-map";
+import { BatchedMesh, Vector2Tuple } from "three";
+import { BatchedStandardMaterial } from './batched-standard-material/batched-standard-material';
 import { Building } from "./building";
-
-const mx = new Matrix4();
 
 export class BuildingStore {
   private updateIndex = -1;
@@ -14,6 +13,7 @@ export class BuildingStore {
   private lastEvent = 0;
 
   private buildings = new Map<string | number, Building[]>();
+  private material: BatchedStandardMaterial;
 
   private get buildingList() {
     return Array.from(this.buildings.values()).flat();
@@ -27,6 +27,7 @@ export class BuildingStore {
     private maxIndexCount: number,
     private map: MapboxMap,
   ) {
+    this.material = mesh.material as BatchedStandardMaterial;
     this.unsetIds = Array.from({ length: this.maxGeometryCount }, (_, i) => i);
 
     this.updateFeatures();
@@ -67,23 +68,21 @@ export class BuildingStore {
 
   private addFeaturesToMesh() {
     for (const building of this.buildingList) {
-      if (building.geometryId !== undefined) continue;
-      let id: number;
+      if (building.geometryId !== -1) continue;
+      let i: number;
       if (this.freeIds.length > 0) {
-        id = this.freeIds.shift()!;
-        this.mesh.setGeometryAt(id, building.geometry);
+        i = this.freeIds.shift()!;
+        building.setGeometryAt({ mesh: this.mesh, material: this.material, i });
       } else if (this.unsetIds.length > 0) {
-        id = this.unsetIds.shift()!;
-        const id2 = this.mesh.addGeometry(building.geometry, this.maxVertexCount, this.maxIndexCount);
-        if (id !== id2) {
-          console.warn('id mismatch');
-        }
+        i = this.unsetIds.shift()!;
+        building.addGeometry({
+          mesh: this.mesh, material: this.material, i,
+          maxVertexCount: this.maxVertexCount, maxIndexCount: this.maxIndexCount
+        });
       } else {
         console.warn('maxGeometryCount reached');
         return;
       }
-      building.geometryId = id;
-      this.mesh.setMatrixAt(id, mx);
 
     }
   }
@@ -157,25 +156,14 @@ export class BuildingStore {
     coords: Vector2Tuple[];
     updateIndex: number;
   }) {
-    const height = feature.properties?.height ?? 1;
-    const polygon = this.coordsToPolygon(coords);
-    const geometry = polygonToExtrudeGeo(polygon, height);
-    const building: Building = {
-      featureId: feature.id!,
-      height,
+    const building = new Building({
+      feature,
       coords,
-      polygon,
-      geometry,
-      vertexCount: geometry.attributes.position.count,
-      indexCount: geometry.index?.count || 0,
       updateIndex,
-    }
+      origin: this.origin,
+    });
     return building;
 
-  }
-
-  private coordsToPolygon(coords: Vector2Tuple[]) {
-    return coords.map(c => coordsToVector3({ longitude: c[0], latitude: c[1] }, this.origin));
   }
 
 }
@@ -191,15 +179,4 @@ function getGeoCoords(feat: MapboxGeoJSONFeature) {
     coordsList = feat.geometry.coordinates.flat() as Vector2Tuple[][];
   }
   return coordsList;
-}
-
-function polygonToExtrudeGeo(poly: Vector3Tuple[], height: number) {
-  const shape = new Shape();
-  shape.moveTo(poly[0][2], poly[0][0]);
-  for (let i = 1; i < poly.length; i++) {
-    shape.lineTo(poly[i][2], poly[i][0]);
-  }
-  shape.closePath();
-  const geo = new ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
-  return geo;
 }

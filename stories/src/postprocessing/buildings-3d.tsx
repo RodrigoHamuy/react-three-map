@@ -1,15 +1,16 @@
-import { Object3DNode } from "@react-three/fiber";
+import { Object3DNode, extend } from "@react-three/fiber";
 import { FC, useEffect, useRef } from "react";
-import { MapboxGeoJSONFeature } from "react-map-gl";
 import { useMap } from "react-three-map";
 import { BatchedMesh, MathUtils } from "three";
+import { BatchedStandardMaterial } from "./batched-standard-material/batched-standard-material";
 import { BuildingStore } from "./building-store";
 
-export type FeatureTile = MapboxGeoJSONFeature & { tile: { x: number, y: number } };
+extend({ BatchedStandardMaterial })
 
 declare module '@react-three/fiber' {
   interface ThreeElements {
-    batchedMesh: Object3DNode<BatchedMesh, typeof BatchedMesh>
+    batchedMesh: Object3DNode<BatchedMesh, typeof BatchedMesh>,
+    batchedStandardMaterial: Object3DNode<BatchedStandardMaterial, typeof BatchedStandardMaterial>,
   }
 }
 
@@ -24,8 +25,8 @@ export const Buildings3D: FC<{
   const ref = useRef<BatchedMesh>(null)
   const map = useMap();
 
-  useEffect(()=>{
-    if(!ref.current) return;
+  useEffect(() => {
+    if (!ref.current) return;
     const store = new BuildingStore(origin, ref.current, maxGeometryCount, maxVertexCount, maxIndexCount, map);
     return () => {
       store.dispose();
@@ -37,6 +38,10 @@ export const Buildings3D: FC<{
     args={[maxGeometryCount, maxGeometryCount * maxVertexCount, maxGeometryCount * maxIndexCount]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, -90 * MathUtils.DEG2RAD]}
   >
-    <meshPhongMaterial attach="material" color="#656565" shininess={100} />
+    <batchedStandardMaterial attach="material"
+      // metalness diffuse roughness emissive
+      args={[maxGeometryCount]}
+    />
+    {/* <meshPhongMaterial attach="material" color="#656565" shininess={100} /> */}
   </batchedMesh>
 }

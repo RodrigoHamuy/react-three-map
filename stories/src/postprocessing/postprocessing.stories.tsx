@@ -32,12 +32,14 @@ export function Default() {
     <style>{`.stats{position:absolute !important}`}</style>
     <MapboxCanvas map={mapProps} canvas={canvasProps}>
       <Stats className="stats" parent={ref} />
-      <Environment preset="sunset" />
-      <hemisphereLight
+      <Environment preset="city" />
+
+      <ambientLight intensity={Math.PI / 2} />
+      {/* <hemisphereLight
         args={["#ffffff", "#60666C"]}
         position={[1, 4.5, 3]}
         intensity={Math.PI}
-      />
+      /> */}
       <Buildings3D origin={origin} />
     </MapboxCanvas>
   </div>
