@@ -48,7 +48,13 @@ export class BuildingStore {
   private updateFeatures() {
 
     const features = this.map.querySourceFeatures('composite', {
-      sourceLayer: 'building'
+      sourceLayer: 'building',
+      filter: [
+        "all",
+        // ["!=", ["get", "type"], "building"],
+        ["!=", ["get", "type"], "building:part"],
+        ["==", ["get", "underground"], "false"],
+      ]
     });
 
     this.updateIndex++;
@@ -115,6 +121,8 @@ export class BuildingStore {
   }
 
   private addFeature(feature: MapboxGeoJSONFeature) {
+    console.log(feature.type);
+    
     const { id } = feature;
     const newBuildings : Building[] = []
     if (id === undefined) return newBuildings;

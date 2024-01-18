@@ -12,20 +12,18 @@ const properties = {
 
 export class BatchedStandardMaterial extends MeshStandardMaterial {
 
-  private propertiesTex?: BatchedPropertiesTexture
+  private propertiesTex: BatchedPropertiesTexture
 
   constructor(geometryCount: number) {
     super()
 
+    this.propertiesTex = new BatchedPropertiesTexture(properties, geometryCount)
+
     this.onBeforeCompile = (parameters) => {
-      let props = { ...properties }
 
-      const propertiesTex = new BatchedPropertiesTexture(props, geometryCount)
-      this.propertiesTex = propertiesTex
+      if (Object.keys(properties).length === 0) return
 
-      if (Object.keys(props).length === 0) return
-
-      parameters.uniforms.propertiesTex = { value: propertiesTex }
+      parameters.uniforms.propertiesTex = { value: this.propertiesTex }
       parameters.vertexShader = parameters.vertexShader.replace(
         'void main() {',
         `varying float vBatchId;
@@ -38,13 +36,14 @@ export class BatchedStandardMaterial extends MeshStandardMaterial {
         `uniform highp sampler2D propertiesTex;
          varying float vBatchId;
          void main() {
-           ${propertiesTex.getGlsl()}`
+           ${this.propertiesTex.getGlsl()}`
       )
+      
     }
   }
 
   setValue(id: number, name: string, ...args: any[]) {
-    this.propertiesTex?.setValue(id, name, ...args)
+    this.propertiesTex.setValue(id, name, ...args)
   }
 
   dispose() {

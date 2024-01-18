@@ -33,6 +33,7 @@ interface CanvasPropsAndMap extends CanvasProps {
 
 const CanvasInLayer = memo<CanvasPropsAndMap>(({ map, ...props }) => {
   const layerProps = useCanvasInLayer(props, fromLngLat, map);
+  // @ts-ignore
   return <Layer {...layerProps} />
 })
 CanvasInLayer.displayName = 'CanvasInLayer';
@@ -46,6 +47,7 @@ const CanvasOverlay = memo<CanvasPropsAndMap>(({ map, id, beforeId, ...props }) 
   })
 
   return <>
+    {/* @ts-ignore */}
     <Layer id={id} beforeId={beforeId} type="custom" render={render} />
     <InitCanvasFC {...props}
       setOnRender={setOnRender}

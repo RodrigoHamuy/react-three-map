@@ -4,6 +4,7 @@ import { useMap } from "react-three-map";
 import { BatchedMesh, MathUtils } from "three";
 import { BatchedStandardMaterial } from "./batched-standard-material/batched-standard-material";
 import { BuildingStore } from "./building-store";
+import { useControls } from "leva";
 
 extend({ BatchedStandardMaterial })
 
@@ -22,6 +23,8 @@ export const Buildings3D: FC<{
   origin: { longitude: number, latitude: number }
 }> = ({ origin }) => {
 
+  const {batch} = useControls({batch: true})
+
   const ref = useRef<BatchedMesh>(null)
   const map = useMap();
 
@@ -35,6 +38,7 @@ export const Buildings3D: FC<{
 
   return <batchedMesh
     ref={ref}
+    visible={batch}
     args={[maxGeometryCount, maxGeometryCount * maxVertexCount, maxGeometryCount * maxIndexCount]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, -90 * MathUtils.DEG2RAD]}
   >
