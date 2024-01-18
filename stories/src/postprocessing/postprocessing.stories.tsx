@@ -16,6 +16,7 @@ const mapProps: ComponentProps<typeof ReactMap> = {
     pitch: 60,
   },
   mapStyle: "mapbox://styles/mapbox/streets-v12",
+  // mapStyle: "mapbox://styles/mapbox/dark-v11",
   children: <SourceBuildings3D />
 }
 
