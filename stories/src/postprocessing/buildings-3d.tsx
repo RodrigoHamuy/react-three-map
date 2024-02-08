@@ -1,4 +1,4 @@
-import { Object3DNode, extend } from "@react-three/fiber";
+import { Object3DNode, extend, useFrame } from "@react-three/fiber";
 import { FC, useEffect, useRef } from "react";
 import { useMap } from "react-three-map";
 import { BatchedMesh, MathUtils } from "three";
@@ -27,12 +27,19 @@ export const Buildings3D: FC<{
 
   const ref = useRef<BatchedMesh>(null)
   const map = useMap();
+  const store = useRef<BuildingStore>();
+
+  useFrame((_, delta)=>{
+    if(!store.current) return;
+    store.current.step(delta);
+  })
 
   useEffect(() => {
     if (!ref.current) return;
-    const store = new BuildingStore(origin, ref.current, maxGeometryCount, maxVertexCount, maxIndexCount, map);
+    const st = new BuildingStore(origin, ref.current, maxGeometryCount, maxVertexCount, maxIndexCount, map);
+    store.current = st;
     return () => {
-      store.dispose();
+      st.dispose();
     }
   }, [])
 

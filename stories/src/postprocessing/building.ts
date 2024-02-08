@@ -13,6 +13,7 @@ export class Building {
   
   private featureId: string|number;
   private height: number;
+  private base: number;
   coords: Vector2Tuple[];
 
   /** Used to determine when the building was set */
@@ -36,6 +37,7 @@ export class Building {
   private offset: number;
   private speed: number;
   private value = 0;
+  private material?: BatchedStandardMaterial;
 
   constructor({ feature, coords, updateIndex, origin }: {
     feature: MapboxGeoJSONFeature;
@@ -46,27 +48,31 @@ export class Building {
     this.featureId = feature.id!;
     this.updateIndex = updateIndex;
     this.height = feature.properties?.height ?? 1;
+    this.base = feature.properties?.min_height ?? 0;
     this.coords = coords;
     this.polygon = coords.map(c => coordsToVector3({ longitude: c[0], latitude: c[1] }, origin));
-    this.geometry = polygonToExtrudeGeo(this.polygon, this.height);
+    this.geometry = polygonToExtrudeGeo(this.polygon, this.height, this.base);
     // this.vertexCount = this.geometry.attributes.position.count;
     // this.indexCount = this.geometry.index?.count || 0;
 
-    this.c0 = new Color(stringToColor(`${this.featureId}`))//.setRGB(seed(`${this.featureId}`),0,0);
-    this.c1 = new Color(stringToColor(`${this.featureId}`))
-    this.emissiveIntensity = 1//rand(0, 1) < 0.05 ? 3.5 : 0;
-    this.roughness = 0.5//rand(0, 0.5);
-    this.metalness = 1//rand(0, 1);
-    this.offset = 0//rand(0, 2 * Math.PI);
-    this.speed = 0//rand(1, 3);
+    // this.c0 = new Color(stringToColor(`${this.featureId}`))//.setRGB(seed(`${this.featureId}`),0,0);
+    // this.c1 = new Color(stringToColor(`${this.featureId}`))
+    // this.emissiveIntensity = 1//rand(0, 1) < 0.05 ? 3.5 : 0;
+    // this.roughness = 0.5//rand(0, 0.5);
+    // this.metalness = 1//rand(0, 1);
+    // this.offset = 0//rand(0, 2 * Math.PI);
+    // this.speed = 0//rand(1, 3);
 
-    // this.c0 = new Color().setHSL(rand(0, 0.05), rand(1, 1), rand(0.5, 0.7));
-    // this.c1 = new Color().setHSL(rand(0.5, 0.55), rand(1, 1), rand(0.5, 0.7));
-    // this.emissiveIntensity = rand(0, 1) < 0.05 ? 3.5 : 0;
-    // this.roughness = rand(0, 0.5);
-    // this.metalness = rand(0, 1);
-    // this.offset = rand(0, 2 * Math.PI);
-    // this.speed = rand(1, 3);
+    this.c0 = new Color().setHSL(rand(0, 0.05, `${this.featureId}`), rand(1, 1, `${this.featureId}`), rand(0.5, 0.7, `${this.featureId}`));
+    this.c1 = new Color().setHSL(rand(0.5, 0.55, `${this.featureId}`), rand(1, 1, `${this.featureId}`), rand(0.5, 0.7, `${this.featureId}`));
+
+    // this.c0 = new Color().setHSL(rand2(0, 0.05), rand2(1, 1), rand2(0.5, 0.7));
+    // this.c1 = new Color().setHSL(rand2(0.5, 0.55), rand2(1, 1), rand2(0.5, 0.7));
+    this.emissiveIntensity = rand2(0, 1) < 0.05 ? 3.5 : 0;
+    this.roughness = rand2(0, 0.5);
+    this.metalness = rand2(0, 1);
+    this.offset = rand2(0, 2 * Math.PI);
+    this.speed = rand2(1, 3);
   }
 
   addGeometry({ mesh, material, i, maxVertexCount, maxIndexCount }: {
@@ -95,45 +101,55 @@ export class Building {
 
   private setGeometry(mesh: BatchedMesh, material: BatchedStandardMaterial) {
     mesh.setMatrixAt(this.geometryId, mx);
-    this.setMaterial(material);
+    this.material = material;
+    this.step(0);
   }
 
-  private setMaterial(material: BatchedStandardMaterial) {
-    const delta = 0;
+  step(delta: number) {
+    if(!this.material) throw new Error('material not set');
+
+    const colorLerp = 0.5 + 0.5 * Math.sin(this.offset + (this.value += delta * 2 * this.speed))
     
-    color.lerpColors(this.c0, this.c1, 0.5 + 0.5 * Math.sin(this.offset + (this.value += delta * 2 * this.speed)))
-    material.setValue(this.geometryId, 'diffuse', ...color);
-    material.setValue(this.geometryId, 'roughness', this.roughness);
-    material.setValue(this.geometryId, 'metalness', this.metalness);
+    color.lerpColors(this.c0, this.c1, colorLerp)
+    this.material.setValue(this.geometryId, 'diffuse', ...color);
+    this.material.setValue(this.geometryId, 'roughness', this.roughness);
+    this.material.setValue(this.geometryId, 'metalness', this.metalness);
     color.multiplyScalar(this.emissiveIntensity);
-    material.setValue(this.geometryId, 'emissive', ...color);
+    this.material.setValue(this.geometryId, 'emissive', ...color);
   }
 }
 
-function polygonToExtrudeGeo(poly: Vector3Tuple[], height: number) {
+function polygonToExtrudeGeo(poly: Vector3Tuple[], height: number, base: number) {
   const shape = new Shape();
   shape.moveTo(poly[0][2], poly[0][0]);
   for (let i = 1; i < poly.length; i++) {
     shape.lineTo(poly[i][2], poly[i][0]);
   }
   shape.closePath();
-  const geo = new ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
+  const geo = new ExtrudeGeometry(shape, { depth: height-base, bevelEnabled: false });
+  geo.translate(0, 0, base);
   return geo;
 }
 
-function rand(min: number, max: number) {
-  const delta = max - min
-  return min + Math.random() * delta
-}
-
-function seed(str: string) {
+/** string to normalised hash number hash function */
+function seededRandom(seed: string) {
   let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
+  for (let i = 0; i < seed.length; i++) {
+      const char = seed.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash |= 0; // Convert to 32bit integer
   }
   return (hash >>> 0) / 0xFFFFFFFF; // Normalize to 0-1 range
+}
+
+function rand(min: number, max: number, seed: string) {
+  const delta = max - min
+  return min + seededRandom(seed) * delta
+}
+
+function rand2(min: number, max: number) {
+  const delta = max - min
+  return min + Math.random() * delta
 }
 
 function stringToColor(str: string) {

@@ -41,6 +41,14 @@ export class BuildingStore {
     // this.updateFeatures();
   }
 
+  step(delta: number) {
+    for (const buildings of this.buildings.values()) {
+      for (const building of buildings) {
+        building.step(delta);
+      }
+    }
+  }
+
   dispose() {
     this.map.off('sourcedata', this.onEvent);
   }
@@ -49,12 +57,13 @@ export class BuildingStore {
 
     const features = this.map.querySourceFeatures('composite', {
       sourceLayer: 'building',
-      filter: [
-        "all",
-        // ["!=", ["get", "type"], "building"],
-        ["!=", ["get", "type"], "building:part"],
-        ["==", ["get", "underground"], "false"],
-      ]
+      filter: ['==', 'extrude', 'true'],
+      // filter: [
+      //   "all",
+      //   // ["!=", ["get", "type"], "building"],
+      //   ["!=", ["get", "type"], "building:part"],
+      //   ["==", ["get", "underground"], "false"],
+      // ]
     });
 
     this.updateIndex++;
@@ -121,7 +130,7 @@ export class BuildingStore {
   }
 
   private addFeature(feature: MapboxGeoJSONFeature) {
-    console.log(feature.type);
+    // console.log(feature.type);
     
     const { id } = feature;
     const newBuildings : Building[] = []
