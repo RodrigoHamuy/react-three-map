@@ -4,7 +4,8 @@ import { Suspense, useEffect } from "react";
 import { Coords } from "react-three-map";
 import { ScreenBlend } from "../screen-blend-effect/screen-blend";
 import { StoryMap } from "../story-map";
-import { BatchedBuildings } from "./batched-buildings";
+import { BatchedBuildings2 } from './batched-building2';
+import { BatchedBuildings } from './batched-buildings';
 
 const coords: Coords = { latitude: 51.5074, longitude: -0.1278 };
 
@@ -33,7 +34,7 @@ export function Default() {
     <ambientLight intensity={Math.PI} />
     <directionalLight intensity={Math.PI} />
     <Suspense fallback={null}>
-      <BatchedBuildings buildingsCenter={coords} origin={coords} />
+      <BatchedBuildings2 buildingsCenter={coords} origin={coords} />
     </Suspense>
   </StoryMap>
 }

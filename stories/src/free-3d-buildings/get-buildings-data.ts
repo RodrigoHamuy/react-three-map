@@ -9,6 +9,7 @@ export interface OverpassElement {
     height?: string;
     min_height?: string;
     ['building:levels']?: string;
+    ['building:id']?: string;
   };
   nodes?: number[];
   geometry?: Array<{
@@ -22,10 +23,8 @@ interface OverpassApiResponse {
   elements: OverpassElement[];
 }
 
-// export async function getBuildingsData({ start, end }: { start: [lat: number, lon: number], end: [lat: number, lon: number] }) {
 export async function getBuildingsData({ start, end }: { start: Coords, end: Coords }) {
   const overpassApiUrl = "https://overpass-api.de/api/interpreter";
-  // const bbox = [start.longitude, start.latitude, end.longitude, end.latitude].join(',');
   const bbox = [start.latitude, start.longitude, end.latitude, end.longitude].join(',');
   const query = `
   [out:json];
@@ -45,5 +44,6 @@ export async function getBuildingsData({ start, end }: { start: Coords, end: Coo
   })).json();
 
   const buildings = response.elements.filter(e => e.geometry);
+  console.log(response.elements.filter(b=>b.tags?.['building:id']).length);
   return buildings;
 }
