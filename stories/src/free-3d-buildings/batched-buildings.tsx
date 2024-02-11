@@ -35,10 +35,12 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
   }, [buildingsCenter]);
 
   const { data, vertexCount, indexCount } = useMemo(() => {
-    const c00 = _color.set('#69d2e7').getHSL({h: 0, s: 0, l: 0});
-    const c01 = _color.set('#a7dbd8').getHSL({h: 0, s: 0, l: 0});
-    const c10 = _color.set('#f38630').getHSL({h: 0, s: 0, l: 0});
-    const c11 = _color.set('#fa6900').getHSL({h: 0, s: 0, l: 0});
+    // lights
+    const c00 = _color.set('#f0c505').getHSL({h: 0, s: 0, l: 0});
+    const c01 = _color.set('#f38630').getHSL({h: 0, s: 0, l: 0});
+    // darks
+    const c10 = _color.set('#001449').getHSL({h: 0, s: 0, l: 0});
+    const c11 = _color.set('#49007e').getHSL({h: 0, s: 0, l: 0});
 
     const data = buildings.map((element, i) => {
       const { poly, height, base } = getElementPolygon(element, origin);
@@ -46,10 +48,11 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
       const c0 = new Color().setHSL(rand(c00.h, c01.h), rand(c00.s, c01.s), rand(c00.l, c01.l));
       const c1 = new Color().setHSL(rand(c10.h, c11.h), rand(c10.s, c11.s), rand(c10.l, c11.l));
       const emissiveIntensity = rand(0, 1) < 0.05 ? 3.5 : 0;
+      // const emissiveIntensity = 3.5//rand(0, 1) < 0.05 ? 3.5 : 0;
       const roughness = rand(0, 0.5);
       const metalness = rand(0, 1);
       const offset = rand(0, 2 * Math.PI);
-      const speed = rand(1, 3);
+      const speed = rand(1, 2);
       const value = offset;
       return {
         i,
@@ -78,7 +81,7 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
     for (const item of data) {
       const { c0, c1, emissiveIntensity, roughness, metalness, speed } = item;
       item.value += delta * speed;
-      const sinValue = Math.sin(item.value)
+      const sinValue = Math.abs(Math.sin(item.value))
       const color = _color.lerpColors(c0, c1, sinValue);
       material.setValue(item.i, 'diffuse', ...color);
       color.multiplyScalar(emissiveIntensity);
