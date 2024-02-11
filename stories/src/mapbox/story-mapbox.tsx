@@ -63,40 +63,34 @@ const Center = ({ children }: PropsWithChildren) => (
 
 const Buildings3D = memo(() => {
   const id = useId();
-  return <Source id={id} type="vector" url="mapbox://mapbox.mapbox-streets-v8">
-    <Layer
-      id={id}
-      type="fill-extrusion"
-      source-layer="building"
-      minzoom={15}
-      filter={[
-        "all",
-        ["!=", ["get", "type"], "building:part"],
-        ["==", ["get", "underground"], "false"],
-      ]}
-      paint={{
-        "fill-extrusion-color": "#656565",
-        "fill-extrusion-height": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          15,
-          0,
-          15.05,
-          ["get", "height"],
-        ],
-        "fill-extrusion-base": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          15,
-          0,
-          15.05,
-          ["get", "min_height"],
-        ],
-        "fill-extrusion-opacity": 1.0,
-      }}
-    />
-  </Source>
+  return <Layer
+    id="3d-buildings"
+    type="fill-extrusion"
+    source="composite"
+    source-layer="building"
+    minzoom={15}
+    filter={['==', 'extrude', 'true']}
+    paint={{
+      "fill-extrusion-color": "#656565",
+      "fill-extrusion-height": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        15,
+        0,
+        15.05,
+        ["get", "height"],
+      ],
+      "fill-extrusion-base": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        15,
+        0,
+        15.05,
+        ["get", "min_height"],
+      ],
+      "fill-extrusion-opacity": 1.0,
+    }} />
 })
 Buildings3D.displayName = 'Buildings3D'
