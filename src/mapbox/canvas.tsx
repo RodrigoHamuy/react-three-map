@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { extend } from "@react-three/fiber";
 import { MercatorCoordinate } from "mapbox-gl";
 import { memo, useState } from "react";
@@ -47,7 +48,7 @@ const CanvasOverlay = memo<CanvasPropsAndMap>(({ map, id, beforeId, ...props }) 
   })
 
   return <>
-    {/* @ts-ignore */} 
+    {/* @ts-ignore  */} 
     <Layer id={id} beforeId={beforeId} type="custom" render={render} />
     <InitCanvasFC {...props}
       setOnRender={setOnRender}

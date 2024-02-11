@@ -35,10 +35,16 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
   }, [buildingsCenter]);
 
   const { data, vertexCount, indexCount } = useMemo(() => {
+    const c00 = _color.set('#69d2e7').getHSL({h: 0, s: 0, l: 0});
+    const c01 = _color.set('#a7dbd8').getHSL({h: 0, s: 0, l: 0});
+    const c10 = _color.set('#f38630').getHSL({h: 0, s: 0, l: 0});
+    const c11 = _color.set('#fa6900').getHSL({h: 0, s: 0, l: 0});
+
     const data = buildings.map((element, i) => {
-      const geometry = geoElementToGeometry(element, origin);
-      const c0 = new Color().setHSL(rand(0, 0.05), rand(1, 1), rand(0.5, 0.7));
-      const c1 = new Color().setHSL(rand(0.5, 0.55), rand(1, 1), rand(0.5, 0.7));
+      const { poly, height, base } = getElementPolygon(element, origin);
+      const geometry = polygonToExtrudeGeo(poly, height, base);
+      const c0 = new Color().setHSL(rand(c00.h, c01.h), rand(c00.s, c01.s), rand(c00.l, c01.l));
+      const c1 = new Color().setHSL(rand(c10.h, c11.h), rand(c10.s, c11.s), rand(c10.l, c11.l));
       const emissiveIntensity = rand(0, 1) < 0.05 ? 3.5 : 0;
       const roughness = rand(0, 0.5);
       const metalness = rand(0, 1);
@@ -93,13 +99,13 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
       mesh.addGeometry(data[i].geometry);
     }
     step();
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <batchedMesh
     ref={meshRef}
     args={[data.length, vertexCount, indexCount]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, -90 * MathUtils.DEG2RAD]}
-    onClick={e => console.log(data[e.batchId || 0])}
+    onClick={e => console.log(data[e.batchId || 0].element.tags)}
   >
     <batchedStandardMaterial ref={matRef} args={[data.length]} />
   </batchedMesh>;
@@ -107,13 +113,12 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
 
 BatchedBuildings.displayName = 'BatchedBuildings';
 
-function geoElementToGeometry(element: OverpassElement, origin: Coords) {
+function getElementPolygon(element: OverpassElement, origin: Coords) {
   const poly = geoPolyToVectorPoly(element.geometry || [], origin);
   let height = parseFloat(element.tags?.height || '0');
   if (!height) height = parseFloat(element.tags?.['building:levels'] || '1') * 3;
   const base = parseFloat(element.tags?.min_height || '0');
-  const geo = polygonToExtrudeGeo(poly, height, base);
-  return geo;
+  return { poly, height, base };
 }
 
 function geoPolyToVectorPoly(poly: { lat: number, lon: number }[], origin: Coords): Vector3Tuple[] {

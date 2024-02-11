@@ -45,5 +45,6 @@ export async function getBuildingsData({ start, end }: { start: Coords, end: Coo
   })).json();
 
   const buildings = response.elements.filter(e => e.geometry);
+
   return buildings;
 }

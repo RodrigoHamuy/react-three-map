@@ -12,7 +12,7 @@ export function Default() {
   const { ao } = useControls({ ao: { value: false, label: 'Ambient Occlusion' } });
 
   // disable showBuildings3D control from Mapbox
-  useControls({ showBuildings3D: { value: false, render: ()=>false } })
+  useControls({ showBuildings3D: { value: false, render: () => false } })
 
   useEffect(() => {
     // default this story to use overlay
