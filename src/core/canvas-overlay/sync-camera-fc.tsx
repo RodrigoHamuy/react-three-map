@@ -1,24 +1,27 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { memo, useEffect, useLayoutEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { Matrix4Tuple, PerspectiveCamera } from "three";
 import { syncCamera } from "../sync-camera";
 import { useCoordsToMatrix } from "../use-coords-to-matrix";
 import { useFunction } from "../use-function";
 import { useR3M } from "../use-r3m";
 import { Coords } from "../../api/coords";
+import { MapInstance } from "../generic-map";
 
 interface SyncCameraFCProps extends Coords {
   setOnRender?: (callback: () => (mx: Matrix4Tuple) => void) => void,
   /** on `useFrame` it will manually render (used by `<Coordinates>`) */
   manualRender?: boolean,
   onReady?: () => void,
-  mapCanvas: HTMLCanvasElement,
+  map: MapInstance,
 }
 
 /** React Component (FC) to sync the Three camera with the map provider */
 export const SyncCameraFC = memo<SyncCameraFCProps>(({
-  latitude, longitude, altitude = 0, setOnRender, manualRender, onReady, mapCanvas
+  latitude, longitude, altitude = 0, setOnRender, manualRender, onReady, map
 }) => {
+
+  const mapCanvas = map.getCanvas();
 
   const r3m = useR3M();
 
@@ -36,15 +39,28 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
 
   const ready = useRef(false);
 
+  const triggerRepaint = useMemo(() => map.triggerRepaint, [map]);
+  const mapPaintRequests = useRef(0);
+  const triggerRepaintOff = useFunction(() => {
+    mapPaintRequests.current++;
+  })
+
   useFrame(() => {
     syncCamera(camera, origin, r3m.viewProjMx)
-    if (!manualRender) return;
-    gl.render(scene, camera);
+
+    if (manualRender) gl.render(scene, camera);
+
+    map.triggerRepaint = triggerRepaint;
+    if (mapPaintRequests.current > 0) {
+      mapPaintRequests.current = 0;
+      map.triggerRepaint();
+    }
   }, -Infinity)
 
   const onRender = useFunction((viewProjMx: Matrix4Tuple) => {
+    map.triggerRepaint = triggerRepaintOff;
 
-    if(threeCanvas.width !== mapCanvas.width || threeCanvas.height !== mapCanvas.height) {
+    if (threeCanvas.width !== mapCanvas.width || threeCanvas.height !== mapCanvas.height) {
       setSize(
         mapCanvas.clientWidth,
         mapCanvas.clientHeight,
@@ -53,7 +69,7 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
         mapCanvas.offsetLeft,
       );
     }
-    
+
     r3m.viewProjMx = viewProjMx;
     if (!ready.current && onReady) {
       ready.current = true;

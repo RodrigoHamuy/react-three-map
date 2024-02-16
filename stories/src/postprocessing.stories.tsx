@@ -25,7 +25,7 @@ export function Default() {
     {ao && <EffectComposer>
       <N8AO />
       <ScreenBlend />
-      {/* ScreenBlend fixes transparency when using n8ao */}
+      {/* ScreenBlend forces transparency to work on the canvas overlay */}
     </EffectComposer>}
     <object3D scale={35} rotation={[0, 13 * MathUtils.DEG2RAD, 0]}>
       <Box position={[0, .5, 0]}

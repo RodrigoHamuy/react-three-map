@@ -22,10 +22,8 @@ interface OverpassApiResponse {
   elements: OverpassElement[];
 }
 
-// export async function getBuildingsData({ start, end }: { start: [lat: number, lon: number], end: [lat: number, lon: number] }) {
 export async function getBuildingsData({ start, end }: { start: Coords, end: Coords }) {
   const overpassApiUrl = "https://overpass-api.de/api/interpreter";
-  // const bbox = [start.longitude, start.latitude, end.longitude, end.latitude].join(',');
   const bbox = [start.latitude, start.longitude, end.latitude, end.longitude].join(',');
   const query = `
   [out:json];

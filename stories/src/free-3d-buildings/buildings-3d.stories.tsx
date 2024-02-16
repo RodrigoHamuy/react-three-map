@@ -18,8 +18,8 @@ export function Default() {
   const { luminanceThreshold, levels, intensity, luminanceSmoothing } = useControls('bloom', {
     levels: { value: 3, min: 0, max: 10, step: 0.01 },
     intensity: { value: 1.62, min: 0, max: 2, step: 0.01 },
-    luminanceThreshold: { value: .1, min: 0, max: 2, step: 0.01, label: 'threshold'},
-    luminanceSmoothing: { value: 2, min: 0, max: 5, step: 0.01, label: 'smoothing'},
+    luminanceThreshold: { value: .1, min: 0, max: 2, step: 0.01, label: 'threshold' },
+    luminanceSmoothing: { value: 2, min: 0, max: 5, step: 0.01, label: 'smoothing' },
   })
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function Default() {
         levels={levels}
         intensity={intensity}
       />
-      {/* ScreenBlend fixes transparency when using n8ao */}
+      {/* ScreenBlend forces transparency to work on the canvas overlay */}
       <ScreenBlend />
     </EffectComposer>}
     <ambientLight intensity={Math.PI} />

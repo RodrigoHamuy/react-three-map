@@ -48,7 +48,7 @@ const CanvasOverlay = memo<CanvasPropsAndMap>(({ map, id, beforeId, ...props }) 
   })
 
   return <>
-    {/* @ts-ignore  */} 
+    {/* @ts-ignore  */}
     <Layer id={id} beforeId={beforeId} type="custom" render={render} />
     <InitCanvasFC {...props}
       setOnRender={setOnRender}
