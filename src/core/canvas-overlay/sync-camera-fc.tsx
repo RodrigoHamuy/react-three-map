@@ -1,12 +1,12 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { Matrix4Tuple, PerspectiveCamera } from "three";
+import { Coords } from "../../api/coords";
+import { MapInstance } from "../generic-map";
 import { syncCamera } from "../sync-camera";
 import { useCoordsToMatrix } from "../use-coords-to-matrix";
 import { useFunction } from "../use-function";
 import { useR3M } from "../use-r3m";
-import { Coords } from "../../api/coords";
-import { MapInstance } from "../generic-map";
 
 interface SyncCameraFCProps extends Coords {
   setOnRender?: (callback: () => (mx: Matrix4Tuple) => void) => void,

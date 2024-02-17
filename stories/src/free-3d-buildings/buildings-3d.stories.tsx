@@ -32,7 +32,7 @@ export function Default() {
       // reset theme
       dispatch({ type: ActionType.UpdateTheme, value: prevTheme })
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <StoryMap
     {...coords}

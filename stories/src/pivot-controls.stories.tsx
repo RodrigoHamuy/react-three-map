@@ -1,32 +1,74 @@
-import { Box, PivotControls } from "@react-three/drei";
-import { useMap } from "react-three-map";
-import { MathUtils } from "three";
-import { StoryMap } from "./story-map";
+import { PivotControls, ScreenSizer, Sphere } from "@react-three/drei";
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { FC, useCallback, useMemo, useState } from "react";
+import Map, { Marker } from 'react-map-gl/maplibre';
+import { Canvas, Coords, useMap, vector3ToCoords } from "react-three-map/maplibre";
+import { Matrix4, Vector3, Vector3Tuple } from "three";
+
+const origin: Coords = { latitude: 51, longitude: 0 };
 
 export function Default() {
-
-  return <StoryMap latitude={51} longitude={0} zoom={13} pitch={60}>
-    <MovingBox />
-  </StoryMap>
+  const [position, setPosition] = useState<Vector3Tuple>([0, 0, 0]);
+  const geoPos = useMemo(() => vector3ToCoords(position, origin), [position])
+  return <div style={{ height: '100vh' }}>
+    <Map
+      antialias
+      initialViewState={{
+        ...origin,
+        zoom: 13,
+        pitch: 60,
+      }}
+      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+    >
+      <Canvas {...origin}>
+        <Move position={position} setPosition={setPosition} />
+        <ScreenSizer position={position} scale={1}>
+          <Sphere
+            args={[50]}
+            position={[0, 25, 0]}
+            material-color={'orange'}
+          />
+        </ScreenSizer>
+        <axesHelper position={position} args={[1000]} />
+      </Canvas>
+      <Marker {...geoPos}>
+        <div style={{ fontSize: 18 }}>lat: {geoPos.latitude}<br />lon: {geoPos.longitude}</div>
+      </Marker>
+    </Map>
+  </div>
 }
 
-const MovingBox = () => {
+interface MovingBoxProps {
+  position: Vector3Tuple,
+  setPosition: (pos: Vector3Tuple) => void
+}
+
+const _v3 = new Vector3()
+
+const Move: FC<MovingBoxProps> = ({ position, setPosition }) => {
+  const matrix = useMemo(() => new Matrix4().setPosition(...position), [position]);
   const map = useMap();
+  const onDragStart = useCallback(() => {
+    map.dragPan.disable();
+    map.dragRotate.disable();
+  }, [map]);
+  const onDragEnd = useCallback(() => {
+    map.dragPan.enable();
+    map.dragRotate.enable();
+  }, [map]);
+  const onDrag = useCallback((m4: Matrix4) => {
+    setPosition(_v3.setFromMatrixPosition(m4).toArray());
+  }, [setPosition])
   return (
     <PivotControls
       fixed
+      matrix={matrix}
       activeAxes={[true, false, true]}
       disableRotations
       scale={500}
-      onDragStart={() => map.dragPan.disable()}
-      onDragEnd={() => map.dragPan.enable()}
-    >
-      <Box
-        args={[500, 500, 500]}
-        position={[0, 250, 0]}
-        rotation={[0, 45 * MathUtils.DEG2RAD, 0]}
-        material-color={'orange'}
-      />
-    </PivotControls>
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDrag={onDrag}
+    />
   )
 }

@@ -2,14 +2,14 @@ import { ThemeState, useLadleContext } from '@ladle/react';
 import { useControls } from 'leva';
 import Mapbox from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { FC, PropsWithChildren, memo, useId } from "react";
-import Map, { Layer, Source } from 'react-map-gl';
+import { FC, PropsWithChildren, memo } from "react";
+import Map, { Layer } from 'react-map-gl';
 import { Canvas } from 'react-three-map';
 import { StoryMapProps } from '../story-map';
 
 /** `<Map>` styled for stories */
 export const StoryMapbox: FC<StoryMapProps> = ({
-  latitude, longitude, canvas, children, ...rest
+  latitude, longitude, canvas, children, mapChildren, ...rest
 }) => {
 
   const { mapboxToken } = useControls({
@@ -43,6 +43,7 @@ export const StoryMapbox: FC<StoryMapProps> = ({
       mapStyle={mapStyle}
       mapboxAccessToken={mapboxToken}
     >
+      {mapChildren}
       <Canvas latitude={latitude} longitude={longitude} {...canvas}>
         {children}
       </Canvas>
@@ -62,7 +63,6 @@ const Center = ({ children }: PropsWithChildren) => (
 )
 
 const Buildings3D = memo(() => {
-  const id = useId();
   return <Layer
     id="3d-buildings"
     type="fill-extrusion"

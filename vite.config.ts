@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import {resolve} from 'path';
+import { resolve } from 'path';
 
 /** 0: no lib mode, 1: ES, 2: cjs */
 const libMode = parseInt(process.env.LIB_MODE!) || 0;
@@ -56,7 +56,6 @@ export default defineConfig({
             "react-map-gl",
             "react-map-gl/maplibre",
             "three",
-            "@turf/turf",
           ]
         },
       },

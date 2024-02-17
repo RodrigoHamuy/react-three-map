@@ -29,13 +29,11 @@
     "build:stories": "yarn ladle build",
     "test": "yarn vitest"
   },
-  "dependencies": {
-    "@turf/turf": "^7.0.0-alpha.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
     "@ladle/react": "^2.13.0",
-    "@react-three/drei": "^9.92.3",
+    "@react-three/drei": "^9.97.6",
     "@react-three/fiber": "^8.15.12",
     "@react-three/postprocessing": "^2.15.11",
     "@types/luxon": "^3.3.1",
