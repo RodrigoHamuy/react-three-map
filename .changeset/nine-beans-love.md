@@ -2,5 +2,4 @@
 "react-three-map": patch
 ---
 
-- Avoid map to re-render before r3f completes its render in overlay mode.
-- Remove `turf` dependency.
+Map to wait for r3f to finish rendering before the next render in overlay mode.
