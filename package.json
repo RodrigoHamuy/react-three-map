@@ -32,7 +32,7 @@
   "dependencies": {},
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
-    "@ladle/react": "^2.13.0",
+    "@ladle/react": "^4.0.2",
     "@react-three/drei": "^9.97.6",
     "@react-three/fiber": "^8.15.12",
     "@react-three/postprocessing": "^2.15.11",

@@ -6,8 +6,8 @@
     "dev": "yarn ladle serve"
   },
   "dependencies": {
-    "@ladle/react": "^2.16.0",
-    "@react-three/drei": "^9.92.3",
+    "@ladle/react": "^4.0.2",
+    "@react-three/drei": "^9.97.6",
     "@react-three/fiber": "^8.15.12",
     "@react-three/postprocessing": "^2.15.11",
     "@types/luxon": "^3.3.7",

@@ -11,7 +11,7 @@ const coords: Coords = { latitude: 51.5074, longitude: -0.1278 };
 
 export function Default() {
   const { dispatch, globalState } = useLadleContext();
-  const { ao } = useControls({ ao: { value: true, label: 'Ambient Occlusion' } });
+  const { bloom } = useControls({ bloom: { value: true } });
 
   // disable showBuildings3D control from Mapbox
   useControls({ showBuildings3D: { value: false, render: () => false } });
@@ -40,7 +40,7 @@ export function Default() {
     pitch={60}
     canvas={{ shadows: 'variance' }}
   >
-    {ao && <EffectComposer disableNormalPass>
+    {bloom && <EffectComposer disableNormalPass>
       <Bloom mipmapBlur
         luminanceSmoothing={luminanceSmoothing}
         luminanceThreshold={luminanceThreshold}
