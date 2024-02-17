@@ -6,6 +6,7 @@ import { Coords } from "react-three-map";
 import { ScreenBlend } from "../screen-blend-effect/screen-blend";
 import { StoryMap } from "../story-map";
 import { BatchedBuildings } from "./batched-buildings";
+import { AdaptiveDpr } from '../adaptive-dpr';
 
 const coords: Coords = { latitude: 51.5074, longitude: -0.1278 };
 
@@ -22,11 +23,9 @@ export function Default() {
     luminanceSmoothing: { value: 2, min: 0, max: 5, step: 0.01, label: 'smoothing' },
   })
 
+  // use dark theme
   useEffect(() => {
     const prevTheme = globalState.theme
-    // default this story to use overlay
-    levaStore.setValueAtPath('overlay', true, true);
-    // use dark theme
     dispatch({ type: ActionType.UpdateTheme, value: ThemeState.Dark })
     return () => {
       // reset theme
@@ -34,12 +33,24 @@ export function Default() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // default this story to use overlay
+  useEffect(() => {
+    const overlay = levaStore.get('overlay');
+    levaStore.setValueAtPath('overlay', true, true);
+    return () => {
+      // reset overlay
+      if (overlay) return;
+      levaStore.setValueAtPath('overlay', overlay, true);
+    }
+  }, [])
+
   return <StoryMap
     {...coords}
     zoom={18}
     pitch={60}
     canvas={{ shadows: 'variance' }}
   >
+    <AdaptiveDpr />
     {bloom && <EffectComposer disableNormalPass>
       <Bloom mipmapBlur
         luminanceSmoothing={luminanceSmoothing}
