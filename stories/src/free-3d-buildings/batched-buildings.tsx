@@ -5,7 +5,6 @@ import { suspend } from "suspend-react";
 import { BatchedMesh, Color, ExtrudeGeometry, MathUtils, Shape, Vector3Tuple } from "three";
 import { BatchedStandardMaterial } from "./batched-standard-material/batched-standard-material";
 import { OverpassElement, getBuildingsData } from "./get-buildings-data";
-import { useFunction } from "../../../src/core/use-function";
 
 extend({ BatchedStandardMaterial })
 
@@ -76,7 +75,7 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
   const meshRef = useRef<BatchedMesh>(null);
   const matRef = useRef<BatchedStandardMaterial>(null);
 
-  const step = useFunction((delta = 0) => {
+  useFrame((_, delta) => {
     if (!matRef.current) return;
     const material = matRef.current;
     for (let i = 0; i < data.length; i++) {
@@ -98,15 +97,12 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
 
   })
 
-  useFrame((_, delta) => step(delta))
-
   useLayoutEffect(() => {
     if (!meshRef.current) return;
     const mesh = meshRef.current;
     for (let i = 0; i < data.length; i++) {
       mesh.addGeometry(data[i].geometry);
     }
-    step();
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <batchedMesh
