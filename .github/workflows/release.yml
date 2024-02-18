@@ -17,19 +17,12 @@ jobs:
       issues: write # to post issue comments (changesets/action)
       pull-requests: write #  to create pull request (changesets/action)
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js 16.x
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
+          node-version-file: '.nvmrc'
+      - run: yarn install --frozen-lockfile
+      - id: changesets
         uses: changesets/action@v1
         with:
           publish: yarn release

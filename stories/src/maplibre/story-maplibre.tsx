@@ -8,7 +8,7 @@ import { Canvas } from 'react-three-map/maplibre';
 
 /** Maplibre `<Map>` styled for stories */
 export const StoryMaplibre: FC<StoryMapProps> = ({
-  latitude, longitude, canvas, children, ...rest
+  latitude, longitude, canvas, mapChildren, children, ...rest
 }) => {
 
   const theme = useLadleContext().globalState.theme;
@@ -21,15 +21,16 @@ export const StoryMaplibre: FC<StoryMapProps> = ({
     <Map
       mapLib={MapLibre}
       antialias
-      initialViewState={{ latitude, longitude, ...rest}}
+      initialViewState={{ latitude, longitude, ...rest }}
       maxPitch={rest.pitch ? Math.min(rest.pitch, 85) : undefined}
       mapStyle={mapStyle}
     >
       <FlyTo latitude={latitude} longitude={longitude} zoom={rest.zoom} />
+      {mapChildren}
       <Canvas latitude={latitude} longitude={longitude} {...canvas}>
         {children}
       </Canvas>
-      </Map>
+    </Map>
   </div>
 }
 
@@ -39,25 +40,25 @@ interface FlyToProps {
   zoom?: number,
 }
 
-const FlyTo = memo<FlyToProps>(({latitude, longitude, zoom})=>{
-  
+const FlyTo = memo<FlyToProps>(({ latitude, longitude, zoom }) => {
+
   const map = useMap();
   const firstRun = useRef(true);
 
-  useEffect(()=>{
-    if(!map.current) return;
-    if(firstRun.current) return;
+  useEffect(() => {
+    if (!map.current) return;
+    if (firstRun.current) return;
     map.current.easeTo({
-      center: {lon: longitude, lat: latitude},
+      center: { lon: longitude, lat: latitude },
       zoom: map.current.getZoom(),
       duration: 0,
     })
   }, [map, latitude, longitude])
 
-  useEffect(()=>{
-    if(!map.current) return;
-    if(firstRun.current) return;
-    if(zoom === undefined) return;
+  useEffect(() => {
+    if (!map.current) return;
+    if (firstRun.current) return;
+    if (zoom === undefined) return;
     map.current.easeTo({
       center: map.current.getCenter(),
       zoom,
@@ -65,7 +66,7 @@ const FlyTo = memo<FlyToProps>(({latitude, longitude, zoom})=>{
     })
   }, [map, zoom])
 
-  useEffect(()=>{
+  useEffect(() => {
     firstRun.current = false;
   }, [])
 

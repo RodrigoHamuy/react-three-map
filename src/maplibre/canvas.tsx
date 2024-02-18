@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { extend } from "@react-three/fiber";
 import { MercatorCoordinate } from "maplibre-gl";
 import { memo, useState } from "react";
@@ -33,6 +34,7 @@ interface CanvasPropsAndMap extends CanvasProps {
 
 const CanvasInLayer = memo<CanvasPropsAndMap>(({ map, ...props }) => {
   const layerProps = useCanvasInLayer(props, fromLngLat, map);
+  /* @ts-ignore */ // eslint-disable-line @typescript-eslint/ban-ts-comment
   return <Layer {...layerProps} />
 })
 CanvasInLayer.displayName = 'CanvasInLayer';
@@ -46,6 +48,7 @@ const CanvasOverlay = memo<CanvasPropsAndMap>(({ map, id, beforeId, ...props }) 
   })
 
   return <>
+    {/* @ts-ignore */}
     <Layer id={id} beforeId={beforeId} type="custom" render={render} />
     <InitCanvasFC {...props}
       setOnRender={setOnRender}

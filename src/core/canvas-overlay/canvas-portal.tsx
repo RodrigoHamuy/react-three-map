@@ -24,7 +24,7 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
 
   const [ready, setReady] = useState(false);
 
-  const onReady = useFunction(()=>{
+  const onReady = useFunction(() => {
     setReady(true);
   })
 
@@ -36,7 +36,7 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
     events={events}
     eventSource={eventSource}
     {...props}
-    gl={{autoClear: false, ...props.gl}}
+    gl={{ autoClear: false, ...props.gl }}
   >
     <InitR3M
       map={map}
@@ -51,7 +51,7 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
       altitude={altitude}
       setOnRender={setOnRender}
       onReady={onReady}
-      mapCanvas={mapCanvas}
+      map={map}
     />
     {ready && children}
   </Canvas>

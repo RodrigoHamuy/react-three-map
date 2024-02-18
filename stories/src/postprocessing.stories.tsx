@@ -5,13 +5,20 @@ import { useEffect, useState } from "react";
 import { MathUtils } from "three";
 import { ScreenBlend } from "./screen-blend-effect/screen-blend";
 import { StoryMap } from "./story-map";
+import { AdaptiveDpr } from "./adaptive-dpr";
 
 export function Default() {
   const { ao } = useControls({ ao: { value: true, label: 'Ambient Occlusion' } });
 
-  useEffect(()=>{
-    // default this story to use overlay
+  // default this story to use overlay
+  useEffect(() => {
+    const overlay = levaStore.get('overlay');
     levaStore.setValueAtPath('overlay', true, true);
+    return () => {
+      // reset overlay
+      if (overlay) return;
+      levaStore.setValueAtPath('overlay', overlay, true);
+    }
   }, [])
 
   const [toggle, setToggle] = useState(false);
@@ -22,10 +29,11 @@ export function Default() {
     pitch={60}
     canvas={{ shadows: 'variance' }}
   >
+    <AdaptiveDpr />
     {ao && <EffectComposer>
       <N8AO />
       <ScreenBlend />
-      {/* ScreenBlend fixes transparency when using n8ao */}
+      {/* ScreenBlend forces transparency to work on the canvas overlay */}
     </EffectComposer>}
     <object3D scale={35} rotation={[0, 13 * MathUtils.DEG2RAD, 0]}>
       <Box position={[0, .5, 0]}
@@ -39,3 +47,4 @@ export function Default() {
     </object3D>
   </StoryMap>
 }
+

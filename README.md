@@ -211,9 +211,24 @@ This utility function converts geographic coordinates into a `Vector3Tuple`, whi
 Similar to `NearCoordinates` it has a relatively good precision at city distances, but is not recommended if your distances are too big.
 
 
-| Parameter      | Description                                                       |
-| -------------- | ----------------------------------------------------------------- |
+| Parameter        | Description                                                     |
+| ---------------- | --------------------------------------------------------------- |
 | `point: Coords`  | The geographic coordinates of the point to convert.             |
 | `origin: Coords` | The geographic coordinates used as the origin for calculations. |
 
 Returns a `Vector3Tuple` representing the 3D position of the point relative to the origin.
+
+### vector3ToCoords
+
+[![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=pivot-controls--default)
+
+This utility function converts a `Vector3Tuple`, which represents a 3D vector in meters, back into geographic coordinates.
+
+It is the inverse of `coordsToVector3` and maintains the same level of precision. It is not recommended for use with very large distances.
+
+| Parameter                | Description                                                     |
+| ------------------------ | --------------------------------------------------------------- |
+| `position: Vector3Tuple` | The 3D vector to convert back into geographic coordinates.      |
+| `origin: Coords`         | The geographic coordinates used as the origin for calculations. |
+
+Returns a `Coords` object representing the geographic coordinates of the point relative to the origin.
