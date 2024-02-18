@@ -1,5 +1,12 @@
 # react-three-map
 
+## 0.8.1
+
+### Patch Changes
+
+- 9dfe4f6: Remove `turf` dependency.
+- 9dfe4f6: Map to wait for r3f to finish rendering before the next render in overlay mode.
+
 ## 0.8.0
 
 ### Minor Changes
