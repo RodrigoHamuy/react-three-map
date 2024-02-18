@@ -1,28 +1,25 @@
-import { memo, useEffect } from "react";
 import { useThree } from "@react-three/fiber";
+import { memo, useEffect, useState } from "react";
 import { useMap } from "react-three-map";
 
 export const AdaptiveDpr = memo(() => {
+  const initialDpr = useThree(s => s.viewport.initialDpr)
+  const [dpr, _setDpr] = useState(initialDpr)
   const setDpr = useThree(s => s.setDpr);
   const map = useMap();
   useEffect(() => {
-    const decreaseDpr = () => setDpr(0.5);
-    const increaseDpr = () => setDpr(window.devicePixelRatio);
-    map.on('dragstart', decreaseDpr);
-    map.on('rotatestart', decreaseDpr);
-    map.on('zoomstart', decreaseDpr);
-    map.on('dragend', increaseDpr);
-    map.on('rotateend', increaseDpr);
-    map.on('zoomend', increaseDpr);
+    const decreaseDpr = () => _setDpr(0.5)
+    const increaseDpr = () => _setDpr(initialDpr);
+
+    map.on('movestart', decreaseDpr);
+    map.on('moveend', increaseDpr);
     return () => {
-      map.off('dragstart', decreaseDpr);
-      map.off('rotatestart', decreaseDpr);
-      map.off('zoomstart', decreaseDpr);
-      map.off('dragend', increaseDpr);
-      map.off('rotateend', increaseDpr);
-      map.off('zoomend', increaseDpr);
+      map.off('movestart', decreaseDpr);
+      map.off('moveend', increaseDpr);
     };
-  }, [map, setDpr]);
+  }, [map, setDpr, initialDpr]);
+
+  useEffect(() => setDpr(dpr), [dpr, setDpr]);
 
   return <></>;
 });
