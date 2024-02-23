@@ -43,7 +43,7 @@ export const StoryMap: FC<StoryMapProps> = (props) => {
     {mapProvider === MapProvider.mapbox && <StoryMapbox {...props} canvas={canvas} />}
     {mapProvider === MapProvider.nomap && <Canvas
       {...props.canvas}
-      camera={{ position: [0, 500, 0] }}
+      camera={{ position: [0, 500, 0], far: 5000 }}
     >
       <MapControls makeDefault />
       {props.children}
