@@ -8,6 +8,7 @@ export const AdaptiveDpr = memo(() => {
   const setDpr = useThree(s => s.setDpr);
   const map = useMap();
   useEffect(() => {
+    if(!map) return;
     const decreaseDpr = () => _setDpr(0.5)
     const increaseDpr = () => _setDpr(initialDpr);
 

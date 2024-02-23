@@ -35,7 +35,7 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
 
   const [hovered, hover] = useState<number>()
 
-  const { data, vertexCount, indexCount } = useMemo(() => {
+  const { data, vertexCount, indexCount, key } = useMemo(() => {
     // lights
     const c00 = _color.set('#f0c505').getHSL({ h: 0, s: 0, l: 0 });
     const c01 = _color.set('#f38630').getHSL({ h: 0, s: 0, l: 0 });
@@ -69,7 +69,8 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
     });
     const vertexCount = data.reduce((acc, d) => acc + d.vertexCount, 0);
     const indexCount = data.reduce((acc, d) => acc + d.indexCount, 0);
-    return { data, vertexCount, indexCount };
+    const key = MathUtils.generateUUID();
+    return { data, vertexCount, indexCount, key };
   }, [origin, buildings])
 
   const meshRef = useRef<BatchedMesh>(null);
@@ -92,9 +93,7 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
 
       material.setValue(item.i, 'roughness', roughness);
       material.setValue(item.i, 'metalness', metalness);
-
     }
-
   })
 
   useLayoutEffect(() => {
@@ -106,6 +105,7 @@ export const BatchedBuildings = memo<BatchedBuildingsProps>(({ buildingsCenter, 
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <batchedMesh
+    key={key}
     ref={meshRef}
     args={[data.length, vertexCount, indexCount]}
     rotation={[-90 * MathUtils.DEG2RAD, 0, -90 * MathUtils.DEG2RAD]}
