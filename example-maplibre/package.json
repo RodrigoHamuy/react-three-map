@@ -7,7 +7,7 @@
     "ts": "tsc -w"
   },
   "dependencies": {
-    "@ladle/react": "^2.15.0",
+    "@ladle/react": "^4.0.2",
     "@react-three/drei": "^9.77.10",
     "@react-three/fiber": "^8.13.4",
     "leva": "^0.9.35",
@@ -15,7 +15,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.1.0",
-    "react-three-map": "^0.2.1",
+    "react-three-map": "^0.8.1",
     "three": "~0.153.0",
     "three-stdlib": "^2.23.10"
   },
