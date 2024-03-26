@@ -11,16 +11,32 @@
 
 Until now you had:
 
-| imperative | declarative (react)    |
-| --------------- | ----------------- |
-| Maplibre/Mapbox | react-map-gl      |
-| THREE.js        | react-three-fiber |
+| imperative      | declarative (react) |
+| --------------- | ------------------- |
+| Maplibre/Mapbox | react-map-gl        |
+| THREE.js        | react-three-fiber   |
 
 Now with `react-three-map`, you can use them together :fist_right::star::fist_left:.
 
 ```sh
 npm install react-three-map
 ```
+
+- [React Three Map](#react-three-map)
+  - [:book: Examples](#book-examples)
+  - [:mag: What does it look like?](#mag-what-does-it-look-like)
+  - [:thinking: Why we build this?](#thinking-why-we-build-this)
+  - [:gear: API](#gear-api)
+    - [Canvas](#canvas)
+      - [Render Props](#render-props)
+      - [Render Props removed from `@react-three/fiber`](#render-props-removed-from-react-threefiber)
+    - [Coordinates](#coordinates)
+    - [NearCoordinates](#nearcoordinates)
+    - [useMap](#usemap)
+    - [coordsToVector3](#coordstovector3)
+    - [vector3ToCoords](#vector3tocoords)
+  - [:tada: Made with `react-three-map`](#tada-made-with-react-three-map)
+
 
 ## :book: Examples
 
@@ -120,13 +136,13 @@ It shares most of the props from R3F `<Canvas>`, so you can check them directly 
 
 #### Render Props
 
-| Prop       | Description                                      | Default    |
-| ---------  | ------------------------------------------------ | ---------- |
-| latitude   | The latitude coordinate where to add the scene.  |            |
-| longitude  | The longitude coordinate where to add the scene. |            |
-| altitude   | The altitude coordinate where to add the scene.  | `0`        |
-| frameloop  | Render mode: `"always"`, `"demand"`.             | `"always"` |
-| overlay    | Render on a separated canvas.                    | `false`    |
+| Prop      | Description                                      | Default    |
+| --------- | ------------------------------------------------ | ---------- |
+| latitude  | The latitude coordinate where to add the scene.  |            |
+| longitude | The longitude coordinate where to add the scene. |            |
+| altitude  | The altitude coordinate where to add the scene.  | `0`        |
+| frameloop | Render mode: `"always"`, `"demand"`.             | `"always"` |
+| overlay   | Render on a separated canvas.                    | `false`    |
 
 **About `overlay`**
 
@@ -172,11 +188,11 @@ import { Canvas, Coordinates } from 'react-three-map'
 </Canvas>
 ```
 
-| Props       | Description                                      | Default    |
-| ---------  | ------------------------------------------------ | ---------- |
-| latitude   | The latitude coordinate where to add the scene.  |            |
-| longitude  | The longitude coordinate where to add the scene. |            |
-| altitude   | The altitude coordinate where to add the scene.  | `0`        |
+| Props     | Description                                      | Default |
+| --------- | ------------------------------------------------ | ------- |
+| latitude  | The latitude coordinate where to add the scene.  |         |
+| longitude | The longitude coordinate where to add the scene. |         |
+| altitude  | The altitude coordinate where to add the scene.  | `0`     |
 
 ### NearCoordinates
 
@@ -232,3 +248,9 @@ It is the inverse of `coordsToVector3` and maintains the same level of precision
 | `origin: Coords`         | The geographic coordinates used as the origin for calculations. |
 
 Returns a `Coords` object representing the geographic coordinates of the point relative to the origin.
+
+## :tada: Made with `react-three-map`
+
+[![studio carto](./made-with/studio-carto-urban-project.webp)](https://x.com/lonjon_thomas/status/1767151007983685979?s=20)
+
+[![post](https://img.shields.io/badge/post-black?style=for-the-badge&logo=x)](https://x.com/lonjon_thomas/status/1767151007983685979?s=20) [![page](https://img.shields.io/badge/page-black?style=for-the-badge)](https://studio-carto-urban-project.netlify.app/)
