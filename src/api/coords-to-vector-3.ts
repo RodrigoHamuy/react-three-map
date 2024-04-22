@@ -35,11 +35,8 @@ export function coordsToVector3(point: Coords, origin: Coords): Vector3Tuple {
   // dynamic step size based on latitude difference. calculate the mercator unit scale at origin
   // and the scale average along the line to the point for better accuracy far from origin
   const steps = Math.ceil(Math.abs(point.latitude - origin.latitude)) * 100 + 1;
-  const absOriginLat = Math.abs(origin.latitude); // use abs values for scale calculation (same scale for north and south)
-  const absPointLat = Math.abs(point.latitude);
-  const avgScale = averageMercatorScale(absOriginLat, absPointLat, steps);
+  const avgScale = averageMercatorScale(origin.latitude, point.latitude, steps);
 
-  const z = (zOld / getMercatorScale(absOriginLat)) * avgScale;
-
+  const z = (zOld / getMercatorScale(origin.latitude)) * avgScale;
   return [x, y, z] as Vector3Tuple;
 }
