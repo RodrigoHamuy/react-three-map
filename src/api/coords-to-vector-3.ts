@@ -30,13 +30,12 @@ export function coordsToVector3(point: Coords, origin: Coords): Vector3Tuple {
 
   const x = longitudeDiff * earthRadius * Math.cos(origin.latitude * MathUtils.DEG2RAD);
   const y = altitudeDiff;
-  const zOld = -latitudeDiff * earthRadius;
 
   // dynamic step size based on latitude difference. calculate the mercator unit scale at origin
   // and the scale average along the line to the point for better accuracy far from origin
   const steps = Math.ceil(Math.abs(point.latitude - origin.latitude)) * 100 + 1;
   const avgScale = averageMercatorScale(origin.latitude, point.latitude, steps);
 
-  const z = (zOld / getMercatorScale(origin.latitude)) * avgScale;
+  const z = ((-latitudeDiff * earthRadius) / getMercatorScale(origin.latitude)) * avgScale;
   return [x, y, z] as Vector3Tuple;
 }
