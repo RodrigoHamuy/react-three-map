@@ -99,7 +99,7 @@ function BasicExample() {
 
 ## :thinking: Why we build this?
 
-Look [how complex](https://maplibre.org/maplibre-gl-js-docs/example/add-3d-model/) is to add just one ThreeJS object to a map.
+Look [how complex](https://maplibre.org/maplibre-gl-js-docs/examples/add-3d-model/) is to add just one ThreeJS object to a map.
 
 Look [how complex](https://docs.pmnd.rs/react-three-fiber/api/canvas#createroot) is to create your custom root for R3F.
 
