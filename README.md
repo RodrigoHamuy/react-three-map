@@ -132,7 +132,7 @@ const App = () => (
 )
 ```
 
-It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://docs.pmnd.rs/react-three-fiber/api/canvas). There are a few important exceptions though, which are mentioned bellow.
+It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://docs.pmnd.rs/react-three-fiber/api/canvas). Note that North is -z and East is +x. There are a few important exceptions though, which are mentioned bellow.
 
 #### Render Props
 
