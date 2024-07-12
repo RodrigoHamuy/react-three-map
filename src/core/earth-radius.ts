@@ -1,1 +1,1 @@
-export const earthRadius = 6378137;
+export const earthRadius = 6371008.8;

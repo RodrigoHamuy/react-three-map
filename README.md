@@ -198,11 +198,11 @@ import { Canvas, Coordinates } from 'react-three-map'
 
 [![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=multi-coordinates--default)
 
-Same as `Coordinates`, but with an error margin that increases the further you are from the origin.
+Same as `Coordinates`, but scale is ignored in exchange of being able to be rendered under the same scene.
 
-Recommended to use at city level distances, but margin errors will be noticeable at country level distances.
+Works well at city level distances, but since scale remains unchanged, is not recommended at country level distances.
 
-Check the story to see the difference between the two.
+Check the story to see the difference between the two or check #102 for more info.
 
 ### useMap
 
@@ -224,7 +224,7 @@ const Component = () => {
 
 This utility function converts geographic coordinates into a `Vector3Tuple`, which represents a 3D vector in meters.
 
-Similar to `NearCoordinates` it has a relatively good precision at city distances, but is not recommended if your distances are too big.
+Similar to `NearCoordinates`, remember that this only updates positions (translation) but that scale is not taken into account, which has an important factor at very long distances (country level).
 
 
 | Parameter        | Description                                                     |
@@ -240,7 +240,9 @@ Returns a `Vector3Tuple` representing the 3D position of the point relative to t
 
 This utility function converts a `Vector3Tuple`, which represents a 3D vector in meters, back into geographic coordinates.
 
-It is the inverse of `coordsToVector3` and maintains the same level of precision. It is not recommended for use with very large distances.
+It is the inverse of `coordsToVector3` but it does not have a good level of precision at long distances since we haven't reverse engineered #102 fix yet.
+
+Recommended to use at city level distances, but margin errors will be noticeable at country level distances.
 
 | Parameter                | Description                                                     |
 | ------------------------ | --------------------------------------------------------------- |
