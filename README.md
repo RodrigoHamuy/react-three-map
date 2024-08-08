@@ -48,9 +48,9 @@ Check out our examples [here](https://rodrigohamuy.github.io/react-three-map) (p
 <table>
   <tbody>
     <tr>
-      <td>Let's build the same <code>react-three-fiber</code> basic example, but now it can be inside a map. (<a href="https://codesandbox.io/p/sandbox/vigorous-snyder-2n9vpl?file=%2Fsrc%2FApp.tsx%3A48%2C45">live demo</a>).</td>
+      <td>Let's build the same <code>react-three-fiber</code> basic example, but now it can be inside a map. (<a href="https://codesandbox.io/p/sandbox/react-three-map-gettings-started-dhw34w">live demo</a>).</td>
       <td>
-        <a href="https://codesandbox.io/p/sandbox/vigorous-snyder-2n9vpl?file=%2Fsrc%2FApp.tsx%3A48%2C45">
+        <a href="https://codesandbox.io/p/sandbox/react-three-map-gettings-started-dhw34w">
           <img src="docs/basic-app.gif" />
         </a>
       </td>
