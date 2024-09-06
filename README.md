@@ -35,7 +35,6 @@ npm install react-three-map
     - [useMap](#usemap)
     - [coordsToVector3](#coordstovector3)
     - [vector3ToCoords](#vector3tocoords)
-  - [:tada: Made with `react-three-map`](#tada-made-with-react-three-map)
 
 
 ## :book: Examples
@@ -250,9 +249,3 @@ Recommended to use at city level distances, but margin errors will be noticeable
 | `origin: Coords`         | The geographic coordinates used as the origin for calculations. |
 
 Returns a `Coords` object representing the geographic coordinates of the point relative to the origin.
-
-## :tada: Made with `react-three-map`
-
-[![studio carto](./made-with/studio-carto-urban-project.webp)](https://x.com/lonjon_thomas/status/1767151007983685979?s=20)
-
-[![post](https://img.shields.io/badge/post-black?style=for-the-badge&logo=x)](https://x.com/lonjon_thomas/status/1767151007983685979?s=20) [![page](https://img.shields.io/badge/page-black?style=for-the-badge)](https://studio-carto-urban-project.netlify.app/)
