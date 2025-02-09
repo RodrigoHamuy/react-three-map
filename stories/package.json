@@ -16,7 +16,7 @@
     "leva": "^0.9.35",
     "luxon": "^3.4.4",
     "mapbox-gl": "^3.9.4",
-    "maplibre-gl": "4.7.1",
+    "maplibre-gl": "^5.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^8.0.1",
