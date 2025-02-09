@@ -2,7 +2,7 @@
 import { extend } from "@react-three/fiber";
 import { MercatorCoordinate } from "mapbox-gl";
 import { memo, useState } from "react";
-import { Layer, useMap } from "react-map-gl";
+import { Layer, useMap } from "react-map-gl/mapbox";
 import * as THREE from "three";
 import { Matrix4Tuple } from "three";
 import { CanvasProps } from "../api/canvas-props";

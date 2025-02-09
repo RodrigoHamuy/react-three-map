@@ -20,6 +20,8 @@ export interface StoryMapProps extends PropsWithChildren {
   bearing?: number,
   canvas?: Partial<CanvasProps>,
   mapChildren?: ReactNode,
+  mapboxChildren?: ReactNode,
+  maplibreChildren?: ReactNode,
 }
 
 /** `<Map>` styled for stories */

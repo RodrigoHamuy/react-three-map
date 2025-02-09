@@ -3,13 +3,13 @@ import { useControls } from 'leva';
 import Mapbox from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { FC, PropsWithChildren, memo } from "react";
-import Map, { Layer } from 'react-map-gl';
+import Map, { Layer } from 'react-map-gl/mapbox';
 import { Canvas } from 'react-three-map';
 import { StoryMapProps } from '../story-map';
 
 /** `<Map>` styled for stories */
-export const StoryMapbox: FC<StoryMapProps> = ({
-  latitude, longitude, canvas, children, mapChildren, ...rest
+export const StoryMapbox: FC<Omit<StoryMapProps, 'maplibreChildren'>> = ({
+  latitude, longitude, canvas, children, mapChildren, mapboxChildren, ...rest
 }) => {
 
   const { mapboxToken } = useControls({
@@ -44,6 +44,7 @@ export const StoryMapbox: FC<StoryMapProps> = ({
       mapboxAccessToken={mapboxToken}
     >
       {mapChildren}
+      {mapboxChildren}
       <Canvas latitude={latitude} longitude={longitude} {...canvas}>
         {children}
       </Canvas>
