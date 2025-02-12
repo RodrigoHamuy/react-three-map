@@ -73,7 +73,7 @@
     "mapbox-gl": ">=3.5.0",
     "maplibre-gl": ">=4.0.0",
     "react": ">=18.0",
-    "react-map-gl": ">=7.1",
+    "react-map-gl": ">=8.0.0",
     "three": ">=0.133"
   },
   "peerDependenciesMeta": {
