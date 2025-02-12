@@ -41,9 +41,9 @@ export interface MapInstance {
 	getPixelRatio?: ()=>number;
 	triggerRepaint(): void;
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	on<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): this;
+	on<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): void;
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	off<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): this;
+	off<T extends keyof MapEventType>(type: T, listener: (ev: MapEventType[T] & Object) => void): void;
 }
 
 /** Generic interface of Mapbox/Maplibre `MapEventType` */

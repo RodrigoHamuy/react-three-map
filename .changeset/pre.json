@@ -1,0 +1,8 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "react-three-map": "0.8.2"
+  },
+  "changesets": []
+}

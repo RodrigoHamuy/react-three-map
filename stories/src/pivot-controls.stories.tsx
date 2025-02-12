@@ -1,8 +1,11 @@
 import { PivotControls, ScreenSizer, Sphere } from "@react-three/drei";
 import { useControls } from "leva";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Marker } from "react-map-gl";
-import { useMap, vector3ToCoords } from "react-three-map";
+import { Marker as MapboxMarker } from "react-map-gl/mapbox";
+import { Marker as MaplibreMarker } from "react-map-gl/maplibre";
+import { useMap, 
+  vector3ToCoords
+ } from "react-three-map";
 import { Matrix4, Vector3, Vector3Tuple } from "three";
 import { StoryMap } from "./story-map";
 
@@ -22,10 +25,15 @@ export function Default() {
       {...origin}
       zoom={13}
       pitch={60}
-      mapChildren={(
-        <Marker {...geoPos}>
+      maplibreChildren={(
+        <MaplibreMarker {...geoPos}>
           <div style={{ fontSize: 18 }}>lat: {geoPos.latitude}<br />lon: {geoPos.longitude}</div>
-        </Marker>
+        </MaplibreMarker>
+      )}
+      mapboxChildren={(
+        <MapboxMarker {...geoPos}>
+          <div style={{ fontSize: 18 }}>lat: {geoPos.latitude}<br />lon: {geoPos.longitude}</div>
+        </MapboxMarker>
       )}
     >
       <Move position={position} setPosition={setPosition} />

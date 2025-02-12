@@ -15,8 +15,9 @@ export function useRender({
   frameloop?: 'always' | 'demand',
   r3m: R3M
 }) {
-  const render = useFunction((_gl: WebGL2RenderingContext, projViewMx: number[]) => {
-    r3m.viewProjMx.splice(0, 16, ...projViewMx)
+  const render = useFunction((_gl: WebGL2RenderingContext, projViewMx: number[] | {defaultProjectionData: {mainMatrix: Record<string, number>}}) => {
+    const pVMx = 'defaultProjectionData' in projViewMx ? Object.values(projViewMx.defaultProjectionData.mainMatrix) : projViewMx;
+    r3m.viewProjMx.splice(0, 16, ...pVMx)
     const state = useThree.getState();
     const camera = state.camera as PerspectiveCamera;
     const {gl, advance} = state;

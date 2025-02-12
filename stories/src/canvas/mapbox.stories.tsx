@@ -3,7 +3,7 @@ import { useControls } from "leva";
 import MapboxGl from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { FC, PropsWithChildren, useRef, useState } from "react";
-import Map from 'react-map-gl';
+import Map from 'react-map-gl/mapbox';
 import { Canvas } from "react-three-map";
 import { Mesh } from "three";
 
