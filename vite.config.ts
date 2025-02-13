@@ -55,6 +55,7 @@ export default defineConfig({
             'react/jsx-runtime',
             "react-dom",
             "react-map-gl",
+            "react-map-gl/mapbox",
             "react-map-gl/maplibre",
             "three",
           ]
