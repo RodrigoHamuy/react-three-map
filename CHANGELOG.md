@@ -1,5 +1,11 @@
 # react-three-map
 
+## 1.0.0-next.1
+
+### Patch Changes
+
+- e5e937a: Remove `react-map-gl/mapbox` from the build.
+
 ## 1.0.0-next.0
 
 ### Major Changes
