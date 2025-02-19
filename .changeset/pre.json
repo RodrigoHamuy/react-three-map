@@ -5,6 +5,7 @@
     "react-three-map": "0.8.2"
   },
   "changesets": [
+    "sour-fans-bathe",
     "wet-trees-scream"
   ]
 }
