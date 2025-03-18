@@ -29,10 +29,6 @@ export const CanvasPortal = memo<CanvasPortalProps>(({
   })
 
   return <Canvas
-    camera={{
-      matrixAutoUpdate: true,
-      matrixWorldAutoUpdate: true,
-    }}
     events={events}
     eventSource={eventSource}
     {...props}
