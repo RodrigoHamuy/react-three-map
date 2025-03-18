@@ -1,5 +1,11 @@
 # react-three-map
 
+## 1.0.0-next.2
+
+### Patch Changes
+
+- 987d5c7: Fix `overlay` camera calculations bug introduced by `three=>r166`. More info in [#143](https://github.com/RodrigoHamuy/react-three-map/issues/143).
+
 ## 1.0.0-next.1
 
 ### Patch Changes
