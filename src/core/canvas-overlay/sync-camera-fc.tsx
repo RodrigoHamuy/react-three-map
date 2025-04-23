@@ -57,7 +57,7 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
     }
   }, -Infinity)
 
-  const onRender = useFunction((viewProjMx: Matrix4Tuple) => {
+  const onRender = useFunction((viewProjMx: Matrix4Tuple | {defaultProjectionData: {mainMatrix: Record<string, number>}}) => {
     map.triggerRepaint = triggerRepaintOff;
 
     if (threeCanvas.width !== mapCanvas.width || threeCanvas.height !== mapCanvas.height) {
@@ -70,7 +70,8 @@ export const SyncCameraFC = memo<SyncCameraFCProps>(({
       );
     }
 
-    r3m.viewProjMx = viewProjMx;
+    const pVMx = 'defaultProjectionData' in viewProjMx ? Object.values(viewProjMx.defaultProjectionData.mainMatrix) : viewProjMx;
+    r3m.viewProjMx = pVMx as Matrix4Tuple;
     if (!ready.current && onReady) {
       ready.current = true;
       onReady();
