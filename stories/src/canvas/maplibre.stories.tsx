@@ -13,7 +13,9 @@ export function Maplibre() {
     <Leva theme={{ sizes: { rootWidth: '340px', controlWidth: '150px' } }} />
     <div style={{ height: '100vh' }}>
       <Map
-        antialias
+        canvasContextAttributes={{
+          antialias: true,
+        }}
         initialViewState={{
           latitude: 51,
           longitude: 0,

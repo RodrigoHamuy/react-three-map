@@ -73,7 +73,9 @@ import { Canvas } from "react-three-map/maplibre"
 
 function BasicExample() {
   return <Map
-    antialias
+    canvasContextAttributes={{
+      antialias: true,
+    }}
     initialViewState={{
       latitude: 51,
       longitude: 0,

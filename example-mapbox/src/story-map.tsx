@@ -3,7 +3,7 @@ import { useControls } from 'leva';
 import Mapbox from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { FC, PropsWithChildren } from "react";
-import Map from 'react-map-gl';
+import Map from 'react-map-gl/mapbox';
 
 export interface StoryMapProps extends PropsWithChildren {
   latitude: number,
