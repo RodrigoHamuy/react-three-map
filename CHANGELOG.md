@@ -1,5 +1,22 @@
 # react-three-map
 
+## 1.0.0
+
+### Major Changes
+
+- 9be6c41: Updated to work with `react-map-gl >= 8.0.0`.
+
+  This has the cascade effect of requiring also to upgrade either of the map providers you are using:
+
+  - `mapbox-gl >= 3.5.0`
+  - `maplibre-gl >= 4.0.0`
+
+### Patch Changes
+
+- e5e937a: Remove `react-map-gl/mapbox` from the build.
+- 987d5c7: Fix `overlay` camera calculations bug introduced by `three=>r166`. More info in [#143](https://github.com/RodrigoHamuy/react-three-map/issues/143).
+- 55c5392: Support maplibre@v5
+
 ## 1.0.0-next.2
 
 ### Patch Changes
