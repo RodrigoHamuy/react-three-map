@@ -21,7 +21,7 @@ export function useRender({
     const state = useThree.getState();
     const camera = state.camera as PerspectiveCamera;
     const {gl, advance} = state;
-    syncCamera(camera as PerspectiveCamera, origin, projViewMx as Matrix4Tuple);
+    syncCamera(camera as PerspectiveCamera, origin, pVMx);
     gl.resetState();
     advance(Date.now() * 0.001, true);
     if (!frameloop || frameloop === 'always') map.triggerRepaint();
