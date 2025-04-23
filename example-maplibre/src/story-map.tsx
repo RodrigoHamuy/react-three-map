@@ -23,7 +23,9 @@ export const StoryMap: FC<StoryMapProps> = ({
 
   return <div style={{ height: '100vh', position: 'relative' }}>
     <Map
-      antialias
+      canvasContextAttributes={{
+        antialias: true,
+      }}
       initialViewState={{
         latitude,
         longitude,

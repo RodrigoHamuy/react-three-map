@@ -10,7 +10,9 @@ export default { title: 'Canvas' }
 export function BasicExample() {
   return <div style={{ height: '100vh' }}>
     <Map
-      antialias
+      canvasContextAttributes={{
+        antialias: true,
+      }}
       initialViewState={{
         latitude: 51,
         longitude: 0,

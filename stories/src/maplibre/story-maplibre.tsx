@@ -19,7 +19,9 @@ export const StoryMaplibre: FC<Omit<StoryMapProps, 'mapboxChildren'>> = ({
 
   return <div style={{ height: '100vh', position: 'relative' }}>
     <Map
-        antialias
+      canvasContextAttributes={{
+        antialias: true,
+      }}
       mapLib={MapLibre}
       initialViewState={{ latitude, longitude, ...rest }}
       maxPitch={rest.pitch ? Math.min(rest.pitch, 85) : undefined}
