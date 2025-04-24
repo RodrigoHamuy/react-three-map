@@ -100,7 +100,7 @@ function BasicExample() {
 
 ## :thinking: Why we build this?
 
-Look [how complex](https://maplibre.org/maplibre-gl-js-docs/example/add-3d-model/) is to add just one ThreeJS object to a map.
+Look [how complex](https://maplibre.org/maplibre-gl-js-docs/examples/add-3d-model/) is to add just one ThreeJS object to a map.
 
 Look [how complex](https://docs.pmnd.rs/react-three-fiber/api/canvas#createroot) is to create your custom root for R3F.
 
@@ -133,7 +133,7 @@ const App = () => (
 )
 ```
 
-It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://docs.pmnd.rs/react-three-fiber/api/canvas). There are a few important exceptions though, which are mentioned bellow.
+Note that North is -z and East is +x. It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://docs.pmnd.rs/react-three-fiber/api/canvas). There are a few important exceptions though, which are mentioned bellow.
 
 #### Render Props
 
