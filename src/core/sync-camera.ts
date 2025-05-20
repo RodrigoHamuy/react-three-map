@@ -1,14 +1,11 @@
 import { Matrix4, Matrix4Tuple, Object3D, PerspectiveCamera, Vector3 } from "three";
 
 const originMx = new Matrix4();
-
-/** projection * view matrix  */
 const projByView = new Matrix4();
-/** projection * view matrix inverted */
 const projByViewInv = new Matrix4();
-
-/** forward */
 const fwd = new Vector3();
+const up = new Vector3();
+const pos = new Vector3();
 
 
 export function syncCamera(camera: PerspectiveCamera, origin: Matrix4Tuple, mapCamMx: Matrix4Tuple) {
@@ -24,11 +21,17 @@ export function syncCamera(camera: PerspectiveCamera, origin: Matrix4Tuple, mapC
   camera.updateMatrix();
   camera.updateMatrixWorld(true);  
 
-  camera.projectionMatrix.copy(camera.matrix).premultiply(projByView);
-  camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+  camera.projectionMatrix
+    .copy(camera.matrix)
+    .premultiply(projByView);
+  camera.projectionMatrixInverse
+    .copy(camera.projectionMatrix)
+    .invert();
 
   camera.far = calculateFar(
-    camera.matrix.elements[10], camera.matrix.elements[14], camera.near
+    camera.matrix.elements[10],
+    camera.matrix.elements[14],
+    camera.near
   )
 
   camera.userData.projByView = projByView.toArray();
@@ -42,24 +45,24 @@ const updateCamera = (target: Object3D, projByViewInv: Matrix4) => {
     .setScalar(0)
     .applyMatrix4(projByViewInv)
 
-  target.up
-    .set(0, -1, 0)
+  up.set(0, -1, 0)
     .applyMatrix4(projByViewInv)
-    .negate()
-    .add(target.position)
-    .normalize()
+    .sub(target.position)
+    .normalize();
+  target.up.copy(up);
 
   fwd
     .set(0, 0, 1)
     .applyMatrix4(projByViewInv)
-
-  target.lookAt(fwd);
-
+    .sub(target.position)
+    .normalize();
+  
+  pos.copy(target.position).add(fwd);
+  target.lookAt(pos);
 }
 
 function calculateFar(c: number, d: number, near: number): number {
   const numerator = d * (c - 1);
   const denominator = c * near + near;
-  const far = numerator / denominator;
-  return far;
+  return numerator / denominator;
 }
