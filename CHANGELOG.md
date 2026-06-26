@@ -1,5 +1,11 @@
 # react-three-map
 
+## 1.0.1
+
+### Patch Changes
+
+- c77b374: Fix hover/raycast inaccuracy by deriving the pointer-event ray origin from the cursor position.
+
 ## 1.0.0
 
 ### Major Changes
