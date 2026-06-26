@@ -22,7 +22,7 @@ export const events: Events = (store) => {
       if (state.camera.userData.projByViewInv) projViewInv.fromArray(state.camera.userData.projByViewInv);
 
       state.raycaster.camera = state.camera;
-      state.raycaster.ray.origin.setScalar(0).applyMatrix4(projViewInv);
+      state.raycaster.ray.origin.set(state.pointer.x, state.pointer.y, -1).applyMatrix4(projViewInv);
       state.raycaster.ray.direction
         .set(state.pointer.x, state.pointer.y, 1)
         .applyMatrix4(projViewInv)
