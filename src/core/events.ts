@@ -1,6 +1,5 @@
 import { Canvas, events as fiberEvents } from "@react-three/fiber";
 import { Matrix4 } from "three";
-import { computeRay } from "./compute-ray";
 
 /** projection * view matrix inverted */
 const projViewInv = new Matrix4()
@@ -23,7 +22,12 @@ export const events: Events = (store) => {
       if (state.camera.userData.projByViewInv) projViewInv.fromArray(state.camera.userData.projByViewInv);
 
       state.raycaster.camera = state.camera;
-      computeRay(state.raycaster.ray, state.pointer.x, state.pointer.y, projViewInv);
+      state.raycaster.ray.origin.set(state.pointer.x, state.pointer.y, -1).applyMatrix4(projViewInv);  
+      state.raycaster.ray.direction  
+        .set(state.pointer.x, state.pointer.y, 1)  
+        .applyMatrix4(projViewInv)  
+        .sub(state.raycaster.ray.origin)  
+        .normalize();
 
     },
   };
