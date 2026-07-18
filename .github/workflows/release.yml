@@ -22,8 +22,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      # Trusted publishing requires npm >= 11.5.1
-      - run: npm install -g npm@latest && npm -v
       - run: yarn install --frozen-lockfile
       - id: changesets
         uses: changesets/action@v1
