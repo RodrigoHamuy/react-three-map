@@ -30,3 +30,5 @@ build
 .vscode
 
 coverage
+
+.claude
