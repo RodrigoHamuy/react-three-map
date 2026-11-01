@@ -1,5 +1,11 @@
 # react-three-map
 
+## 1.0.2
+
+### Patch Changes
+
+- 886a852: Unmount the `<Canvas overlay={false}>` root when the map is removed, so it no longer leaks after the whole map unmounts.
+
 ## 1.0.1
 
 ### Patch Changes
