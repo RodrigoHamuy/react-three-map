@@ -80,7 +80,13 @@ export function useRoot(
 
   })
 
+  // map.remove() does not call the layer onRemove
+  const onAdd = useFunction(() => {
+    map.on('remove', onRemove);
+  })
+
   const onRemove = useFunction(() => {
+    map.off('remove', onRemove);
     root.unmount();
   })
 
@@ -117,5 +123,5 @@ export function useRoot(
     </>);
   }, [props.children]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { onRemove, useThree, r3m };
+  return { onAdd, onRemove, useThree, r3m };
 }

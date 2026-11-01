@@ -13,13 +13,14 @@ export function useCanvasInLayer(props: CanvasProps,fromLngLat: FromLngLat, map:
       latitude, longitude, altitude, fromLngLat,
     });
 
-    const { onRemove, useThree, r3m } = useRoot(fromLngLat, map, props);
+    const { onAdd, onRemove, useThree, r3m } = useRoot(fromLngLat, map, props);
   
     const render = useRender({origin, frameloop, useThree, map, r3m});
   
     return {
       id: props.id,
       beforeId: props.beforeId,
+      onAdd,
       onRemove,
       render,
       type: 'custom',

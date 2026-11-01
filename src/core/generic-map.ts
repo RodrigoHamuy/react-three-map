@@ -49,6 +49,7 @@ export interface MapInstance {
 /** Generic interface of Mapbox/Maplibre `MapEventType` */
 export type MapEventType = {
 	resize: MapEvent;
+	remove: MapEvent;
 };
 
 /** Generic interface of `MapLibreEvent` or `MapBoxEvent` */
