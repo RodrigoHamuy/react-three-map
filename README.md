@@ -99,7 +99,7 @@ function BasicExample() {
 
 ## :thinking: Why we build this?
 
-Look [how complex](https://github.com/maplibre/maplibre-gl-js/blob/372a40b821d7fc049c43100934fe6b4e63e2c615/test/examples/add-a-3d-model-using-threejs.html) it is to add just one ThreeJS object to a map.
+Look [how complex](https://docs.mapbox.com/mapbox-gl-js/example/add-3d-model/) it is to add just one ThreeJS object to a map.
 
 Look [how complex](https://r3f.docs.pmnd.rs/api/canvas#createroot) it is to create your custom root for R3F.
 
