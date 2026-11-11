@@ -25,7 +25,7 @@ npm install react-three-map
 - [React Three Map](#react-three-map)
   - [:book: Examples](#book-examples)
   - [:mag: What does it look like?](#mag-what-does-it-look-like)
-  - [:thinking: Why did we build this?](#thinking-why-did-we-build-this)
+  - [:thinking: Why we build this?](#thinking-why-we-build-this)
   - [:gear: API](#gear-api)
     - [Canvas](#canvas)
       - [Render Props](#render-props)
@@ -97,7 +97,7 @@ function BasicExample() {
 }
 ```
 
-## :thinking: Why did we build this?
+## :thinking: Why we build this?
 
 Look [how complex](https://github.com/maplibre/maplibre-gl-js/blob/372a40b821d7fc049c43100934fe6b4e63e2c615/test/examples/add-a-3d-model-using-threejs.html) it is to add just one ThreeJS object to a map.
 
