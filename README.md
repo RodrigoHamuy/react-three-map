@@ -2,9 +2,9 @@
 
 [![Repository](https://img.shields.io/static/v1?&message=github&style=flat&colorA=000000&colorB=000000&label=&logo=github&logoColor=ffffff)](https://github.com/RodrigoHamuy/react-three-map)
 [![Version](https://img.shields.io/npm/v/react-three-map?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-three-map)
-[![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size&?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=react-three-map)
+[![Build Size](https://img.shields.io/bundlephobia/minzip/react-three-map?label=size&style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=react-three-map)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/RodrigoHamuy/react-three-map/release.yml?branch=main&style=flat&colorA=000000)](https://github.com/RodrigoHamuy/react-three-map/actions?query=workflow%3Arelease)
-[![Examples](https://img.shields.io/badge/stories-stories?colorA=000&colorB=000000&label=📍)](https://rodrigohamuy.github.io/react-three-map/?story=canvas--a-maplibre-example)
+[![Examples](https://img.shields.io/badge/stories-stories?colorA=000&colorB=000000&label=📍)](https://rodrigohamuy.github.io/react-three-map/?story=canvas--maplibre)
 [![Sponsor me](https://img.shields.io/github/sponsors/RodrigoHamuy?style=flat&colorA=000000&colorB=000000&label=💛%20sponsor)](https://github.com/sponsors/RodrigoHamuy?frequency=one-time&sponsor=RodrigoHamuy)
 
 `react-three-map` is a bridge to use [`react-three-fiber`](https://github.com/pmndrs/react-three-fiber) inside [`react-map-gl`](https://github.com/visgl/react-map-gl).
@@ -13,7 +13,7 @@ Until now you had:
 
 | imperative      | declarative (react) |
 | --------------- | ------------------- |
-| Maplibre/Mapbox | react-map-gl        |
+| MapLibre/Mapbox | react-map-gl        |
 | THREE.js        | react-three-fiber   |
 
 Now with `react-three-map`, you can use them together :fist_right::star::fist_left:.
@@ -25,7 +25,7 @@ npm install react-three-map
 - [React Three Map](#react-three-map)
   - [:book: Examples](#book-examples)
   - [:mag: What does it look like?](#mag-what-does-it-look-like)
-  - [:thinking: Why we build this?](#thinking-why-we-build-this)
+  - [:thinking: Why did we build this?](#thinking-why-did-we-build-this)
   - [:gear: API](#gear-api)
     - [Canvas](#canvas)
       - [Render Props](#render-props)
@@ -66,10 +66,9 @@ import "maplibre-gl/dist/maplibre-gl.css"
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState } from 'react'
 import { useFrame } from "@react-three/fiber"
-import { useRef, useState } from "react"
 import Map from "react-map-gl/maplibre"
 import { Canvas } from "react-three-map/maplibre" 
-// import { Canvas } from "react-three-map" // if you are using MapBox
+// import { Canvas } from "react-three-map" // if you are using Mapbox
 
 function BasicExample() {
   return <Map
@@ -98,13 +97,13 @@ function BasicExample() {
 }
 ```
 
-## :thinking: Why we build this?
+## :thinking: Why did we build this?
 
-Look [how complex](https://maplibre.org/maplibre-gl-js-docs/example/add-3d-model/) is to add just one ThreeJS object to a map.
+Look [how complex](https://github.com/maplibre/maplibre-gl-js/blob/372a40b821d7fc049c43100934fe6b4e63e2c615/test/examples/add-a-3d-model-using-threejs.html) it is to add just one ThreeJS object to a map.
 
-Look [how complex](https://docs.pmnd.rs/react-three-fiber/api/canvas#createroot) is to create your custom root for R3F.
+Look [how complex](https://r3f.docs.pmnd.rs/api/canvas#createroot) it is to create your custom root for R3F.
 
-You can now replace all that complexity and hundreds of lines of code with the `<Canvas>` component exported by `react-three-map`, which includes a tone of extra features and seamless integration, supporting pointer events, raycasting, and much more, all out of the box.
+You can now replace all that complexity and hundreds of lines of code with the `<Canvas>` component exported by `react-three-map`, which includes a ton of extra features and seamless integration, supporting pointer events, raycasting, and much more, all out of the box.
 
 ## :gear: API
 
@@ -116,7 +115,7 @@ Same as in `@react-three/fiber`, the `<Canvas>` object is where you start to def
 import "maplibre-gl/dist/maplibre-gl.css"
 import Map from "react-map-gl/maplibre"
 import { Canvas } from 'react-three-map/maplibre'
-// import { Canvas } from "react-three-map" // if you are using MapBox
+// import { Canvas } from "react-three-map" // if you are using Mapbox
 
 const App = () => (
   <Map 
@@ -133,7 +132,7 @@ const App = () => (
 )
 ```
 
-It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://docs.pmnd.rs/react-three-fiber/api/canvas). There are a few important exceptions though, which are mentioned bellow.
+It shares most of the props from R3F `<Canvas>`, so you can check them directly in the [`@react-three/fiber` docs](https://r3f.docs.pmnd.rs/api/canvas). There are a few important exceptions though, which are mentioned below.
 
 #### Render Props
 
@@ -143,18 +142,18 @@ It shares most of the props from R3F `<Canvas>`, so you can check them directly 
 | longitude | The longitude coordinate where to add the scene. |            |
 | altitude  | The altitude coordinate where to add the scene.  | `0`        |
 | frameloop | Render mode: `"always"`, `"demand"`.             | `"always"` |
-| overlay   | Render on a separated canvas.                    | `false`    |
+| overlay   | Render on a separate canvas.                     | `false`    |
 
 **About `overlay`**
 
 You may want to use `overlay` if:
 
 - You use `react-postprocessing` and have issues clearing the screen.
-- Want to avoid unnecesary map renders when only the Three scene changed.
+- Want to avoid unnecessary map renders when only the Three scene changed.
 
 But it comes with some caveats:
 
-- ThreeJS will always render on top, as this is now a separated canvas and doesn't have access to the map depth buffer.
+- ThreeJS will always render on top, as this is now a separate canvas and doesn't have access to the map depth buffer.
 - `react-postprocessing` will also not work if you also use `<Coordinates>` components.
 
 #### Render Props removed from `@react-three/fiber`
@@ -199,11 +198,11 @@ import { Canvas, Coordinates } from 'react-three-map'
 
 [![](https://img.shields.io/badge/-demo-%23ff69b4)](https://rodrigohamuy.github.io/react-three-map/?story=multi-coordinates--default)
 
-Same as `Coordinates`, but scale is ignored in exchange of being able to be rendered under the same scene.
+Same as `Coordinates`, but scale is ignored in exchange for being able to be rendered under the same scene.
 
-Works well at city level distances, but since scale remains unchanged, is not recommended at country level distances.
+Works well at city level distances, but since scale remains unchanged, it is not recommended at country level distances.
 
-Check the story to see the difference between the two or check #102 for more info.
+Check the story to see the difference between the two or check [#102](https://github.com/RodrigoHamuy/react-three-map/pull/102) for more info.
 
 ### useMap
 
@@ -225,7 +224,7 @@ const Component = () => {
 
 This utility function converts geographic coordinates into a `Vector3Tuple`, which represents a 3D vector in meters.
 
-Similar to `NearCoordinates`, remember that this only updates positions (translation) but that scale is not taken into account, which has an important factor at very long distances (country level).
+Similar to `NearCoordinates`, remember that this only updates positions (translation) but that scale is not taken into account, which is an important factor at very long distances (country level).
 
 
 | Parameter        | Description                                                     |
@@ -241,7 +240,7 @@ Returns a `Vector3Tuple` representing the 3D position of the point relative to t
 
 This utility function converts a `Vector3Tuple`, which represents a 3D vector in meters, back into geographic coordinates.
 
-It is the inverse of `coordsToVector3` but it does not have a good level of precision at long distances since we haven't reverse engineered #102 fix yet.
+It is the inverse of `coordsToVector3` but it does not have a good level of precision at long distances since we haven't reverse-engineered the [#102](https://github.com/RodrigoHamuy/react-three-map/pull/102) fix yet.
 
 Recommended to use at city level distances, but margin errors will be noticeable at country level distances.
 
